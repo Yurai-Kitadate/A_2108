@@ -17,3 +17,13 @@ type DBUser struct {
 	Birthday    time.Time
 	Sex         string
 }
+
+type DBContacts struct {
+	ID        int
+	HomePage  string
+	Instagram string
+	Twitter   string
+	Facebook  string
+	TikTok    string
+	Biography string
+}
