@@ -16,9 +16,14 @@ type DBCondition struct {
 }
 
 type DBSeason struct {
+	ID                 int
+	ConditionID        int // DBCondition.ID
+	SeasonDefinitionID int
+}
+
+type DBSeasonDefinition struct {
 	ID          int
-	ConditionID int // DBCondition.ID
-	// TODO
+	Description string
 }
 
 type DBTimeSpan struct {
