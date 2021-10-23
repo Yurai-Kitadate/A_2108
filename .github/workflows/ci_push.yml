@@ -28,8 +28,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Start server
+        run: go run main.go
       - name: test
-        run: go run main.go & && go test ./... -v
+        run: go test ./... -v
 
   go-lint:
     needs: setup-go
