@@ -16,7 +16,7 @@ var (
 )
 
 type DatabaseHandler struct {
-	db   *gorm.DB
+	DB   *gorm.DB
 	lock *sync.Mutex
 }
 
@@ -43,7 +43,7 @@ func NewDatabaseHandlerWithDBName(dbName string) (*DatabaseHandler, error) {
 	}
 	mut := &sync.Mutex{}
 	res := &DatabaseHandler{
-		db:   db,
+		DB:   db,
 		lock: mut,
 	}
 	connectionPool[dbName] = res
