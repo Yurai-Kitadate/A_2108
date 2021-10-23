@@ -7,7 +7,7 @@ import (
 	"github.com/jphacks/A_2108/src/controller"
 )
 
-func Route() {
+func Route() *gin.Engine {
 	r := gin.Default()
 	con := controller.NewController()
 	r.GET("/ping", func(c *gin.Context) {
@@ -20,4 +20,5 @@ func Route() {
 	if err != nil {
 		fmt.Printf("%#v\n", err)
 	}
+	return r
 }
