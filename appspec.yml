@@ -3,3 +3,8 @@ os: linux
 files:
   - source: / # インスタンスにコピーするファイル・ディレクトリを指定します
     destination: /home/ubuntu/jphacks2021-app # インスタンス上でアプリケーションを配置するディレクトリを指定します
+hooks:
+  ApplicationStart:
+    - location: /home/ubuntu/build/installer.sh # アプリケーションを起動するshファイルを指定できます
+      timeout: 300
+      runas: ubuntu # shを実行するユーザーを指定します

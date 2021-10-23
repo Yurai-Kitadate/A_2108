@@ -1,0 +1,11 @@
+[Unit]
+Description="The service daemon for dawn service."
+Documentation="https://pages.github.com/jphacks/A_2108"
+
+[Service]
+EnvironmentFile=/home/ubuntu/build/.envs
+ExecStart=/home/ubuntu/build/router
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
