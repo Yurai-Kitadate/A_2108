@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-source .envs
+source /home/ubuntu/build/.envs
 
 # Build binary
 cd $PROJECT_HOME
