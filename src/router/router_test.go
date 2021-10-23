@@ -35,7 +35,7 @@ func TestRoute(t *testing.T) {
 				url:    "/fire",
 				body:   nil,
 			},
-			statusCode: 200,
+			statusCode: 201,
 			responseBody: domain.Fire1{
 				A: 1,
 				B: "mieruka?",
