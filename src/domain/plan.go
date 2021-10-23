@@ -27,15 +27,25 @@ type DBSeasonDefinition struct {
 }
 
 type DBTimeSpan struct {
+	ID                   int
+	ConditionID          int // DBCondition.ID
+	TimeSpanDefinitionID int
+}
+
+type DBTimeSpanDefinition struct {
 	ID          int
-	ConditionID int // DBCondition.ID
-	// TODO
+	Description string
 }
 
 type DBCategory struct {
+	ID                   int
+	ConditionID          int // DBCondition.ID
+	CategoryDefinitionID int
+}
+
+type DBCategoryDefinition struct {
 	ID          int
-	ConditionID int // DBCondition.ID
-	// TODO
+	Description string
 }
 
 type DBDay struct {
