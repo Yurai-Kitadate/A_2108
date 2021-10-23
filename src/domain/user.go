@@ -20,10 +20,23 @@ type DBUser struct {
 
 type DBContacts struct {
 	ID        int
+	UserID    int // DBUserのID
 	HomePage  string
 	Instagram string
 	Twitter   string
 	Facebook  string
 	TikTok    string
 	Biography string
+}
+
+type DBJob struct {
+	ID             int
+	UserID         int // DBUserのID
+	JobName        string
+	DateOfFirstJob time.Time
+}
+type DBCreater struct {
+	ID       int
+	UserID   int // DBUserのID
+	RealName string
 }
