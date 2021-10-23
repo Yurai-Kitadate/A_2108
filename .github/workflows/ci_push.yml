@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Start server
-        run: go run main.go
+        run: go run main.go &
       - name: test
         run: go test ./... -v
 
