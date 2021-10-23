@@ -35,7 +35,7 @@ type DBJob struct {
 	JobName        string
 	DateOfFirstJob time.Time
 }
-type DBCreater struct {
+type DBCreator struct {
 	ID       int
 	UserID   int // DBUserのID
 	RealName string
