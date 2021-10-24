@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -172,5 +173,17 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 			},
 		},
 	}
+	c.JSON(200, res)
+}
+
+func (con *Controller) PlanPost(c *gin.Context) {
+	var req plan
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Printf("%#v\n", req)
+
+	var res interface{}
 	c.JSON(200, res)
 }
