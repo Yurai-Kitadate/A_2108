@@ -71,22 +71,26 @@ type plans struct {
 }
 
 func (con *Controller) PlanGet(c *gin.Context) {
-	res := []plan{{
-		PlanId:      0,
-		Title:       "title",
-		Description: "description",
-		Image:       "url",
-		Creator: creator{
-			ID:          0,
-			Image:       "url",
-			DisplayName: "name",
-			Job: job{
-				ID:             0,
-				Jobname:        "job",
-				Dateoffirstjob: time.Now(),
+	res := plans{
+		Plans: []plan{
+			{
+				PlanId:      0,
+				Title:       "title",
+				Description: "description",
+				Image:       "url",
+				Creator: creator{
+					ID:          0,
+					Image:       "url",
+					DisplayName: "name",
+					Job: job{
+						ID:             0,
+						Jobname:        "job",
+						Dateoffirstjob: time.Now(),
+					},
+				},
 			},
 		},
-	}}
+	}
 	c.JSON(200, res)
 }
 
