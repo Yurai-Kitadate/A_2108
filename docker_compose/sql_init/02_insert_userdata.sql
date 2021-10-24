@@ -1,4 +1,4 @@
-USE dawn;
-INSERT INTO plan VALUES(0, "Go to どっか", "どっかに行くプラン", "https://dawn.shinbunbun.info/", 10);
-INSERT INTO plan VALUES(0, "Go to どっか2", "どっかに行くプランだって言ってんだろ", "https://dawn.shinbunbun.info/", 10);
-INSERT INTO plan VALUES(0, "Go to どっか3", "どっかに行くプランだって要ってんのがわからんか", "https://dawn.shinbunbun.info/", 10);
+USE DAWN;
+INSERT INTO PLAN VALUES(0, "GO TO どっか", "どっかに行くプラン", "HTTPS://DAWN.SHINBUNBUN.INFO/", 10);
+INSERT INTO PLAN VALUES(0, "GO TO どっか2", "どっかに行くプランだって言ってんだろ", "HTTPS://DAWN.SHINBUNBUN.INFO/", 10);
+INSERT INTO PLAN VALUES(0, "GO TO どっか3", "どっかに行くプランだって要ってんのがわからんか", "HTTPS://DAWN.SHINBUNBUN.INFO/", 10);

@@ -10,7 +10,7 @@ services:
       # REPLACE MARKER FOR PERSISTENCE
     environment:
       - MYSQL_ROOT_PASSWORD=De3thM3rch
-      - MYSQL_DATABASE=dawn
+      - MYSQL_DATABASE=DAWN
 
   adminer:
     image: adminer
