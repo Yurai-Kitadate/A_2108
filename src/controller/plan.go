@@ -187,3 +187,10 @@ func (con *Controller) PlanPost(c *gin.Context) {
 	var res interface{}
 	c.JSON(200, res)
 }
+
+func (con *Controller) PlanDelete(c *gin.Context) {
+	planId := c.Param("id")
+	fmt.Printf("PlanID: %v\n", planId)
+
+	c.JSON(200, nil)
+}
