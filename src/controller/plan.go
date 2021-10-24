@@ -21,7 +21,7 @@ type plan struct {
 }
 
 func (con *Controller) PlanGet(c *gin.Context) {
-	res := plan{
+	res := []plan{{
 		PlanId:      0,
 		Title:       "title",
 		Description: "description",
@@ -36,6 +36,6 @@ func (con *Controller) PlanGet(c *gin.Context) {
 				Dateoffirstjob: time.Now(),
 			},
 		},
-	}
+	}}
 	c.JSON(200, res)
 }
