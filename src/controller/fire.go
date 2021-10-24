@@ -13,3 +13,13 @@ func (con *Controller) Fire1(c *gin.Context) {
 	}
 	c.JSON(200, res)
 }
+
+func (con *Controller) FirePath(c *gin.Context) {
+	id := c.Param("id")
+	res := domain.Fire1{
+		A: 1,
+		B: id,
+		C: "mienaiyo",
+	}
+	c.JSON(200, res)
+}
