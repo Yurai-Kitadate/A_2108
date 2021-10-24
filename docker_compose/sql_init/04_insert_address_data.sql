@@ -1,0 +1,8 @@
+SET AUTOCOMMIT=0;
+USE DAWN;
+START TRANSACTION;
+INSERT INTO ADDRESS VALUES (0, 0, 0, 0, "Fukushima, Aizuwakamatsu, Ikki machi");
+INSERT INTO ADDRESS VALUES (0, 1, 0, 0, "Fukushima, Fukushima");
+INSERT INTO ADDRESS VALUES (0, 2, 0, 0, "Fukushima, Iwaki");
+COMMIT;
+SET AUTOCOMMIT=1;

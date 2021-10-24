@@ -1,4 +1,0 @@
-USE DAWN;
-INSERT INTO PLAN VALUES(0, "GO TO どっか", "どっかに行くプラン", "HTTPS://DAWN.SHINBUNBUN.INFO/", 10);
-INSERT INTO PLAN VALUES(0, "GO TO どっか2", "どっかに行くプランだって言ってんだろ", "HTTPS://DAWN.SHINBUNBUN.INFO/", 10);
-INSERT INTO PLAN VALUES(0, "GO TO どっか3", "どっかに行くプランだって要ってんのがわからんか", "HTTPS://DAWN.SHINBUNBUN.INFO/", 10);
