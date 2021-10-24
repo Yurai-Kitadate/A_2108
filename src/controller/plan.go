@@ -74,16 +74,16 @@ func (con *Controller) PlanGet(c *gin.Context) {
 	res := plans{
 		Plans: []plan{
 			{
-				PlanId:      0,
+				PlanId:      1,
 				Title:       "title",
 				Description: "description",
 				Image:       "url",
 				Creator: creator{
-					ID:          0,
+					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
 					Job: job{
-						ID:             0,
+						ID:             1,
 						Jobname:        "job",
 						Dateoffirstjob: time.Now(),
 					},
@@ -110,11 +110,11 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 				Description: "description",
 				Image:       "url",
 				Creator: creator{
-					ID:          0,
+					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
 					Job: job{
-						ID:             0,
+						ID:             1,
 						Jobname:        "job",
 						Dateoffirstjob: time.Now(),
 					},
@@ -123,26 +123,26 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 					{
 						Headings: headings{
 							{
-								ID:    0,
+								ID:    1,
 								Text:  "text",
-								Order: 0,
+								Order: 1,
 							},
 						},
 						Schedule: schedule{
 							{
-								ID:          0,
+								ID:          1,
 								Description: "text",
 								StartTime:   time.Now(),
 								EndTime:     time.Now(),
 								Place: place{
-									ID:         0,
+									ID:         1,
 									Area:       "area",
 									Prefecture: "pref",
 									City:       "city",
 								},
 								HpLink:          "link",
 								ReservationLink: "link",
-								Order:           0,
+								Order:           1,
 							},
 						},
 					},
