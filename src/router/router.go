@@ -17,6 +17,7 @@ func Route() *gin.Engine {
 	r.GET("/fire/pathpara/:id", con.FirePath)
 	r.GET("/user", con.UserGet)
 	r.GET("/plan", con.PlanGet)
+	r.GET("/plan/:id", con.PlanGetPathParam)
 
 	return r
 }
