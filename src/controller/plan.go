@@ -101,6 +101,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"Error": "Atoi error: " + err.Error(),
 		})
+		return
 	}
 	res := plans{
 		Plans: []plan{
