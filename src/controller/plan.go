@@ -9,68 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type creator struct {
-	ID          int    `json:"id,omitempty"`
-	Image       string `json:"image,omitempty"`
-	DisplayName string `json:"displayName"`
-	Job         *job   `json:"job,omitempty"`
-}
-type headings []struct {
-	ID    int    `json:"id,omitempty"`
-	Text  string `json:"text"`
-	Order int    `json:"order"`
-}
-type place struct {
-	ID         int    `json:"id,omitempty"`
-	Area       string `json:"area"`
-	Prefecture string `json:"prefecture"`
-	City       string `json:"city"`
-}
-type schedule []struct {
-	ID              int       `json:"id,omitempty"`
-	Description     string    `json:"description"`
-	StartTime       time.Time `json:"startTime"`
-	EndTime         time.Time `json:"EndTime"`
-	Place           place     `json:"place"`
-	HpLink          string    `json:"hpLink"`
-	ReservationLink string    `json:"reservationLink"`
-	Order           int       `json:"order"`
-}
-type days []struct {
-	Headings headings `json:"headings"`
-	Schedule schedule `json:"schedule"`
-}
-type season []struct {
-	ID   int    `json:"id,omitempty"`
-	Text string `json:"text"`
-}
-type timeSpan []struct {
-	ID   int    `json:"id,omitempty"`
-	Text string `json:"text"`
-}
-type category []struct {
-	ID   int    `json:"id,omitempty"`
-	Text string `json:"text"`
-}
-type conditions struct {
-	ID       int      `json:"id,omitempty"`
-	Season   season   `json:"season"`
-	TimeSpan timeSpan `json:"timeSpan"`
-	Category category `json:"category"`
-}
-type plan struct {
-	PlanId      int         `json:"planId,omitempty"`
-	Title       string      `json:"title"`
-	Description string      `json:"description"`
-	Image       string      `json:"image"`
-	Creator     *creator    `json:"creator,omitempty"`
-	Days        days        `json:"days,omitempty"`
-	Conditions  *conditions `json:"conditions,omitempty"`
-}
-type plans struct {
-	Plans []plan `json:"plans"`
-}
-
 func (con *Controller) PlanGet(c *gin.Context) {
 	res := plans{
 		Plans: []plan{
