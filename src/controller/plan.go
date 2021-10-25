@@ -7,21 +7,22 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/domain"
 )
 
 func (con *Controller) PlanGet(c *gin.Context) {
-	res := plans{
-		Plans: []plan{
+	res := domain.Plans{
+		Plans: []domain.Plan{
 			{
 				PlanId:      1,
 				Title:       "title",
 				Description: "description",
 				Image:       "url",
-				Creator: &creator{
+				Creator: &domain.Creator{
 					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
-					Job: &job{
+					Job: &domain.Job{
 						ID:             1,
 						Jobname:        "job",
 						Dateoffirstjob: time.Now(),
@@ -42,39 +43,39 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 		})
 		return
 	}
-	res := plans{
-		Plans: []plan{
+	res := domain.Plans{
+		Plans: []domain.Plan{
 			{
 				PlanId:      planIdInt,
 				Title:       "title",
 				Description: "description",
 				Image:       "url",
-				Creator: &creator{
+				Creator: &domain.Creator{
 					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
-					Job: &job{
+					Job: &domain.Job{
 						ID:             1,
 						Jobname:        "job",
 						Dateoffirstjob: time.Now(),
 					},
 				},
-				Days: days{
+				Days: domain.Days{
 					{
-						Headings: headings{
+						Headings: domain.Headings{
 							{
 								ID:    1,
 								Text:  "text",
 								Order: 1,
 							},
 						},
-						Schedule: schedule{
+						Schedule: domain.Schedule{
 							{
 								ID:          1,
 								Description: "text",
 								StartTime:   time.Now(),
 								EndTime:     time.Now(),
-								Place: place{
+								Place: domain.Place{
 									ID:         1,
 									Area:       "area",
 									Prefecture: "pref",
@@ -87,21 +88,21 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 						},
 					},
 				},
-				Conditions: &conditions{
+				Conditions: &domain.Conditions{
 					ID: 1,
-					Season: season{
+					Season: domain.Season{
 						{
 							ID:   1,
 							Text: "text",
 						},
 					},
-					TimeSpan: timeSpan{
+					TimeSpan: domain.TimeSpan{
 						{
 							ID:   1,
 							Text: "text",
 						},
 					},
-					Category: category{
+					Category: domain.Category{
 						{
 							ID:   1,
 							Text: "text",
@@ -115,7 +116,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 }
 
 func (con *Controller) PlanPost(c *gin.Context) {
-	var req plan
+	var req domain.Plan
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
