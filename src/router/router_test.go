@@ -27,6 +27,10 @@ func TestRoute(t *testing.T) {
 				return
 			}
 
+			if !tt.isCheckResponseBody {
+				return
+			}
+
 			var resBody domain.Fire1
 			err := json.Unmarshal(w.Body.Bytes(), &resBody)
 			if err != nil {

@@ -13,10 +13,11 @@ type htttpReq struct {
 }
 
 type testData []struct {
-	name         string
-	req          htttpReq
-	statusCode   int
-	responseBody interface{}
+	name                string
+	req                 htttpReq
+	statusCode          int
+	responseBody        interface{}
+	isCheckResponseBody bool
 }
 
 func routerTestData() testData {
