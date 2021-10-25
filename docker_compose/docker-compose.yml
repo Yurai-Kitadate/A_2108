@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  db:
+    image: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./sql_conf:/etc/mysql/conf.d
+      - ./sql_init:/docker-entrypoint-initdb.d
+      # REPLACE MARKER FOR PERSISTENCE
+    environment:
+      - MYSQL_ROOT_PASSWORD=De3thM3rch
+      - MYSQL_DATABASE=DAWN
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
