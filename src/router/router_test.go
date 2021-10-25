@@ -17,10 +17,8 @@ func TestRoute(t *testing.T) {
 	for _, tt := range tests {
 		w := httptest.NewRecorder()
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.req.method == "GET" || tt.req.method == "DELETE" {
-				req, _ := http.NewRequest(tt.req.method, tt.req.url, tt.req.body)
-				router.ServeHTTP(w, req)
-			}
+			req, _ := http.NewRequest(tt.req.method, tt.req.url, tt.req.body)
+			router.ServeHTTP(w, req)
 
 			if tt.statusCode != w.Code {
 				t.Errorf("StatusCode = %v, want %v", w.Code, tt.statusCode)
