@@ -50,11 +50,6 @@ type Contacts struct {
 	Tiktok    string `json:"tiktok"`
 	Biography string `json:"biography"`
 }
-type Job struct {
-	ID             int       `json:"id"`
-	Jobname        string    `json:"jobname"`
-	Dateoffirstjob time.Time `json:"dateoffirstjob"`
-}
 type User struct {
 	ID          int       `json:"id"`
 	UserName    string    `json:"userName"`
