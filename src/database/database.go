@@ -21,7 +21,7 @@ type DatabaseHandler struct {
 }
 
 func getDSN(dbName string) string {
-	return fmt.Sprintf("%s:%s@%s/%s?charset=utf8mb",
+	return fmt.Sprintf("%s:%s@%s/%s?charset=utf8mb4",
 		config.DBUser(),
 		config.DBPass(),
 		config.DBMethod(),
@@ -30,6 +30,10 @@ func getDSN(dbName string) string {
 }
 
 func NewDatabaseHandlerWithDBName(dbName string) (*DatabaseHandler, error) {
+	if connectionPool == nil {
+		connectionPool = map[string]*DatabaseHandler{}
+	}
+
 	{
 		has, ok := connectionPool[dbName]
 		if ok {
