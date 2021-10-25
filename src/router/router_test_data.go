@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"time"
 
 	"github.com/jphacks/A_2108/src/domain"
@@ -29,6 +30,8 @@ func convertToIoReader(it interface{}) io.Reader {
 }
 
 func routerTestData() testData {
+	image, _ := ioutil.ReadFile("test.jpeg")
+
 	return testData{
 		// ここにテストケースを追加してください
 		{
@@ -155,6 +158,16 @@ func routerTestData() testData {
 				method: "DELETE",
 				url:    "/plan/100",
 				body:   nil,
+			},
+			statusCode:          200,
+			isCheckResponseBody: false,
+		},
+		{
+			name: "/image POST success test",
+			req: htttpReq{
+				method: "POST",
+				url:    "/image",
+				body:   convertToIoReader(image),
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
