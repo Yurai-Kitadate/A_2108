@@ -100,7 +100,7 @@ type Schedule []struct {
 	ReservationLink string    `json:"reservationLink"`
 	Order           int       `json:"order"`
 }
-type days []struct {
+type Days []struct {
 	Headings Headings `json:"headings"`
 	Schedule Schedule `json:"schedule"`
 }
@@ -128,7 +128,7 @@ type Plan struct {
 	Description string      `json:"description"`
 	Image       string      `json:"image"`
 	Creator     *Creator    `json:"creator,omitempty"`
-	Days        days        `json:"days,omitempty"`
+	Days        Days        `json:"days,omitempty"`
 	Conditions  *Conditions `json:"conditions,omitempty"`
 }
 type Plans struct {
