@@ -20,6 +20,6 @@ func Route() *gin.Engine {
 	r.GET("/plan/:id", con.PlanGetPathParam)
 	r.POST("/plan", con.PlanPost)
 	r.DELETE("/plan/:id", con.PlanDelete)
-
+	r.POST("/image", con.ImagePost)
 	return r
 }
