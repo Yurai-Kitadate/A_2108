@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -15,18 +16,18 @@ type creator struct {
 	Job         job    `json:"job"`
 }
 type headings []struct {
-	ID    int    `json:"id"`
+	ID    int    `json:"id,omitempty"`
 	Text  string `json:"text"`
 	Order int    `json:"order"`
 }
 type place struct {
-	ID         int    `json:"id"`
+	ID         int    `json:"id,omitempty"`
 	Area       string `json:"area"`
 	Prefecture string `json:"prefecture"`
 	City       string `json:"city"`
 }
 type schedule []struct {
-	ID              int       `json:"id"`
+	ID              int       `json:"id,omitempty"`
 	Description     string    `json:"description"`
 	StartTime       time.Time `json:"startTime"`
 	EndTime         time.Time `json:"EndTime"`
@@ -40,29 +41,29 @@ type days []struct {
 	Schedule schedule `json:"schedule"`
 }
 type season []struct {
-	ID   int    `json:"id"`
+	ID   int    `json:"id,omitempty"`
 	Text string `json:"text"`
 }
 type timeSpan []struct {
-	ID   int    `json:"id"`
+	ID   int    `json:"id,omitempty"`
 	Text string `json:"text"`
 }
 type category []struct {
-	ID   int    `json:"id"`
+	ID   int    `json:"id,omitempty"`
 	Text string `json:"text"`
 }
 type conditions struct {
-	ID       int      `json:"id"`
+	ID       int      `json:"id,omitempty"`
 	Season   season   `json:"season"`
 	TimeSpan timeSpan `json:"timeSpan"`
 	Category category `json:"category"`
 }
 type plan struct {
-	PlanId      int         `json:"planId"`
+	PlanId      int         `json:"planId,omitempty"`
 	Title       string      `json:"title"`
 	Description string      `json:"description"`
 	Image       string      `json:"image"`
-	Creator     creator     `json:"creator"`
+	Creator     *creator    `json:"creator,omitempty"`
 	Days        days        `json:"days,omitempty"`
 	Conditions  *conditions `json:"conditions,omitempty"`
 }
@@ -78,7 +79,7 @@ func (con *Controller) PlanGet(c *gin.Context) {
 				Title:       "title",
 				Description: "description",
 				Image:       "url",
-				Creator: creator{
+				Creator: &creator{
 					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
@@ -101,6 +102,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"Error": "Atoi error: " + err.Error(),
 		})
+		return
 	}
 	res := plans{
 		Plans: []plan{
@@ -109,7 +111,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 				Title:       "title",
 				Description: "description",
 				Image:       "url",
-				Creator: creator{
+				Creator: &creator{
 					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
@@ -172,4 +174,23 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 		},
 	}
 	c.JSON(200, res)
+}
+
+func (con *Controller) PlanPost(c *gin.Context) {
+	var req plan
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Printf("%#v\n", req)
+
+	var res interface{}
+	c.JSON(200, res)
+}
+
+func (con *Controller) PlanDelete(c *gin.Context) {
+	planId := c.Param("id")
+	fmt.Printf("PlanID: %v\n", planId)
+
+	c.JSON(200, nil)
 }
