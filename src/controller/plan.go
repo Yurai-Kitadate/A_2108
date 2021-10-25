@@ -38,7 +38,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 	planId := c.Param("id")
 	planIdInt, err := strconv.Atoi(planId)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"Error": "Atoi error: " + err.Error(),
 		})
 		return
