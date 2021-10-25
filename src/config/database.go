@@ -6,7 +6,7 @@ import (
 
 func isTest() bool {
 	env_isTest := os.Getenv("IS_TEST")
-	return env_isTest == "" 
+	return env_isTest != "" 
 }
 
 func DBUser() string {
