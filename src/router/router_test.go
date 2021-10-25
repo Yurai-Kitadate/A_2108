@@ -20,7 +20,6 @@ type htttpReq struct {
 // エンドポイントのテスト
 func TestRoute(t *testing.T) {
 	router := Route()
-	w := httptest.NewRecorder()
 	tests := []struct {
 		name         string
 		req          htttpReq
@@ -41,8 +40,22 @@ func TestRoute(t *testing.T) {
 				B: "mieruka?",
 			},
 		},
+		{
+			name: "/fire pathpara success test",
+			req: htttpReq{
+				method: "GET",
+				url:    "/fire/pathpara/100",
+				body:   nil,
+			},
+			statusCode: 200,
+			responseBody: domain.Fire1{
+				A: 1,
+				B: "100",
+			},
+		},
 	}
 	for _, tt := range tests {
+		w := httptest.NewRecorder()
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.req.method == "GET" || tt.req.method == "DELETE" {
 				req, _ := http.NewRequest(tt.req.method, tt.req.url, tt.req.body)
@@ -57,7 +70,7 @@ func TestRoute(t *testing.T) {
 			var resBody domain.Fire1
 			err := json.Unmarshal(w.Body.Bytes(), &resBody)
 			if err != nil {
-				t.Errorf("Json unmarshal error")
+				t.Errorf("Json unmarshal error: %v", err)
 				return
 			}
 
