@@ -13,7 +13,7 @@ type creator struct {
 	ID          int    `json:"id,omitempty"`
 	Image       string `json:"image,omitempty"`
 	DisplayName string `json:"displayName"`
-	Job         job    `json:"job,omitempty"`
+	Job         *job   `json:"job,omitempty"`
 }
 type headings []struct {
 	ID    int    `json:"id,omitempty"`
@@ -83,7 +83,7 @@ func (con *Controller) PlanGet(c *gin.Context) {
 					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
-					Job: job{
+					Job: &job{
 						ID:             1,
 						Jobname:        "job",
 						Dateoffirstjob: time.Now(),
@@ -115,7 +115,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 					ID:          1,
 					Image:       "url",
 					DisplayName: "name",
-					Job: job{
+					Job: &job{
 						ID:             1,
 						Jobname:        "job",
 						Dateoffirstjob: time.Now(),
