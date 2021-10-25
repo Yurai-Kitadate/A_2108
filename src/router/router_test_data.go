@@ -1,7 +1,10 @@
 package router
 
 import (
+	"bytes"
+	"encoding/json"
 	"io"
+	"time"
 
 	"github.com/jphacks/A_2108/src/domain"
 )
@@ -18,6 +21,11 @@ type testData []struct {
 	statusCode          int
 	responseBody        interface{}
 	isCheckResponseBody bool
+}
+
+func convertToIoReader(it interface{}) io.Reader {
+	jsonIt, _ := json.Marshal(it)
+	return bytes.NewReader(jsonIt)
 }
 
 func routerTestData() testData {
@@ -77,6 +85,66 @@ func routerTestData() testData {
 				method: "GET",
 				url:    "/plan/100",
 				body:   nil,
+			},
+			statusCode:          200,
+			isCheckResponseBody: false,
+		},
+		{
+			name: "/plan POST success test",
+			req: htttpReq{
+				method: "POST",
+				url:    "/plan",
+				body: convertToIoReader(
+					domain.Plan{
+						PlanId:      100,
+						Title:       "title",
+						Description: "description",
+						Image:       "url",
+						Days: domain.Days{
+							{
+								Headings: domain.Headings{
+									{
+										Text:  "text",
+										Order: 1,
+									},
+								},
+								Schedule: domain.Schedule{
+									{
+										Description: "text",
+										StartTime:   time.Now(),
+										EndTime:     time.Now(),
+										Place: domain.Place{
+											Area:       "area",
+											Prefecture: "pref",
+											City:       "city",
+										},
+										HpLink:          "link",
+										ReservationLink: "link",
+										Order:           1,
+									},
+								},
+							},
+						},
+						Conditions: &domain.Conditions{
+							ID: 1,
+							Season: domain.Season{
+								{
+									Text: "text",
+								},
+							},
+							TimeSpan: domain.TimeSpan{
+								{
+									Text: "text",
+								},
+							},
+							Category: domain.Category{
+								{
+									Text: "text",
+								},
+							},
+						},
+					},
+				),
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
