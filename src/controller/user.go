@@ -36,11 +36,9 @@ type user struct {
 	Birthday    time.Time `json:"birthday"`
 	Sex         string    `json:"sex"`
 	Contacts    contacts  `json:"contacts"`
-	Creator     struct {
-		Name string `json:"name"`
-	} `json:"creator"`
-	Job     job     `json:"job"`
-	Address address `json:"address"`
+	Creator     creator   `json:"creator"`
+	Job         job       `json:"job"`
+	Address     address   `json:"address"`
 }
 
 func (con *Controller) UserGet(c *gin.Context) {
@@ -61,10 +59,8 @@ func (con *Controller) UserGet(c *gin.Context) {
 			Tiktok:    "tiktok",
 			Biography: "bio",
 		},
-		Creator: struct {
-			Name string "json:\"name\""
-		}{
-			Name: "creator name",
+		Creator: creator{
+			DisplayName: "displayName",
 		},
 		Job: job{
 			ID:             0,

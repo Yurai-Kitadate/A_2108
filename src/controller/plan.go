@@ -10,10 +10,10 @@ import (
 )
 
 type creator struct {
-	ID          int    `json:"id"`
-	Image       string `json:"image"`
+	ID          int    `json:"id,omitempty"`
+	Image       string `json:"image,omitempty"`
 	DisplayName string `json:"displayName"`
-	Job         job    `json:"job"`
+	Job         job    `json:"job,omitempty"`
 }
 type headings []struct {
 	ID    int    `json:"id,omitempty"`
