@@ -35,6 +35,7 @@ func routerTestData() testData {
 				A: 1,
 				B: "mieruka?",
 			},
+			isCheckResponseBody: true,
 		},
 		{
 			name: "/fire pathpara success test",
@@ -48,6 +49,17 @@ func routerTestData() testData {
 				A: 1,
 				B: "100",
 			},
+			isCheckResponseBody: true,
+		},
+		{
+			name: "/user GET success test",
+			req: htttpReq{
+				method: "GET",
+				url:    "/user",
+				body:   nil,
+			},
+			statusCode:          200,
+			isCheckResponseBody: false,
 		},
 	}
 }
