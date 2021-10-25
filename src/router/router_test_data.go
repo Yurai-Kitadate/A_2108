@@ -71,5 +71,15 @@ func routerTestData() testData {
 			statusCode:          200,
 			isCheckResponseBody: false,
 		},
+		{
+			name: "/plan GET pathparam success test",
+			req: htttpReq{
+				method: "GET",
+				url:    "/plan/100",
+				body:   nil,
+			},
+			statusCode:          200,
+			isCheckResponseBody: false,
+		},
 	}
 }
