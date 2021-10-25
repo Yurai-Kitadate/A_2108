@@ -125,6 +125,4 @@ type Plan struct {
 	Days        Days        `json:"days,omitempty"`
 	Conditions  *Conditions `json:"conditions,omitempty"`
 }
-type Plans struct {
-	Plans []Plan `json:"plans"`
-}
+type Plans []Plan

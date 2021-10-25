@@ -12,21 +12,19 @@ import (
 
 func (con *Controller) PlanGet(c *gin.Context) {
 	res := domain.Plans{
-		Plans: []domain.Plan{
-			{
-				PlanId:      1,
-				Title:       "title",
-				Description: "description",
+		{
+			PlanId:      1,
+			Title:       "title",
+			Description: "description",
+			Image:       "url",
+			Creator: &domain.Creator{
+				ID:          1,
 				Image:       "url",
-				Creator: &domain.Creator{
-					ID:          1,
-					Image:       "url",
-					DisplayName: "name",
-					Job: &domain.Job{
-						ID:             1,
-						Jobname:        "job",
-						Dateoffirstjob: time.Now(),
-					},
+				DisplayName: "name",
+				Job: &domain.Job{
+					ID:             1,
+					Jobname:        "job",
+					Dateoffirstjob: time.Now(),
 				},
 			},
 		},
@@ -43,71 +41,67 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 		})
 		return
 	}
-	res := domain.Plans{
-		Plans: []domain.Plan{
+	res := domain.Plan{
+		PlanId:      planIdInt,
+		Title:       "title",
+		Description: "description",
+		Image:       "url",
+		Creator: &domain.Creator{
+			ID:          1,
+			Image:       "url",
+			DisplayName: "name",
+			Job: &domain.Job{
+				ID:             1,
+				Jobname:        "job",
+				Dateoffirstjob: time.Now(),
+			},
+		},
+		Days: domain.Days{
 			{
-				PlanId:      planIdInt,
-				Title:       "title",
-				Description: "description",
-				Image:       "url",
-				Creator: &domain.Creator{
-					ID:          1,
-					Image:       "url",
-					DisplayName: "name",
-					Job: &domain.Job{
-						ID:             1,
-						Jobname:        "job",
-						Dateoffirstjob: time.Now(),
-					},
-				},
-				Days: domain.Days{
+				Headings: domain.Headings{
 					{
-						Headings: domain.Headings{
-							{
-								ID:    1,
-								Text:  "text",
-								Order: 1,
-							},
-						},
-						Schedule: domain.Schedule{
-							{
-								ID:          1,
-								Description: "text",
-								StartTime:   time.Now(),
-								EndTime:     time.Now(),
-								Place: domain.Place{
-									ID:         1,
-									Area:       "area",
-									Prefecture: "pref",
-									City:       "city",
-								},
-								HpLink:          "link",
-								ReservationLink: "link",
-								Order:           1,
-							},
-						},
+						ID:    1,
+						Text:  "text",
+						Order: 1,
 					},
 				},
-				Conditions: &domain.Conditions{
-					ID: 1,
-					Season: domain.Season{
-						{
-							ID:   1,
-							Text: "text",
+				Schedule: domain.Schedule{
+					{
+						ID:          1,
+						Description: "text",
+						StartTime:   time.Now(),
+						EndTime:     time.Now(),
+						Place: domain.Place{
+							ID:         1,
+							Area:       "area",
+							Prefecture: "pref",
+							City:       "city",
 						},
+						HpLink:          "link",
+						ReservationLink: "link",
+						Order:           1,
 					},
-					TimeSpan: domain.TimeSpan{
-						{
-							ID:   1,
-							Text: "text",
-						},
-					},
-					Category: domain.Category{
-						{
-							ID:   1,
-							Text: "text",
-						},
-					},
+				},
+			},
+		},
+		Conditions: &domain.Conditions{
+			ID: 1,
+			Season: domain.Season{
+				{
+					ID:   1,
+					Text: "text",
+				},
+			},
+			TimeSpan: domain.TimeSpan{
+				{
+					ID:   1,
+					Text: "text",
+				},
+			},
+			Category: domain.Category{
+				{
+					ID:   1,
+					Text: "text",
 				},
 			},
 		},
