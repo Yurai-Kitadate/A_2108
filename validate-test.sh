@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# もし，commit前のテストにしたい時は次を実行してください。
+# ln -s `PROJECT_ROOT`/validate-test.sh `PROJECT_ROOT`/.git/hooks/pre-commit
+
 which golangci-lint
 if [ $? != 0 ]; then
     echo Please install golangci-lint
