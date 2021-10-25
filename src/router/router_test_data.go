@@ -149,5 +149,15 @@ func routerTestData() testData {
 			statusCode:          200,
 			isCheckResponseBody: false,
 		},
+		{
+			name: "/plan DELETE success test",
+			req: htttpReq{
+				method: "DELETE",
+				url:    "/plan/100",
+				body:   nil,
+			},
+			statusCode:          200,
+			isCheckResponseBody: false,
+		},
 	}
 }
