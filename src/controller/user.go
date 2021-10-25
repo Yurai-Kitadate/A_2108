@@ -4,10 +4,11 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/domain"
 )
 
 func (con *Controller) UserGet(c *gin.Context) {
-	res := user{
+	res := domain.User{
 		ID:          0,
 		UserName:    "username",
 		Image:       "url",
@@ -15,7 +16,7 @@ func (con *Controller) UserGet(c *gin.Context) {
 		DisplayName: "displayName",
 		Birthday:    time.Now(),
 		Sex:         "sex",
-		Contacts: contacts{
+		Contacts: domain.Contacts{
 			ID:        0,
 			Hp:        "hp",
 			Instagram: "insta",
@@ -24,15 +25,15 @@ func (con *Controller) UserGet(c *gin.Context) {
 			Tiktok:    "tiktok",
 			Biography: "bio",
 		},
-		Creator: creator{
+		Creator: domain.Creator{
 			DisplayName: "displayName",
 		},
-		Job: job{
+		Job: domain.Job{
 			ID:             0,
 			Jobname:        "jobname",
 			Dateoffirstjob: time.Now(),
 		},
-		Address: address{
+		Address: domain.Address{
 			ID:          0,
 			Area:        "会津",
 			Prefecture:  "福島県",
