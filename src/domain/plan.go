@@ -10,9 +10,18 @@ type DBPlan struct {
 	CreatorID   int // DBUser.ID
 }
 
+func (DBPlan) TableName() string {
+	return "PLAN"
+}
+
 type DBCondition struct {
-	ID     int
-	PlanID int // DBPlan.ID
+	ID              int
+	PlanID          int // DBPlan.ID
+	EstimatedCharge int
+}
+
+func (DBCondition) TableName() string {
+	return "CONDITION"
 }
 
 type DBSeason struct {
@@ -21,9 +30,17 @@ type DBSeason struct {
 	SeasonDefinitionID int // DBSeasonDefinition.ID
 }
 
+func (DBSeason) TableName() string {
+	return "SEASON"
+}
+
 type DBSeasonDefinition struct {
 	ID          int
 	Description string
+}
+
+func (DBSeasonDefinition) TableName() string {
+	return "SEASONDEFINITION"
 }
 
 type DBTimeSpan struct {
@@ -32,9 +49,17 @@ type DBTimeSpan struct {
 	TimeSpanDefinitionID int // DBTimeSpanDefinition.ID
 }
 
+func (DBTimeSpan) TableName() string {
+	return "TIMESPAN"
+}
+
 type DBTimeSpanDefinition struct {
 	ID          int
 	Description string
+}
+
+func (DBTimeSpanDefinition) TableName() string {
+	return "TIMESPANDEFINITION"
 }
 
 type DBCategory struct {
@@ -43,15 +68,27 @@ type DBCategory struct {
 	CategoryDefinitionID int // DBCategoryDefinition.ID
 }
 
+func (DBCategory) TableName() string {
+	return "CATEGORY"
+}
+
 type DBCategoryDefinition struct {
 	ID          int
 	Description string
+}
+
+func (DBCategoryDefinition) TableName() string {
+	return "CATEGORYDEFINITION"
 }
 
 type DBDay struct {
 	ID     int
 	PlanID int // DBPlan.ID
 	NthDay int
+}
+
+func (DBDay) TableName() string {
+	return "DAY"
 }
 
 type DBHeading struct {
@@ -61,9 +98,14 @@ type DBHeading struct {
 	Order       int
 }
 
+func (DBHeading) TableName() string {
+	return "HEADING"
+}
+
 type DBSchedule struct {
 	ID              int
 	DayID           int // DBDay.ID
+	Title           string
 	Description     string
 	StartTime       time.Time
 	EndTime         time.Time
@@ -71,6 +113,10 @@ type DBSchedule struct {
 	HPLink          string
 	ReservationLink string
 	Order           int
+}
+
+func (DBSchedule) TableName() string {
+	return "SCHEDULE"
 }
 
 type Headings []struct {
