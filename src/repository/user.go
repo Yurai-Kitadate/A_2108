@@ -56,6 +56,22 @@ func (ur *UserRepository) GetUserByID(id int) (domain.User, error) {
 	return res, nil
 }
 
+func (ur *UserRepository) GetUserByCreatorID(id int) (domain.User, error) {
+
+	creator := domain.DBCreator{}
+	db := ur.db
+
+	err := db.Where("UserID = ?", id).First(&creator).Error
+	switch err {
+	case gorm.ErrRecordNotFound:
+		return domain.User{}, NotFoundError
+	case nil:
+	default:
+		return domain.User{}, err
+	}
+	return ur.GetUserByID(creator.UserID)
+}
+
 func (ur *UserRepository) GetContactsByUserID(id int) (domain.Contacts, error) {
 	res := domain.Contacts{}
 	contacts := domain.DBContacts{}
