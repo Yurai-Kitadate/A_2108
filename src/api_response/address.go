@@ -10,5 +10,5 @@ type Place struct {
 
 type Address struct {
 	ID       int    `json:"id"`
-	PlusCode string `json:"pluscode"`
+	PlusCode string `json:"plusCode"`
 }

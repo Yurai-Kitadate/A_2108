@@ -18,7 +18,7 @@ type User struct {
 	Email       string    `json:"email"`
 	Image       string    `json:"image"`
 	DisplayName string    `json:"displayName"`
-	Birthday    time.Time `json:"birthday"`
+	DateOfBirth time.Time `json:"dateOfBirth"`
 	Sex         string    `json:"sex"`
 	Contacts    Contacts  `json:"contacts"`
 	Creator     *Creator  `json:"creator"`
@@ -35,12 +35,12 @@ type MaskedUser struct {
 
 type Creator struct {
 	ID   int    `json:"id"`
-	Name string `json:"realname"`
+	Name string `json:"realName"`
 	Job  Job    `json:"job"`
 }
 
 type Job struct {
 	ID             int       `json:"id"`
-	Jobname        string    `json:"jobname"`
-	DateOfFirstJob time.Time `json:"dateoffirstjob"`
+	Jobname        string    `json:"jobName"`
+	DateOfFirstJob time.Time `json:"dateOfFirstJob"`
 }

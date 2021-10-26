@@ -5,12 +5,12 @@ import "time"
 type Plans []Plan
 
 type Plan struct {
-	PlanId      int         `json:"planId"`
+	PlanId      int         `json:"planID"`
 	Title       string      `json:"title"`
 	Description string      `json:"description"`
 	Image       string      `json:"image"`
-	CreatedAt   time.Time   `json:"createdat"`
-	CreatorUser interface{} `json:"creatoruser"` // User | MaskedUser
+	CreatedAt   time.Time   `json:"createdAt"`
+	CreatorUser interface{} `json:"creatorUser"` // User | MaskedUser
 	Days        Days        `json:"days"`
 	Conditions  Conditions  `json:"conditions"`
 }
@@ -34,7 +34,7 @@ type Schedule []struct {
 }
 
 type Days []struct {
-	NthDay   int      `json:"nthday"`
+	NthDay   int      `json:"nthDay"`
 	Headings Headings `json:"headings"`
 	Schedule Schedule `json:"schedule"`
 }
