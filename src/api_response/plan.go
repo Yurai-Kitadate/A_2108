@@ -22,15 +22,15 @@ type Headings []struct {
 }
 
 type Schedule []struct {
-	ID              int     `json:"id"`
-	Title           string  `json:"title"`
-	Description     string  `json:"description"`
-	StartTime       int     `json:"startTime"`
-	EndTime         int     `json:"endTime"`
-	Addresss        Address `json:"address"`
-	HpLink          string  `json:"hpLink"`
-	ReservationLink string  `json:"reservationLink"`
-	Order           int     `json:"order"`
+	ID              int      `json:"id"`
+	Title           string   `json:"title"`
+	Description     string   `json:"description"`
+	StartTime       int      `json:"startTime"`
+	EndTime         int      `json:"endTime"`
+	Addresss        *Address `json:"address"`
+	HpLink          *string  `json:"hpLink"`
+	ReservationLink *string  `json:"reservationLink"`
+	Order           int      `json:"order"`
 }
 
 type Days []struct {
