@@ -11,8 +11,9 @@ type DBPlan struct {
 }
 
 type DBCondition struct {
-	ID     int
-	PlanID int // DBPlan.ID
+	ID              int
+	PlanID          int // DBPlan.ID
+	EstimatedCharge int
 }
 
 type DBSeason struct {
@@ -64,6 +65,7 @@ type DBHeading struct {
 type DBSchedule struct {
 	ID              int
 	DayID           int // DBDay.ID
+	Title           string
 	Description     string
 	StartTime       time.Time
 	EndTime         time.Time

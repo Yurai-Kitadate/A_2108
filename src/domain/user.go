@@ -14,7 +14,7 @@ type DBUser struct {
 	Email       string
 	Password    string
 	DisplayName string
-	Birthday    time.Time
+	DateOfBirth time.Time
 	Sex         string
 }
 
