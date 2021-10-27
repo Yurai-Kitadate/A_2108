@@ -6,26 +6,26 @@ import (
 	"gorm.io/gorm"
 )
 
-type planRepository struct {
+type PlanRepository struct {
 	db *gorm.DB
 }
 
-func (plan_repository planRepository) GetPlanByID(planID int) (domain.DBPlan, error) {
+func (plan_repository PlanRepository) GetPlanByID(planID int) (domain.DBPlan, error) {
 	return domain.DBPlan{}, nil
 }
 
-func (plan_repository planRepository) GetPlanOrderedbyTime(limit int) ([]domain.DBPlan, error) {
+func (plan_repository PlanRepository) GetPlansOrderedbyTime(limit int) ([]domain.DBPlan, error) {
 	return nil, nil
 }
 
-func (plan_repository planRepository) DeletePlanByID(planID int) error {
+func (plan_repository PlanRepository) DeletePlanByID(planID int) error {
 	return nil
 }
 
-func (plan_repository planRepository) PostPlan(plan api_response.Plan) (int, error) {
+func (plan_repository PlanRepository) PostPlan(plan api_response.Plan) (int, error) {
 	return -1, nil
 }
 
-func (plan_repository planRepository) PutPlan(plan api_response.Plan) error {
+func (plan_repository PlanRepository) PutPlan(plan api_response.Plan) error {
 	return nil
 }
