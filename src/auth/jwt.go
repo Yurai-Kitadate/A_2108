@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -27,7 +28,7 @@ func GenerateToken(id int) (string, error) {
 	// claimsのセット
 	claims := token.Claims.(jwt.MapClaims)
 	claims["iss"] = config.GetIssuer()
-	claims["sub"] = id
+	claims["sub"] = strconv.Itoa(id)
 	claims["exp"] = time.Now().Add(time.Hour * 168).Unix()
 	claims["iat"] = time.Now().Unix()
 
