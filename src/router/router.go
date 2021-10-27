@@ -21,5 +21,6 @@ func Route() *gin.Engine {
 	r.POST("/plan", con.PlanPost)
 	r.DELETE("/plan/:id", con.PlanDelete)
 	r.POST("/image", con.ImagePost)
+	r.POST("/register", con.RegisterPost)
 	return r
 }
