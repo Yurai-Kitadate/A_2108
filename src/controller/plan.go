@@ -7,8 +7,17 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 )
+
+type PlanRepository interface {
+	GetPlansOrderedbyTime(int) (api_response.Plans, error)
+	GetPlanByID(int) (api_response.Plan, error)
+	PostPlan(api_response.Plan) (int, error)
+	PutPlan(api_response.Plan) error
+	DeletePlanByID(api_response.Plan) error
+}
 
 func (con *Controller) PlanGet(c *gin.Context) {
 	res := domain.Plans{
