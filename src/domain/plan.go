@@ -39,17 +39,17 @@ type Days []struct {
 	Schedule Schedule `json:"schedule"`
 }
 
-type Season []struct {
+type Season struct {
 	ID   int    `json:"id"`
 	Text string `json:"text"`
 }
 
-type TimeSpan []struct {
+type TimeSpan struct {
 	ID   int    `json:"id"`
 	Text string `json:"text"`
 }
 
-type Category []struct {
+type Category struct {
 	ID   int    `json:"id"`
 	Text string `json:"text"`
 }

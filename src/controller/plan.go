@@ -18,6 +18,40 @@ type PlanRepository interface {
 	DeletePlanByID(int) error
 }
 
+func (con *Controller) GetAllPlans(c *gin.Context) {
+	plans, err := con.PlanRepository.GetPlansOrderedbyTime(-1)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Database Error",
+		})
+		return
+	}
+	c.JSON(200, plans)
+}
+
+func (con *Controller) GetPlanByID(c *gin.Context) {
+	planId := c.Param("id")
+	planIdInt, err := strconv.Atoi(planId)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	plans, err := con.PlanRepository.GetPlanByID(planIdInt)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Database Error",
+		})
+		return
+	}
+
+	c.JSON(200, plans)
+}
+
 func (con *Controller) PlanGet(c *gin.Context) {
 	res := domain.Plans{
 		{
