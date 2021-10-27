@@ -56,3 +56,7 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 		return *claims, err
 	}
 }
+
+func GetIdByToken(token JwtClaims) (int, error) {
+	return strconv.Atoi(token.Subject)
+}
