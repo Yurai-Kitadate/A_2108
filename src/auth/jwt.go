@@ -36,7 +36,7 @@ func GenerateToken(id int) (string, error) {
 }
 
 func VerifyToken(tokenString string) (JwtClaims, error) {
-	jwt, err := jwt.ParseWithClaims(tokenString, &JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &JwtClaims{}, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodECDSA); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -49,7 +49,7 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 		}
 		return ecdsaKey, nil
 	})
-	if claims, ok := jwt.Claims.(*JwtClaims); ok && jwt.Valid {
+	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
 		return *claims, nil
 	} else {
 		return *claims, err
