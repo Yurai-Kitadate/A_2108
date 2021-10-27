@@ -9,7 +9,7 @@ import (
 )
 
 type UserRepository interface {
-	GetUserByID(string) (api_response.User, error)
+	GetUserByID(int) (api_response.User, error)
 	PostUser(api_response.User) (int, error)
 	PutUser(api_response.User) error
 	DeleteUserByID(int) error

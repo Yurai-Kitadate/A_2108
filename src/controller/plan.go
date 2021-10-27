@@ -16,7 +16,7 @@ type PlanRepository interface {
 	GetPlanByID(int) (api_response.Plan, error)
 	PostPlan(api_response.Plan) (int, error)
 	PutPlan(api_response.Plan) error
-	DeletePlanByID(api_response.Plan) error
+	DeletePlanByID(int) error
 }
 
 func (con *Controller) PlanGet(c *gin.Context) {
