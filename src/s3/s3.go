@@ -16,14 +16,14 @@ func NewS3Session() *session.Session {
 }
 
 // Up先URLとエラーを返却
-func UploadToS3(sess *session.Session, wb *bytes.Buffer, id string) (string, error) {
+func UploadToS3(sess *session.Session, b []byte, id string) (string, error) {
 	uploader := s3manager.NewUploader(sess)
 
 	// Upload the file to S3.
 	res, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket:      aws.String(config.GetS3BucketName()),
 		Key:         aws.String(id + ".jpeg"),
-		Body:        bytes.NewReader(wb.Bytes()),
+		Body:        bytes.NewReader(b),
 		ContentType: aws.String("image/jpeg"),
 	})
 	if err != nil {
