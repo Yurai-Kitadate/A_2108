@@ -4,8 +4,16 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 )
+
+type UserRepository interface {
+	GetUserByID(int) (api_response.User, error)
+	PostUser(api_response.User) (int, error)
+	PutUser(api_response.User) error
+	DeleteUserByID(int) error
+}
 
 func (con *Controller) UserGet(c *gin.Context) {
 	res := domain.User{
