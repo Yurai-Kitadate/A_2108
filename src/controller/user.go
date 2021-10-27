@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
@@ -11,6 +14,27 @@ type UserRepository interface {
 	PostUser(api_response.User) (int, error)
 	PutUser(api_response.User) error
 	DeleteUserByID(int) error
+}
+
+func (con *Controller) GetUserByID(c *gin.Context) {
+	planId := c.Param("id")
+	planIdInt, err := strconv.Atoi(planId)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	user, err := con.UserRepository.GetUserByID(planIdInt)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Storage Server Error: ",
+		})
+	}
+	c.JSON(200, user)
 }
 
 func (con *Controller) UserGet(c *gin.Context) {
