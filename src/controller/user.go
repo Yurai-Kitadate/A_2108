@@ -4,47 +4,19 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/api_response"
+	"github.com/jphacks/A_2108/src/domain"
 )
 
-type contacts struct {
-	ID        int    `json:"id"`
-	Hp        string `json:"hp"`
-	Instagram string `json:"instagram"`
-	Twitter   string `json:"twitter"`
-	Facebook  string `json:"facebook"`
-	Tiktok    string `json:"tiktok"`
-	Biography string `json:"biography"`
-}
-type job struct {
-	ID             int       `json:"id"`
-	Jobname        string    `json:"jobname"`
-	Dateoffirstjob time.Time `json:"dateoffirstjob"`
-}
-type address struct {
-	ID          int    `json:"id"`
-	Area        string `json:"area"`
-	Prefecture  string `json:"prefecture"`
-	City        string `json:"city"`
-	Description string `json:"description"`
-}
-type user struct {
-	ID          int       `json:"id"`
-	UserName    string    `json:"userName"`
-	Image       string    `json:"image"`
-	Email       string    `json:"email"`
-	DisplayName string    `json:"displayName"`
-	Birthday    time.Time `json:"birthday"`
-	Sex         string    `json:"sex"`
-	Contacts    contacts  `json:"contacts"`
-	Creator     struct {
-		Name string `json:"name"`
-	} `json:"creator"`
-	Job     job     `json:"job"`
-	Address address `json:"address"`
+type UserRepository interface {
+	GetUserByID(int) (api_response.User, error)
+	PostUser(api_response.User) (int, error)
+	PutUser(api_response.User) error
+	DeleteUserByID(int) error
 }
 
 func (con *Controller) UserGet(c *gin.Context) {
-	res := user{
+	res := domain.User{
 		ID:          0,
 		UserName:    "username",
 		Image:       "url",
@@ -52,7 +24,7 @@ func (con *Controller) UserGet(c *gin.Context) {
 		DisplayName: "displayName",
 		Birthday:    time.Now(),
 		Sex:         "sex",
-		Contacts: contacts{
+		Contacts: domain.Contacts{
 			ID:        0,
 			Hp:        "hp",
 			Instagram: "insta",
@@ -61,17 +33,15 @@ func (con *Controller) UserGet(c *gin.Context) {
 			Tiktok:    "tiktok",
 			Biography: "bio",
 		},
-		Creator: struct {
-			Name string "json:\"name\""
-		}{
-			Name: "creator name",
+		Creator: domain.Creator{
+			DisplayName: "displayName",
 		},
-		Job: job{
+		Job: domain.Job{
 			ID:             0,
 			Jobname:        "jobname",
 			Dateoffirstjob: time.Now(),
 		},
-		Address: address{
+		Address: domain.Address{
 			ID:          0,
 			Area:        "会津",
 			Prefecture:  "福島県",
