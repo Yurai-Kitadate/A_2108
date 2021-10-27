@@ -1,7 +1,7 @@
 on:
   push:
 
-name: CI/CD (Merge)
+name: Deploy (Merge)
 
 jobs: 
   go-deploy:
@@ -34,7 +34,7 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
       - name: Restart systemctl
-        run: ssh -i ./key $SSH_USER@$SSH_HOST sudo systemctl restart dwan.service
+        run: ssh -i ./key $SSH_USER@$SSH_HOST -p ${SSH_PORT} sudo systemctl restart dwan.service
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
