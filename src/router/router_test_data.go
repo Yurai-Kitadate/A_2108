@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"io/ioutil"
-	"time"
 
 	"github.com/jphacks/A_2108/src/domain"
 )
@@ -30,7 +28,7 @@ func convertToIoReader(it interface{}) io.Reader {
 }
 
 func routerTestData() testData {
-	image, _ := ioutil.ReadFile("test.jpeg")
+	/* image, _ := ioutil.ReadFile("test.jpeg") */
 
 	return testData{
 		// ここにテストケースを追加してください
@@ -98,55 +96,7 @@ func routerTestData() testData {
 				method: "POST",
 				url:    "/plan",
 				body: convertToIoReader(
-					domain.Plan{
-						PlanId:      100,
-						Title:       "title",
-						Description: "description",
-						Image:       "url",
-						Days: domain.Days{
-							{
-								Headings: domain.Headings{
-									{
-										Text:  "text",
-										Order: 1,
-									},
-								},
-								Schedule: domain.Schedule{
-									{
-										Description: "text",
-										StartTime:   time.Now(),
-										EndTime:     time.Now(),
-										Place: domain.Place{
-											Area:       "area",
-											Prefecture: "pref",
-											City:       "city",
-										},
-										HpLink:          "link",
-										ReservationLink: "link",
-										Order:           1,
-									},
-								},
-							},
-						},
-						Conditions: &domain.Conditions{
-							ID: 1,
-							Season: domain.Season{
-								{
-									Text: "text",
-								},
-							},
-							TimeSpan: domain.TimeSpan{
-								{
-									Text: "text",
-								},
-							},
-							Category: domain.Category{
-								{
-									Text: "text",
-								},
-							},
-						},
-					},
+					domain.Plan{},
 				),
 			},
 			statusCode:          200,
@@ -162,7 +112,7 @@ func routerTestData() testData {
 			statusCode:          200,
 			isCheckResponseBody: false,
 		},
-		{
+		/* 		{
 			name: "/image POST success test",
 			req: htttpReq{
 				method: "POST",
@@ -171,6 +121,6 @@ func routerTestData() testData {
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
-		},
+		}, */
 	}
 }

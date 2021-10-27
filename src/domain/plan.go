@@ -2,52 +2,62 @@ package domain
 
 import "time"
 
+type Plans []Plan
+
 type Plan struct {
-	PlanId      int         `json:"planId,omitempty"`
+	PlanId      int         `json:"planID"`
 	Title       string      `json:"title"`
 	Description string      `json:"description"`
 	Image       string      `json:"image"`
-	Creator     *Creator    `json:"creator,omitempty"`
-	Days        Days        `json:"days,omitempty"`
-	Conditions  *Conditions `json:"conditions,omitempty"`
+	CreatedAt   time.Time   `json:"createdAt"`
+	CreatorUser interface{} `json:"creatorUser"` // User | MaskedUser
+	Days        Days        `json:"days"`
+	Conditions  Conditions  `json:"conditions"`
 }
-type Plans []Plan
 
 type Headings []struct {
-	ID    int    `json:"id,omitempty"`
+	ID    int    `json:"id"`
 	Text  string `json:"text"`
 	Order int    `json:"order"`
 }
 
 type Schedule []struct {
-	ID              int       `json:"id,omitempty"`
-	Description     string    `json:"description"`
-	StartTime       time.Time `json:"startTime"`
-	EndTime         time.Time `json:"EndTime"`
-	Place           Place     `json:"place"`
-	HpLink          string    `json:"hpLink"`
-	ReservationLink string    `json:"reservationLink"`
-	Order           int       `json:"order"`
+	ID              int      `json:"id"`
+	Title           string   `json:"title"`
+	Description     string   `json:"description"`
+	StartTime       int      `json:"startTime"`
+	EndTime         int      `json:"endTime"`
+	Addresss        *Address `json:"address"`
+	HpLink          *string  `json:"hpLink"`
+	ReservationLink *string  `json:"reservationLink"`
+	Order           int      `json:"order"`
 }
+
 type Days []struct {
+	NthDay   int      `json:"nthDay"`
 	Headings Headings `json:"headings"`
 	Schedule Schedule `json:"schedule"`
 }
+
 type Season []struct {
-	ID   int    `json:"id,omitempty"`
+	ID   int    `json:"id"`
 	Text string `json:"text"`
 }
+
 type TimeSpan []struct {
-	ID   int    `json:"id,omitempty"`
+	ID   int    `json:"id"`
 	Text string `json:"text"`
 }
+
 type Category []struct {
-	ID   int    `json:"id,omitempty"`
+	ID   int    `json:"id"`
 	Text string `json:"text"`
 }
+
 type Conditions struct {
-	ID       int      `json:"id,omitempty"`
-	Season   Season   `json:"season"`
-	TimeSpan TimeSpan `json:"timeSpan"`
-	Category Category `json:"category"`
+	ID       int        `json:"id"`
+	Place    []Place    `json:"place"`
+	Season   []Season   `json:"season"`
+	TimeSpan []TimeSpan `json:"timeSpan"`
+	Category []Category `json:"category"`
 }
