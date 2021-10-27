@@ -21,4 +21,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go- 
       - name: build
-        run: go build ./... -o ./dist/
+        run: env GOOS=linux GOARCH=amd64 go build main.go
+      - name: ls test
+        run: ls -la
