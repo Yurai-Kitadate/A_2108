@@ -2,7 +2,6 @@ package database
 
 import (
 	"fmt"
-	"sync"
 
 	"github.com/jphacks/A_2108/src/config"
 	"gorm.io/driver/mysql"
@@ -12,13 +11,8 @@ import (
 )
 
 var (
-	connectionPool map[string]*DatabaseHandler
+	connectionPool map[string]*gorm.DB
 )
-
-type DatabaseHandler struct {
-	DB   *gorm.DB
-	lock *sync.Mutex
-}
 
 func getDSN(dbName string) string {
 	return fmt.Sprintf("%s:%s@%s/%s?charset=utf8mb4",
@@ -29,9 +23,9 @@ func getDSN(dbName string) string {
 	)
 }
 
-func NewDatabaseHandlerWithDBName(dbName string) (*DatabaseHandler, error) {
+func NewDatabaseHandlerWithDBName(dbName string) (*gorm.DB, error) {
 	if connectionPool == nil {
-		connectionPool = map[string]*DatabaseHandler{}
+		connectionPool = map[string]*gorm.DB{}
 	}
 
 	{
@@ -45,23 +39,10 @@ func NewDatabaseHandlerWithDBName(dbName string) (*DatabaseHandler, error) {
 	if err != nil {
 		return nil, err
 	}
-	mut := &sync.Mutex{}
-	res := &DatabaseHandler{
-		DB:   db,
-		lock: mut,
-	}
-	connectionPool[dbName] = res
-	return res, nil
+	connectionPool[dbName] = db
+	return db, nil
 }
 
-func NewDatabaseHandler() (*DatabaseHandler, error) {
+func NewDatabaseHandler() (*gorm.DB, error) {
 	return NewDatabaseHandlerWithDBName("dbmaster")
-}
-
-func (h *DatabaseHandler) Lock() {
-	h.lock.Lock()
-}
-
-func (h *DatabaseHandler) UnLock() {
-	h.lock.Unlock()
 }
