@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
-	"time"
 
 	"github.com/jphacks/A_2108/src/domain"
 )
@@ -98,55 +97,7 @@ func routerTestData() testData {
 				method: "POST",
 				url:    "/plan",
 				body: convertToIoReader(
-					domain.Plan{
-						PlanId:      100,
-						Title:       "title",
-						Description: "description",
-						Image:       "url",
-						Days: domain.Days{
-							{
-								Headings: domain.Headings{
-									{
-										Text:  "text",
-										Order: 1,
-									},
-								},
-								Schedule: domain.Schedule{
-									{
-										Description: "text",
-										StartTime:   time.Now(),
-										EndTime:     time.Now(),
-										Place: domain.Place{
-											Area:       "area",
-											Prefecture: "pref",
-											City:       "city",
-										},
-										HpLink:          "link",
-										ReservationLink: "link",
-										Order:           1,
-									},
-								},
-							},
-						},
-						Conditions: &domain.Conditions{
-							ID: 1,
-							Season: domain.Season{
-								{
-									Text: "text",
-								},
-							},
-							TimeSpan: domain.TimeSpan{
-								{
-									Text: "text",
-								},
-							},
-							Category: domain.Category{
-								{
-									Text: "text",
-								},
-							},
-						},
-					},
+					domain.Plan{},
 				),
 			},
 			statusCode:          200,
