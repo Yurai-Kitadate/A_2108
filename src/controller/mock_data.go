@@ -93,7 +93,7 @@ func init() {
 						Description: "遠くに移動するので電車に乗る",
 						StartTime:   420,
 						EndTime:     435,
-						Addresss: &domain.Address{
+						Address: &domain.Address{
 							ID:       1,
 							PlusCode: "MP43+V5 渋谷区",
 						},

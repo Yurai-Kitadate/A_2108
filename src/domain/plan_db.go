@@ -71,7 +71,7 @@ type DBSchedule struct {
 	StartTime       int
 	EndTime         int
 	Place           int
-	HPLink          string
-	ReservationLink string
+	HPLink          *string
+	ReservationLink *string
 	Order           int
 }
