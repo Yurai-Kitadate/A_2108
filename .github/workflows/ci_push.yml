@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: setup docker
-        run: docker-compose up
+      - name: Setup DB
+        run: docker-compose up -d db
+        working-directory: ./docker_compose
+      - name: Run go test
+        run: docker-compose up go
         working-directory: ./docker_compose
