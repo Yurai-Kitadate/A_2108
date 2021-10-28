@@ -63,6 +63,26 @@ func (con *Controller) UpdateUser(c *gin.Context) {
 	c.JSON(200, map[string]string{"mesasge": "OK"})
 }
 
+func (con *Controller) DeleteUser(c *gin.Context) {
+	userID, err := intParam(c, "id")
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	err = con.UserRepository.DeleteUserByID(userID)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"Error": "Failed delete user",
+		})
+		return
+	}
+	c.JSON(200, map[string]string{"message": "Successful delete user"})
+}
+
 func (con *Controller) UserGet(c *gin.Context) {
 	res := domain.User{
 		//		ID:          0,
