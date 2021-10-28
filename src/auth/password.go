@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-func VerifyPassword(password, email, storedHash string) error {
+func VerifyPassword(password, storedHash string) error {
 	// Hash生成
 	hash := sha3.New512()
 	_, err := hash.Write([]byte(password))

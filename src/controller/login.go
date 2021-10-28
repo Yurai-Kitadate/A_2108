@@ -23,7 +23,7 @@ func (con *Controller) LoginPOST(c *gin.Context) {
 	id := user.ID
 
 	//パスワード検証処理
-	if err := auth.VerifyPassword(req.Password, user.Email, user.Password); err != nil {
+	if err := auth.VerifyPassword(req.Password, user.Password); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 		return
 	}
