@@ -4,12 +4,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 )
 
 type UserRepository interface {
-	GetUserByID(int) (api_response.User, error)
+	GetUserByID(int) (domain.User, error)
 	PostUser(domain.User) (int, error)
 	PutUser(domain.User) error
 	DeleteUserByID(int) error
