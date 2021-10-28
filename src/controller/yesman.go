@@ -53,6 +53,6 @@ func (pr *yesmanPlanRepository) DeletePlanByID(id int) error {
 	return nil
 }
 
-func (pr *yesmanPlanRepository) GetUserByEmail(id int) error {
+func (pr *yesmanUserRepository) GetUserByEmail(id int) error {
 	return nil
 }
