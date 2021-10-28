@@ -56,9 +56,10 @@ type Category struct {
 }
 
 type Conditions struct {
-	ID       int        `json:"id"`
-	Place    []Place    `json:"place"`
-	Season   []Season   `json:"season"`
-	TimeSpan []TimeSpan `json:"timeSpan"`
-	Category []Category `json:"category"`
+	ID            int        `json:"id"`
+	Place         []Place    `json:"place"`
+	Season        []Season   `json:"season"`
+	TimeSpan      []TimeSpan `json:"timeSpan"`
+	Category      []Category `json:"category"`
+	EstimatedCost int        `json:"estimatedcost"`
 }
