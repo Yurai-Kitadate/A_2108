@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 )
 
@@ -14,7 +13,7 @@ type PlanRepository interface {
 	GetPlansOrderedbyTime(int) (domain.Plans, error)
 	GetPlanByID(int) (domain.Plan, error)
 	PostPlan(domain.Plan) (int, error)
-	PutPlan(api_response.Plan) error
+	PutPlan(domain.Plan) error
 	DeletePlanByID(int) error
 }
 
@@ -65,6 +64,22 @@ func (con *Controller) CreatePlan(c *gin.Context) {
 		return
 	}
 	c.JSON(200, map[string]int{"id": id})
+}
+
+func (con *Controller) UpdatePlan(c *gin.Context) {
+	var plan domain.Plan
+	if err := c.ShouldBindJSON(&plan); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Plan"})
+		return
+	}
+
+	err := con.PlanRepository.PutPlan(plan)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add plan"})
+		return
+	}
+	c.JSON(200, map[string]string{"message": "Successful update plan"})
 }
 
 func (con *Controller) PlanGet(c *gin.Context) {

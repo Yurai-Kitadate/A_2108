@@ -33,7 +33,7 @@ func (pr *yesmanPlanRepository) PostPlan(domain.Plan) (int, error) {
 	return 0, nil
 }
 
-func (pr *yesmanPlanRepository) PutPlan(api_response.Plan) error {
+func (pr *yesmanPlanRepository) PutPlan(domain.Plan) error {
 	return nil
 }
 
