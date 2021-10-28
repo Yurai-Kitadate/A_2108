@@ -12,5 +12,5 @@ jobs:
         run: docker-compose up -d db
         working-directory: ./docker_compose
       - name: Run go test
-        run: docker-compose up go --exit-code-from go
+        run: docker-compose up --exit-code-from go
         working-directory: ./docker_compose
