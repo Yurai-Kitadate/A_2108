@@ -29,7 +29,7 @@ func (pr *yesmanPlanRepository) GetPlanByID(id int) (domain.Plan, error) {
 	return domain.Plan{}, nil
 }
 
-func (pr *yesmanPlanRepository) PostPlan(api_response.Plan) (int, error) {
+func (pr *yesmanPlanRepository) PostPlan(domain.Plan) (int, error) {
 	return 0, nil
 }
 

@@ -13,7 +13,7 @@ import (
 type PlanRepository interface {
 	GetPlansOrderedbyTime(int) (domain.Plans, error)
 	GetPlanByID(int) (domain.Plan, error)
-	PostPlan(api_response.Plan) (int, error)
+	PostPlan(domain.Plan) (int, error)
 	PutPlan(api_response.Plan) error
 	DeletePlanByID(int) error
 }
@@ -49,6 +49,22 @@ func (con *Controller) GetPlanByID(c *gin.Context) {
 	}
 
 	c.JSON(200, plan)
+}
+
+func (con *Controller) CreatePlan(c *gin.Context) {
+	var plan domain.Plan
+	if err := c.ShouldBindJSON(&plan); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Plan"})
+		return
+	}
+
+	id, err := con.PlanRepository.PostPlan(plan)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add user"})
+		return
+	}
+	c.JSON(200, map[string]int{"id": id})
 }
 
 func (con *Controller) PlanGet(c *gin.Context) {
