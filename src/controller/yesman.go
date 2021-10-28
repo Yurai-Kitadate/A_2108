@@ -21,12 +21,12 @@ func (ur *yesmanUserRepository) DeleteUserByID(id int) error {
 	return nil
 }
 
-func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (api_response.Plans, error) {
+func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
 	return nil, nil
 }
 
-func (pr *yesmanPlanRepository) GetPlanByID(id int) (api_response.Plan, error) {
-	return api_response.Plan{}, nil
+func (pr *yesmanPlanRepository) GetPlanByID(id int) (domain.Plan, error) {
+	return domain.Plan{}, nil
 }
 
 func (pr *yesmanPlanRepository) PostPlan(api_response.Plan) (int, error) {
