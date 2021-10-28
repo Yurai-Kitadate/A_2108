@@ -82,6 +82,28 @@ func (con *Controller) UpdatePlan(c *gin.Context) {
 	c.JSON(200, map[string]string{"message": "Successful update plan"})
 }
 
+func (con *Controller) DeletePlanByID(c *gin.Context) {
+	planID, err := intParam(c, "id")
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	err = con.PlanRepository.DeletePlanByID(planID)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Database Error",
+		})
+		return
+	}
+
+	c.JSON(200, map[string]string{"message": "Successful delete plan"})
+}
+
 func (con *Controller) PlanGet(c *gin.Context) {
 	res := domain.Plans{
 		{
