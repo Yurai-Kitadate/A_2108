@@ -15,7 +15,7 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
-go test ./...
+go test ./... -v
 
 if [ $? != 0 ]; then
     echo failed to pass the go test
