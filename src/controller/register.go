@@ -29,5 +29,5 @@ func (con *Controller) RegisterPost(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, token)
+	c.JSON(200, wrapToken(token))
 }

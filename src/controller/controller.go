@@ -15,3 +15,9 @@ func NewControllerWithYesmanRepository() *Controller {
 		PlanRepository: &yesmanPlanRepository{},
 	}
 }
+
+func wrapToken(token string) map[string]string {
+	return map[string]string{
+		"token": token,
+	}
+}
