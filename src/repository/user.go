@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
 )
@@ -183,7 +182,7 @@ func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.DB
 	return domain.DBContacts{}, nil
 }
 
-func (user_repository UserRepository) PostCreatorByUserID(creator api_response.Creator, userID int) (int, error) {
+func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator, userID int) (int, error) {
 	db := user_repository.db
 
 	user, _ := user_repository.GetUserByID(userID)
