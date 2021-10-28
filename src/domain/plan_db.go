@@ -68,8 +68,8 @@ type DBSchedule struct {
 	DayID           int
 	Title           string
 	Description     string
-	StartTime       time.Time
-	EndTime         time.Time
+	StartTime       int
+	EndTime         int
 	Place           int
 	HPLink          string
 	ReservationLink string
