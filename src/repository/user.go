@@ -100,7 +100,7 @@ func (user_repository UserRepository) GetUserByID(userID int) (domain.User, erro
 func (user_repository UserRepository) PostUser(user domain.User) (int, error) {
 	db := user_repository.db
 
-	db.Transaction(func(tx *gorm.DB) error {
+	err := db.Transaction(func(tx *gorm.DB) error {
 		user_db := domain.DBUser{
 			UserName:    user.UserName,
 			Email:       user.Email,
@@ -145,7 +145,7 @@ func (user_repository UserRepository) PostUser(user domain.User) (int, error) {
 		return nil
 	})
 
-	return user.ID, nil
+	return user.ID, err
 }
 
 func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
@@ -186,13 +186,13 @@ func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.DB
 func (user_repository UserRepository) PostCreatorByUserID(creator api_response.Creator, userID int) (int, error) {
 	db := user_repository.db
 
-	user, err := user_repository.GetUserByID(userID)
+	user, _ := user_repository.GetUserByID(userID)
 	creator_db := domain.DBCreator{
 		UserID:   user.ID,
 		RealName: user.Creator.Name,
 	}
 
-	err = db.Create(&creator_db).Error
+	err := db.Create(&creator_db).Error
 	if err != nil {
 		if err.Error() == "Not creator" {
 			return -1, err
