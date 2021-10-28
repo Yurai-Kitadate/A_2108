@@ -66,10 +66,16 @@ func GetIdByToken(token JwtClaims) (int, error) {
 func VerifyAPIMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("Authorization")
+		if token == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Cannot found authorization header."})
+			c.Abort()
+			return
+		}
 		jwt, err := VerifyToken(token)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 			c.Abort()
+			return
 		}
 		c.Set(token, jwt)
 	}
