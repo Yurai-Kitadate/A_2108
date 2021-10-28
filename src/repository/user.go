@@ -189,18 +189,29 @@ func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.
 	return user, err2
 }
 
+func (ur UserRepository) GetUserByUserName(userName string) (domain.User, error) {
+	return ur.getUserBy_("user_name", userName)
+}
+
 func (user_repository UserRepository) GetUserByEmail(email string) (domain.User, error) {
-	db := user_repository.db
+	return user_repository.getUserBy_("e_mail", email)
+}
+
+// Warning:
+// 	fieldに定数以外を使うな! SQLインジェクションを引き起こすので.
+func (ur UserRepository) getUserBy_(field string, content string) (domain.User, error) {
+	db := ur.db
 
 	db_user := domain.DBUser{}
-	err := db.Where("e_mail = ?", email).First(&db_user).Error
+	query := fmt.Sprintf("%s = ?", field)
+	err := db.Where(query, content).First(&db_user).Error
 	if err == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
 	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
 	}
 
-	user, err2 := user_repository.GetUserByID(db_user.ID)
+	user, err2 := ur.GetUserByID(db_user.ID)
 	if err2 == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
 	} else if err2 != nil {
@@ -316,4 +327,24 @@ func (user_repository UserRepository) GetPlaceByUserID(userID int) (domain.Place
 		fmt.Printf("DB Error: %v\n", err)
 	}
 	return place, nil
+}
+
+func (ur UserRepository) GetIsUniqueEmail(email string) (bool, error) {
+	_, err := ur.GetUserByEmail(email)
+	if err.Error() == "Record Not Found" {
+		return true, nil
+	} else if err != nil {
+		return false, err
+	}
+	return false, nil
+}
+
+func (ur UserRepository) GetIsUniqueUserName(username string) (bool, error) {
+	_, err := ur.GetUserByUserName(username)
+	if err.Error() == "Record Not Found" {
+		return true, nil
+	} else if err != nil {
+		return false, err
+	}
+	return false, nil
 }
