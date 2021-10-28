@@ -59,7 +59,7 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 	}
 }
 
-func VerifySession(c *gin.Context) (JwtClaims, error) {
+func VerifyContext(c *gin.Context) (JwtClaims, error) {
 	return VerifyToken(c.GetHeader("Authorization"))
 }
 
