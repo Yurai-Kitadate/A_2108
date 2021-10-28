@@ -383,6 +383,6 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 	return planID, nil
 }
 
-func (pr PlanRepository) PutPlan(plan api_response.Plan) error {
+func (pr PlanRepository) PutPlan(plan domain.Plan) error {
 	return nil
 }
