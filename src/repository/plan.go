@@ -18,35 +18,65 @@ func (e PlanError) Error() string {
 	return e.s
 }
 
-func (plan_repository PlanRepository) GetPlanByID(planID int) (domain.DBPlan, error) {
-	db := plan_repository.db
-	plan := domain.DBPlan{}
+func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
+	db := pr.db
+	plan := domain.Plan{}
 
-	err := db.Preload("Condition").Preload("Season").
-		Preload("TimeSpan").Preload("Category").Preload("Day").
-		Preload("Heading").Preload("Schedule").Preload("Address").
-		First(&plan).Error
+	{
+		db_plan := domain.DBPlan{}
 
-	if err == gorm.ErrRecordNotFound {
-		return domain.DBPlan{}, &PlanError{"Record Not Found"}
+		err := db.First(&db_plan).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.Plan{}, &PlanError{"Record Not Found"}
+		} else if err != nil {
+			return domain.Plan{}, &PlanError{"Other Error"}
+		}
+		plan.PlanId = db_plan.ID
+		plan.Title = db_plan.Title
+		plan.Description = db_plan.Description
+		plan.Image = db_plan.Image
+		plan.CreatedAt = db_plan.CreatedAt
+	}
+
+	{
+		db_days := []domain.DBDay{}
+
+		err := db.Find(&db_days).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.Plan{}, &PlanError{"Record Not Found"}
+		} else if err != nil {
+			return domain.Plan{}, &PlanError{"Other Error"}
+		}
+
+		plan.Days = make(domain.Days, len(db_days))
+		for i, v := range db_days {
+			plan.Days[i].
+				plan.Days[i].NthDay = v.NthDay
+		}
+	}
+
+	{
+		db_heading := []domain.DBHeading{}
+
+		err := db.Where("day_id = ?")
 	}
 
 	// TODO Category Definitonをちゃんと設定する.
 	return plan, nil
 }
 
-func (plan_repository PlanRepository) GetPlansOrderedbyTime(limit int) ([]domain.DBPlan, error) {
+func (pr PlanRepository) GetPlansOrderedbyTime(limit int) ([]domain.DBPlan, error) {
 	return nil, nil
 }
 
-func (plan_repository PlanRepository) DeletePlanByID(planID int) error {
+func (pr PlanRepository) DeletePlanByID(planID int) error {
 	return nil
 }
 
-func (plan_repository PlanRepository) PostPlan(plan api_response.Plan) (int, error) {
+func (pr PlanRepository) PostPlan(plan api_response.Plan) (int, error) {
 	return -1, nil
 }
 
-func (plan_repository PlanRepository) PutPlan(plan api_response.Plan) error {
+func (pr PlanRepository) PutPlan(plan api_response.Plan) error {
 	return nil
 }

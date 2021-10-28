@@ -7,7 +7,7 @@ type DBPlan struct {
 	Title       string
 	Description string
 	Image       string
-	CreatAt     time.Time
+	CreatedAt   time.Time
 	UserID      int // DBUser.ID
 }
 
