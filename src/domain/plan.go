@@ -27,7 +27,7 @@ type Schedule []struct {
 	Description     string   `json:"description"`
 	StartTime       int      `json:"startTime"`
 	EndTime         int      `json:"endTime"`
-	Addresss        *Address `json:"address"`
+	Address         *Address `json:"address"`
 	HpLink          *string  `json:"hpLink"`
 	ReservationLink *string  `json:"reservationLink"`
 	Order           int      `json:"order"`
