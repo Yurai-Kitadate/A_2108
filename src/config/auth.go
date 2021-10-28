@@ -16,3 +16,7 @@ func PublicKey() string {
 func GetIssuer() string {
 	return os.Getenv("ISSUER")
 }
+
+func GetSalt() string {
+	return os.Getenv("SALT")
+}

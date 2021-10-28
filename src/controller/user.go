@@ -12,6 +12,7 @@ type UserRepository interface {
 	PostUser(domain.User) (int, error)
 	PutUser(domain.User) error
 	DeleteUserByID(int) error
+	GetUserByEmail(string) (domain.User, error)
 }
 
 func (con *Controller) GetUserByID(c *gin.Context) {
