@@ -269,7 +269,7 @@ func (user_repository UserRepository) PostCreatorByUserID(creator api_response.C
 func (user_repository UserRepository) DeleteCreatorByCreatorID(creatorID int) error {
 	db := user_repository.db
 	job := domain.DBJob{}
-	err := db.Where("creater_id = ?", creatorID).First(&job).Error
+	err := db.Where("creator_id = ?", creatorID).First(&job).Error
 	if err == gorm.ErrRecordNotFound {
 		return &UserRepositoryError{"Record Not Found"}
 	} else if err != nil {
@@ -296,7 +296,7 @@ func (user_repository UserRepository) GetJobByCreatorID(creatorID int) (domain.D
 	db := user_repository.db
 	job := domain.DBJob{}
 
-	err := db.Where("creater_id = ?", creatorID).First(&job).Error
+	err := db.Where("creator_id = ?", creatorID).First(&job).Error
 	if err == gorm.ErrRecordNotFound {
 		return domain.DBJob{}, &UserRepositoryError{"Record Not Found"}
 	} else if err != nil {
