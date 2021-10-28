@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
 )

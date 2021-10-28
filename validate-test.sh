@@ -7,6 +7,7 @@ export PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGA
 export PRIVATE_KEY="-----BEGIN EC PRIVATE KEY-----\nMIHcAgEBBEIAXXCzMM/ExMnMzrN4G75PMBRVZ+NMErY+eBMxR90u5kQTH67u/4qz\nQYQXQ7LwPvwkxJq+jFalVS6ErLQQdRZqepygBwYFK4EEACOhgYkDgYYABABTusMR\n4IdzhOwV7z1O+AguVPzWuGfKtBM8O8JFlva7wZFgpAhmad+15Vbe6x7dRX/i2AVZ\n/AqgvO4SOEMUVGvHzwG7jojnTN6BMNCDQUqRaCqVKtiM2S7X+6lc58jZBvMZo1zD\na01TXEMWFnaUY5yoUAoAa+5JC+Tg61CjdI2JPzMmdg==\n-----END EC PRIVATE KEY-----"
 export ISSUER="https://dawn.shinbunbun.info/"
 export IS_TEST_ON_DOCKER=1
+export SALT="salt"
 
 which golangci-lint
 if [ $? != 0 ]; then

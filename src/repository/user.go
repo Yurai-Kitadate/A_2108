@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
 )
@@ -189,24 +188,35 @@ func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.
 	return user, err2
 }
 
+func (ur UserRepository) GetUserByUserName(userName string) (domain.User, error) {
+	return ur.getUserBy_("user_name", userName)
+}
+
 func (user_repository UserRepository) GetUserByEmail(email string) (domain.User, error) {
-	db := user_repository.db
+	return user_repository.getUserBy_("e_mail", email)
+}
+
+// Warning:
+// 	fieldに定数以外を使うな! SQLインジェクションを引き起こすので.
+func (ur UserRepository) getUserBy_(field string, content string) (domain.User, error) {
+	db := ur.db
 
 	db_user := domain.DBUser{}
-	err := db.Where("e_mail = ?", email).First(&db_user).Error
+	query := fmt.Sprintf("%s = ?", field)
+	err := db.Where(query, content).First(&db_user).Error
 	if err == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
 	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
 	}
 
-	user, err2 := user_repository.GetUserByID(db_user.ID)
-	if err2 == gorm.ErrRecordNotFound {
+	user, err := ur.GetUserByID(db_user.ID)
+	if err == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
-	} else if err2 != nil {
+	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
 	}
-	return user, err2
+	return user, err
 }
 
 func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.Contacts, error) {
@@ -234,7 +244,7 @@ func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.Co
 	return contacts, nil
 }
 
-func (user_repository UserRepository) PostCreatorByUserID(creator api_response.Creator, userID int) (int, error) {
+func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator, userID int) (int, error) {
 	db := user_repository.db
 
 	user, _ := user_repository.GetUserByID(userID)
@@ -316,4 +326,25 @@ func (user_repository UserRepository) GetPlaceByUserID(userID int) (domain.Place
 		fmt.Printf("DB Error: %v\n", err)
 	}
 	return place, nil
+}
+
+// ここら辺オーバーヘッドやばいので後で修正します.
+func (ur UserRepository) GetIsUniqueEmail(email string) (bool, error) {
+	_, err := ur.GetUserByEmail(email)
+	if err.Error() == "Record Not Found" {
+		return true, nil
+	} else if err != nil {
+		return false, err
+	}
+	return false, nil
+}
+
+func (ur UserRepository) GetIsUniqueUserName(username string) (bool, error) {
+	_, err := ur.GetUserByUserName(username)
+	if err.Error() == "Record Not Found" {
+		return true, nil
+	} else if err != nil {
+		return false, err
+	}
+	return false, nil
 }

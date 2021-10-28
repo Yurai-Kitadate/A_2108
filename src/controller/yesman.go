@@ -8,6 +8,7 @@ import (
 
 type yesmanUserRepository struct{}
 type yesmanPlanRepository struct{}
+type yesmanImageRepository struct{}
 
 func (ur *yesmanUserRepository) GetUserByID(id int) (domain.User, error) {
 	if id == 1 {
@@ -51,4 +52,16 @@ func (pr *yesmanPlanRepository) PutPlan(domain.Plan) error {
 
 func (pr *yesmanPlanRepository) DeletePlanByID(id int) error {
 	return nil
+}
+
+func (pr *yesmanUserRepository) GetUserByEmail(string) (domain.User, error) {
+	return domain.User{}, nil
+}
+
+func (ir *yesmanImageRepository) CreateUser(img domain.Image) error {
+	return nil
+}
+
+func (ir *yesmanImageRepository) GetImagesByUserID(int) ([]domain.Image, error) {
+	return nil, nil
 }
