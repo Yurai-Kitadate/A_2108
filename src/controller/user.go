@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/api_response"
@@ -17,8 +16,7 @@ type UserRepository interface {
 }
 
 func (con *Controller) GetUserByID(c *gin.Context) {
-	planId := c.Param("id")
-	planIdInt, err := strconv.Atoi(planId)
+	userID, err := intParam(c, "id")
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -27,7 +25,7 @@ func (con *Controller) GetUserByID(c *gin.Context) {
 		return
 	}
 
-	user, err := con.UserRepository.GetUserByID(planIdInt)
+	user, err := con.UserRepository.GetUserByID(userID)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
