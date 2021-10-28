@@ -68,7 +68,7 @@ func GetIdByToken(token JwtClaims) (int, error) {
 }
 
 func GetIdBySession(c *gin.Context) (int, error) {
-	token, err := VerifySession(c)
+	token, err := VerifyContext(c)
 	if err != nil {
 		return 0, err
 	}
