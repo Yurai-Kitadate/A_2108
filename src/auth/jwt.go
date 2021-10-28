@@ -2,12 +2,16 @@ package auth
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/config"
 )
+
+var unAuthNEndpoint []string = []string{"/register", "/login"}
 
 var prvKey []byte = []byte(config.PrivateKey())
 var pubKey []byte = []byte(config.PublicKey())
@@ -59,4 +63,16 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 
 func GetIdByToken(token JwtClaims) (int, error) {
 	return strconv.Atoi(token.Subject)
+}
+
+func VerifyAPIMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := c.GetHeader("Authorization")
+		jwt, err := VerifyToken(token)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			c.Abort()
+		}
+		c.Set(token, jwt)
+	}
 }
