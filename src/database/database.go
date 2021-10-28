@@ -15,7 +15,7 @@ var (
 )
 
 func getDSN(dbName string) string {
-	return fmt.Sprintf("%s:%s@%s/%s?charset=utf8mb4",
+	return fmt.Sprintf("%s:%s@%s/%s?charset=utf8mb4&parseTime=true",
 		config.DBUser(),
 		config.DBPass(),
 		config.DBMethod(),

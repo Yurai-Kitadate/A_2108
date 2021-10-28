@@ -7,17 +7,12 @@ type DBPlan struct {
 	Title       string
 	Description string
 	Image       string
-	CreatorID   int           // DBUser.ID
-	Conditions  []DBCondition `gorm:"foreignKey:PlanID"`
-	Days        []DBDay       `gorm:"foreignKey:PlanID"`
+	CreatorID   int // DBUser.ID
 }
 
 type DBCondition struct {
 	ID              int
-	PlanID          int          // DBPlan.ID
-	Seasons         []DBSeason   `gorm:"foreignKey:ConditionID"`
-	TimeSpans       []DBTimeSpan `gorm:"foreignKey:ConditionID"`
-	Categories      []DBCategory `gorm:"foreignKey:ConditionID"`
+	PlanID          int // DBPlan.ID
 	EstimatedCharge int
 }
 
@@ -30,7 +25,6 @@ type DBSeason struct {
 type DBSeasonDefinition struct {
 	ID          int
 	Description string
-	Seasons     []DBSeason `gorm:"foreignKey:SeasonDefinitionID"`
 }
 
 type DBTimeSpan struct {
@@ -42,7 +36,6 @@ type DBTimeSpan struct {
 type DBTimeSpanDefinition struct {
 	ID          int
 	Description string
-	TimeSpan    []DBTimeSpan `gorm:"foreignKey:TimeSpanDefinitionID"`
 }
 
 type DBCategory struct {
@@ -54,15 +47,12 @@ type DBCategory struct {
 type DBCategoryDefinition struct {
 	ID          int
 	Description string
-	Category    []DBCategory `gorm:"foreignKey:CategoryDefinitionID"`
 }
 
 type DBDay struct {
-	ID        int
-	PlanID    int // DBPlan.ID
-	NthDay    int
-	Headings  []DBHeading  `gorm:"foreignKey:DayID"`
-	Schedules []DBSchedule `gorm:"foreignKey:DayID"`
+	ID     int
+	PlanID int // DBPlan.ID
+	NthDay int
 }
 
 type DBHeading struct {
