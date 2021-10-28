@@ -11,7 +11,7 @@ import (
 type UserRepository interface {
 	GetUserByID(int) (api_response.User, error)
 	PostUser(domain.User) (int, error)
-	PutUser(api_response.User) error
+	PutUser(domain.User) error
 	DeleteUserByID(int) error
 }
 
@@ -47,6 +47,20 @@ func (con *Controller) CreateUser(c *gin.Context) {
 		return
 	}
 	c.JSON(200, map[string]int{"id": id})
+}
+
+func (con *Controller) UpdateUser(c *gin.Context) {
+	var user domain.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad user"})
+		return
+	}
+	err := con.UserRepository.PutUser(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Faield to update user"})
+		return
+	}
+	c.JSON(200, map[string]string{"mesasge": "OK"})
 }
 
 func (con *Controller) UserGet(c *gin.Context) {
