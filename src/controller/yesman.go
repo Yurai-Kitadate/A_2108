@@ -53,6 +53,6 @@ func (pr *yesmanPlanRepository) DeletePlanByID(id int) error {
 	return nil
 }
 
-func (pr *yesmanUserRepository) GetUserByEmail(id int) error {
-	return nil
+func (pr *yesmanUserRepository) GetUserByEmail(string) (domain.User, error) {
+	return domain.User{}, nil
 }
