@@ -157,7 +157,10 @@ func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
 	}
 
 	if user.Creator != nil {
-		user_repository.DeleteCreatorByCreatorID(user.Creator.ID)
+		err = user_repository.DeleteCreatorByCreatorID(user.Creator.ID)
+		if err != nil {
+			return err
+		}
 	}
 	db.Delete(&domain.DBContacts{}, user.Contacts.ID)
 	db.Delete(&domain.DBPlace{}, user.Place.ID)
