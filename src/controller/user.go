@@ -2,23 +2,20 @@ package controller
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 )
 
 type UserRepository interface {
-	GetUserByID(int) (api_response.User, error)
-	PostUser(api_response.User) (int, error)
-	PutUser(api_response.User) error
+	GetUserByID(int) (domain.User, error)
+	PostUser(domain.User) (int, error)
+	PutUser(domain.User) error
 	DeleteUserByID(int) error
 }
 
 func (con *Controller) GetUserByID(c *gin.Context) {
-	planId := c.Param("id")
-	planIdInt, err := strconv.Atoi(planId)
+	userID, err := intParam(c, "id")
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -27,7 +24,7 @@ func (con *Controller) GetUserByID(c *gin.Context) {
 		return
 	}
 
-	user, err := con.UserRepository.GetUserByID(planIdInt)
+	user, err := con.UserRepository.GetUserByID(userID)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -35,6 +32,54 @@ func (con *Controller) GetUserByID(c *gin.Context) {
 		})
 	}
 	c.JSON(200, user)
+}
+
+func (con *Controller) CreateUser(c *gin.Context) {
+	var user domain.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad user"})
+		return
+	}
+	id, err := con.UserRepository.PostUser(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add user"})
+		return
+	}
+	c.JSON(200, map[string]int{"id": id})
+}
+
+func (con *Controller) UpdateUser(c *gin.Context) {
+	var user domain.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad user"})
+		return
+	}
+	err := con.UserRepository.PutUser(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Faield to update user"})
+		return
+	}
+	c.JSON(200, map[string]string{"mesasge": "OK"})
+}
+
+func (con *Controller) DeleteUser(c *gin.Context) {
+	userID, err := intParam(c, "id")
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	err = con.UserRepository.DeleteUserByID(userID)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"Error": "Failed delete user",
+		})
+		return
+	}
+	c.JSON(200, map[string]string{"message": "Successful delete user"})
 }
 
 func (con *Controller) UserGet(c *gin.Context) {

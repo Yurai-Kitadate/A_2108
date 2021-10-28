@@ -2,10 +2,12 @@ package auth
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/config"
 )
 
@@ -54,5 +56,27 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 		return *claims, nil
 	} else {
 		return *claims, err
+	}
+}
+
+func GetIdByToken(token JwtClaims) (int, error) {
+	return strconv.Atoi(token.Subject)
+}
+
+func VerifyAPIMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := c.GetHeader("Authorization")
+		if token == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Cannot found authorization header."})
+			c.Abort()
+			return
+		}
+		jwt, err := VerifyToken(token)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			c.Abort()
+			return
+		}
+		c.Set(token, jwt)
 	}
 }
