@@ -6,15 +6,14 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 )
 
 type PlanRepository interface {
-	GetPlansOrderedbyTime(int) (api_response.Plans, error)
-	GetPlanByID(int) (api_response.Plan, error)
-	PostPlan(api_response.Plan) (int, error)
-	PutPlan(api_response.Plan) error
+	GetPlansOrderedbyTime(int) (domain.Plans, error)
+	GetPlanByID(int) (domain.Plan, error)
+	PostPlan(domain.Plan) (int, error)
+	PutPlan(domain.Plan) error
 	DeletePlanByID(int) error
 }
 
@@ -30,8 +29,7 @@ func (con *Controller) GetAllPlans(c *gin.Context) {
 }
 
 func (con *Controller) GetPlanByID(c *gin.Context) {
-	planId := c.Param("id")
-	planIdInt, err := strconv.Atoi(planId)
+	planID, err := intParam(c, "id")
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -40,7 +38,7 @@ func (con *Controller) GetPlanByID(c *gin.Context) {
 		return
 	}
 
-	plans, err := con.PlanRepository.GetPlanByID(planIdInt)
+	plan, err := con.PlanRepository.GetPlanByID(planID)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
@@ -49,7 +47,61 @@ func (con *Controller) GetPlanByID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, plans)
+	c.JSON(200, plan)
+}
+
+func (con *Controller) CreatePlan(c *gin.Context) {
+	var plan domain.Plan
+	if err := c.ShouldBindJSON(&plan); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Plan"})
+		return
+	}
+
+	id, err := con.PlanRepository.PostPlan(plan)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add user"})
+		return
+	}
+	c.JSON(200, map[string]int{"id": id})
+}
+
+func (con *Controller) UpdatePlan(c *gin.Context) {
+	var plan domain.Plan
+	if err := c.ShouldBindJSON(&plan); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Plan"})
+		return
+	}
+
+	err := con.PlanRepository.PutPlan(plan)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add plan"})
+		return
+	}
+	c.JSON(200, map[string]string{"message": "Successful update plan"})
+}
+
+func (con *Controller) DeletePlanByID(c *gin.Context) {
+	planID, err := intParam(c, "id")
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	err = con.PlanRepository.DeletePlanByID(planID)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Database Error",
+		})
+		return
+	}
+
+	c.JSON(200, map[string]string{"message": "Successful delete plan"})
 }
 
 func (con *Controller) PlanGet(c *gin.Context) {
