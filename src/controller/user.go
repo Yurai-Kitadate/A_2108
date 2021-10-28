@@ -31,7 +31,7 @@ func (con *Controller) GetUserByID(c *gin.Context) {
 			"Error": "Storage Server Error: ",
 		})
 	}
-	c.JSON(200, user)
+	c.JSON(200, user.Masked())
 }
 
 func (con *Controller) CreateUser(c *gin.Context) {
