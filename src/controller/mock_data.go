@@ -136,6 +136,7 @@ func init() {
 		}
 		MockPlans = make(domain.Plans, 0)
 		for i := 1; i <= 10; i++ {
+			MockPlan.PlanId = i
 			MockPlans = append(MockPlans, MockPlan)
 		}
 	}
