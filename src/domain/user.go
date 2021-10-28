@@ -20,7 +20,7 @@ type User struct {
 	Image       string    `json:"image"`
 	DisplayName string    `json:"displayName"`
 	DateOfBirth time.Time `json:"dateOfBirth"`
-	Sex         string    `json:"sex"`
+	Sex         int       `json:"sex"`
 	Contacts    Contacts  `json:"contacts"`
 	Creator     *Creator  `json:"creator"`
 	Place       Place     `json:"address"`
