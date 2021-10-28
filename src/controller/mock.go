@@ -53,3 +53,7 @@ func MockGetPlanByID(c *gin.Context) {
 		"Error": "Not Found",
 	})
 }
+
+func MockGetAllPlans(c *gin.Context) {
+	c.JSON(200, MockPlans)
+}
