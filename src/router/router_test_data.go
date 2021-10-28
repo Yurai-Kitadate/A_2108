@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"time"
-	"io/ioutil"
 
 	"github.com/jphacks/A_2108/src/domain"
 )
