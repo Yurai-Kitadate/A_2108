@@ -34,6 +34,7 @@ type Schedule []struct {
 }
 
 type Days []struct {
+	ID       int      `json:"id"`
 	NthDay   int      `json:"nthDay"`
 	Headings Headings `json:"headings"`
 	Schedule Schedule `json:"schedule"`
