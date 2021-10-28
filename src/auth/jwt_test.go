@@ -1,6 +1,6 @@
 package auth
 
-/* import (
+import (
 	"fmt"
 	"testing"
 )
@@ -38,4 +38,3 @@ func TestGenerateToken(t *testing.T) {
 		})
 	}
 }
-*/
