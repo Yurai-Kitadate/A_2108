@@ -7,7 +7,8 @@ type DBPlan struct {
 	Title       string
 	Description string
 	Image       string
-	CreatorID   int // DBUser.ID
+	CreatAt     time.Time
+	UserID      int // DBUser.ID
 }
 
 type DBCondition struct {
