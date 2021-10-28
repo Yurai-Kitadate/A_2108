@@ -1,15 +1,22 @@
 package controller
 
 import (
-	"github.com/jphacks/A_2108/src/api_response"
+	"errors"
+
 	"github.com/jphacks/A_2108/src/domain"
 )
 
 type yesmanUserRepository struct{}
 type yesmanPlanRepository struct{}
 
-func (ur *yesmanUserRepository) GetUserByID(id int) (api_response.User, error) {
-	return api_response.User{}, nil
+func (ur *yesmanUserRepository) GetUserByID(id int) (domain.User, error) {
+	if id == 1 {
+		return MockUser1, nil
+	}
+	if id == 2 {
+		return MockUser2, nil
+	}
+	return domain.User{}, errors.New("Not found")
 }
 func (ur *yesmanUserRepository) PostUser(user domain.User) (int, error) {
 	return 0, nil
@@ -22,11 +29,16 @@ func (ur *yesmanUserRepository) DeleteUserByID(id int) error {
 }
 
 func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
-	return nil, nil
+	return MockPlans, nil
 }
 
 func (pr *yesmanPlanRepository) GetPlanByID(id int) (domain.Plan, error) {
-	return domain.Plan{}, nil
+	for _, plan := range MockPlans {
+		if plan.PlanId == id {
+			return plan, nil
+		}
+	}
+	return domain.Plan{}, errors.New("Not found")
 }
 
 func (pr *yesmanPlanRepository) PostPlan(domain.Plan) (int, error) {
