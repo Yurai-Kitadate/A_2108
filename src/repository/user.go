@@ -211,13 +211,13 @@ func (ur UserRepository) getUserBy_(field string, content string) (domain.User, 
 		fmt.Printf("DB Error: %v\n", err)
 	}
 
-	user, err2 := ur.GetUserByID(db_user.ID)
-	if err2 == gorm.ErrRecordNotFound {
+	user, err := ur.GetUserByID(db_user.ID)
+	if err == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
-	} else if err2 != nil {
+	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
 	}
-	return user, err2
+	return user, err
 }
 
 func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.Contacts, error) {
