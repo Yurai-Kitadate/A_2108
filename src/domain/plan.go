@@ -61,5 +61,5 @@ type Conditions struct {
 	Season        []Season   `json:"season"`
 	TimeSpan      []TimeSpan `json:"timeSpan"`
 	Category      []Category `json:"category"`
-	EstimatedCost int        `json:"estimatedcost"`
+	EstimatedCost int        `json:"int"`
 }
