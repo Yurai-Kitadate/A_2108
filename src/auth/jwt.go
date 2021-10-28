@@ -11,8 +11,6 @@ import (
 	"github.com/jphacks/A_2108/src/config"
 )
 
-var unAuthNEndpoint []string = []string{"/register", "/login"}
-
 var prvKey []byte = []byte(config.PrivateKey())
 var pubKey []byte = []byte(config.PublicKey())
 
