@@ -6,7 +6,7 @@ services:
       - 3306:3306
     volumes:
       - ./sql_conf:/etc/mysql/conf.d
-      - ./sql_init:/docker-entrypoint-initdb.d
+      # - ./sql_init:/docker-entrypoint-initdb.d
       # REPLACE MARKER FOR PERSISTENCE
     environment:
       - MYSQL_ROOT_PASSWORD=De3thM3rch
@@ -17,3 +17,12 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  go:
+    image: golangci/golangci-lint
+    volumes:
+      - ../:/app
+    command: /app/validate-test.sh
+    working_dir: /app
+    depends_on:
+      - db

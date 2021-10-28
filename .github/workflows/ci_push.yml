@@ -8,42 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.17
-        id: go
-      - name: Cache
-        uses: actions/cache@v2.1.0
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go- 
-      - name: test
-        run: go test ./... -v
-        env:
-          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          ISSUER: ${{ secrets.ISSUER }}
-
-  go-lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.17
-        id: go
-      - name: Cache
-        uses: actions/cache@v2.1.0
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go- 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: v1.29
+      - name: Setup DB
+        run: docker-compose up -d db
+        working-directory: ./docker_compose
+      - name: Run go test
+        run: docker-compose up --exit-code-from go
+        working-directory: ./docker_compose
