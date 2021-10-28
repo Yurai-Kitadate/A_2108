@@ -10,6 +10,14 @@ type PlanRepository struct {
 	db *gorm.DB
 }
 
+type PlanError struct {
+	s string
+}
+
+func (e PlanError) Error() string {
+	return e.s
+}
+
 func (plan_repository PlanRepository) GetPlanByID(planID int) (domain.DBPlan, error) {
 	db := plan_repository.db
 	plan := domain.DBPlan{}
@@ -20,7 +28,7 @@ func (plan_repository PlanRepository) GetPlanByID(planID int) (domain.DBPlan, er
 		First(&plan).Error
 
 	if err == gorm.ErrRecordNotFound {
-		return domain.DBPlan{}, &NotFoundError{}
+		return domain.DBPlan{}, &PlanError{"Record Not Found"}
 	}
 
 	// TODO Category Definitonをちゃんと設定する.
@@ -28,21 +36,17 @@ func (plan_repository PlanRepository) GetPlanByID(planID int) (domain.DBPlan, er
 }
 
 func (plan_repository PlanRepository) GetPlansOrderedbyTime(limit int) ([]domain.DBPlan, error) {
-	db := plan_repository.db
 	return nil, nil
 }
 
 func (plan_repository PlanRepository) DeletePlanByID(planID int) error {
-	db := plan_repository.db
 	return nil
 }
 
 func (plan_repository PlanRepository) PostPlan(plan api_response.Plan) (int, error) {
-	db := plan_repository.db
 	return -1, nil
 }
 
 func (plan_repository PlanRepository) PutPlan(plan api_response.Plan) error {
-	db := plan_repository.db
 	return nil
 }

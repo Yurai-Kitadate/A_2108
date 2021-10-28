@@ -20,58 +20,132 @@ func (e *UserRepositoryError) Error() string {
 	return e.s
 }
 
-func (user_repository UserRepository) GetUserByID(userID int) (domain.DBUser, error) {
+func (user_repository UserRepository) GetUserByID(userID int) (domain.User, error) {
 	db := user_repository.db
+	res := domain.User{}
 
 	user := domain.DBUser{}
-	err := db.Preload("Contacts").
-		Preload("Creator").Preload("Job").
-		Preload("Address").First(&user, userID).Error
-	if err == gorm.ErrRecordNotFound {
-		return domain.DBUser{}, &UserRepositoryError{"Record Not Found"}
-	} else if err != nil {
-		fmt.Printf("DB Error: %v\n", err)
-		return domain.DBUser{}, &UserRepositoryError{"Other Error"}
+	{
+		err := db.First(&user).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.User{}, &UserRepositoryError{"Record Not Found"}
+		} else if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return domain.User{}, &UserRepositoryError{"Other Error"}
+		}
+		res.ID = user.ID
+		res.UserName = user.UserName
+		res.Email = user.Email
+		res.Password = user.Password
+		res.Image = user.Image
+		res.DisplayName = user.DisplayName
+		res.DateOfBirth = user.DateOfBirth
+		res.Sex = user.Sex
 	}
-	return user, err
+
+	{
+		contacts := domain.Contacts{}
+		db_contacts := domain.DBContacts{}
+		err := db.Where("user_id = ?", res.ID).First(&db_contacts).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.User{}, &UserRepositoryError{"Record Not Found"}
+		} else if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return domain.User{}, &UserRepositoryError{"Other Error"}
+		}
+		contacts.ID = db_contacts.ID
+		contacts.Hp = db_contacts.HomePage
+		contacts.Instagram = db_contacts.Instagram
+		contacts.Twitter = db_contacts.Twitter
+		contacts.Facebook = db_contacts.Facebook
+		contacts.Tiktok = db_contacts.TikTok
+		contacts.Biography = db_contacts.Biography
+		res.Contacts = contacts
+	}
+
+	{
+		creator := domain.Creator{}
+		db_creator := domain.DBCreator{}
+		err := db.Where("user_id = ?", res.ID).First(&db_creator).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.User{}, &UserRepositoryError{"Not Creator"}
+		} else if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return domain.User{}, &UserRepositoryError{"Other Error"}
+		}
+		creator.ID = db_creator.ID
+		creator.Name = db_creator.RealName
+		res.Creator = &creator
+	}
+
+	{
+		job := domain.Job{}
+		db_job := domain.DBJob{}
+
+		err := db.Where("creator_id = ?", res.Creator.ID).First(&db_job).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.User{}, &UserRepositoryError{"Record Not Found"}
+		} else if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return domain.User{}, &UserRepositoryError{"Other Error"}
+		}
+		job.ID = db_job.ID
+		job.Jobname = db_job.JobName
+		job.DateOfFirstJob = db_job.DateOfFirstJob
+		res.Creator.Job = job
+	}
+	return res, nil
 }
 
-func (user_repository UserRepository) PostUser(user domain.User, PassWord string) (int, error) {
+func (user_repository UserRepository) PostUser(user domain.User) (int, error) {
 	db := user_repository.db
-	place := domain.DBPlace{
-		ID:         user.Place.ID,
-		Area:       user.Place.Area,
-		Prefecture: user.Place.Prefecture,
-		City:       user.Place.City,
-		Name:       user.Place.Name,
-	}
-	contacts := domain.DBContacts{
-		ID:        0,
-		HomePage:  user.Contacts.Hp,
-		Instagram: user.Contacts.Instagram,
-		Twitter:   user.Contacts.Twitter,
-		Facebook:  user.Contacts.Facebook,
-		TikTok:    user.Contacts.Tiktok,
-		Biography: user.Contacts.Biography, // NULL にならない NULLable
 
-	}
-	var plan []domain.DBPlan
+	db.Transaction(func(tx *gorm.DB) error {
+		user_db := domain.DBUser{
+			UserName:    user.UserName,
+			Email:       user.Email,
+			Password:    user.Password,
+			Image:       user.Image,
+			DisplayName: user.DisplayName,
+			DateOfBirth: user.DateOfBirth,
+			Sex:         user.Sex,
+		}
+		err := db.Create(&user_db).Error
+		if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return &UserRepositoryError{"Other Error"}
+		}
 
-	user_db := domain.DBUser{
-		ID:          0,
-		UserName:    user.UserName,
-		Email:       user.Email,
-		Password:    PassWord,
-		Place:       place,
-		Plans:       plan,
-		Contacts:    contacts,
-		Image:       user.Image,
-		DisplayName: user.DisplayName,
-		DateOfBirth: user.DateOfBirth,
-		Sex:         user.Sex,
-	}
-	err := db.Create(&user_db).Error
-	return user.ID, err
+		contacts := domain.DBContacts{
+			UserID:    user_db.ID,
+			HomePage:  user.Contacts.Hp,
+			Instagram: user.Contacts.Instagram,
+			Twitter:   user.Contacts.Twitter,
+			Facebook:  user.Contacts.Facebook,
+			TikTok:    user.Contacts.Tiktok,
+			Biography: user.Contacts.Biography, // NULL にならない NULLable
+		}
+		err = db.Create(&contacts).Error
+		if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return &UserRepositoryError{"Other Error"}
+		}
+
+		place := domain.DBPlace{
+			Area:       user.Place.Area,
+			Prefecture: user.Place.Prefecture,
+			City:       user.Place.City,
+			Name:       user.Place.Name,
+		}
+		err = db.Create(&place).Error
+		if err != nil {
+			fmt.Printf("DB Error: %v\n", err)
+			return &UserRepositoryError{"Other Error"}
+		}
+		return nil
+	})
+
+	return user.ID, nil
 }
 
 func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
@@ -111,7 +185,14 @@ func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.DB
 
 func (user_repository UserRepository) PostCreatorByUserID(creator api_response.Creator, userID int) (int, error) {
 	db := user_repository.db
+
 	user, err := user_repository.GetUserByID(userID)
+	creator_db := domain.DBCreator{
+		UserID:   user.ID,
+		RealName: user.Creator.Name,
+	}
+
+	err = db.Create(&creator_db).Error
 	if err != nil {
 		if err.Error() == "Not creator" {
 			return -1, err
@@ -121,20 +202,17 @@ func (user_repository UserRepository) PostCreatorByUserID(creator api_response.C
 	}
 
 	job := domain.DBJob{
-		ID:             0,
-		JobName:        creator.Job.Jobname,
-		DateOfFirstJob: creator.Job.DateOfFirstJob,
+		CreatorID:      user.Creator.Job.ID,
+		JobName:        user.Creator.Job.Jobname,
+		DateOfFirstJob: user.Creator.Job.DateOfFirstJob,
+	}
+	err = db.Create(&job).Error
+	if err != nil {
+		fmt.Printf("DB Error: %v\n", err)
+		return 0, &UserRepositoryError{"Other Error"}
 	}
 
-	creator_db := domain.DBCreator{
-		ID:       0,
-		RealName: creator.Name,
-		Job:      job,
-	}
-
-	user.Creator = &creator_db
-	err2 := db.Save(&user).Error
-	return user.Creator.ID, err2
+	return user.ID, nil
 }
 
 func (user_repository UserRepository) DeleteCreatorByCreatorID(creatorID int) error {

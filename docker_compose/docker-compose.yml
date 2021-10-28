@@ -6,7 +6,7 @@ services:
       - 3306:3306
     volumes:
       - ./sql_conf:/etc/mysql/conf.d
-      - ./sql_init:/docker-entrypoint-initdb.d
+      # - ./sql_init:/docker-entrypoint-initdb.d
       # REPLACE MARKER FOR PERSISTENCE
     environment:
       - MYSQL_ROOT_PASSWORD=De3thM3rch

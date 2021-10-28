@@ -13,10 +13,6 @@ type DBUser struct {
 	UserName    string `gorm:"unique"`
 	Email       string `gorm:"unique"`
 	Password    string
-	Place       DBPlace    `gorm:"foreignKey:UserID"`
-	Plans       []DBPlan   `gorm:"foreignKey:UserID"`
-	Contacts    DBContacts `gorm:"foreignKey:UserID"`
-	Creator     *DBCreator `gorm:"foreignKey:UserID"`
 	Image       string
 	DisplayName string
 	DateOfBirth time.Time
@@ -36,8 +32,7 @@ type DBContacts struct {
 
 type DBCreator struct {
 	ID       int
-	UserID   int   // DBUserのID
-	Job      DBJob `gorm:"foreignKey:CreatorID"`
+	UserID   int // DBUserのID
 	RealName string
 }
 
