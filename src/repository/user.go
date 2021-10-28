@@ -329,6 +329,7 @@ func (user_repository UserRepository) GetPlaceByUserID(userID int) (domain.Place
 	return place, nil
 }
 
+// ここら辺オーバーヘッドやばいので後で修正します.
 func (ur UserRepository) GetIsUniqueEmail(email string) (bool, error) {
 	_, err := ur.GetUserByEmail(email)
 	if err.Error() == "Record Not Found" {
