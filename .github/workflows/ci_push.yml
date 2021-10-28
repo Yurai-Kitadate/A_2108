@@ -22,6 +22,10 @@ jobs:
             ${{ runner.os }}-go- 
       - name: test
         run: go test ./... -v
+        env:
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          ISSUER: ${{ secrets.ISSUER }}
 
   go-lint:
     runs-on: ubuntu-latest
