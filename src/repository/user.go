@@ -172,7 +172,7 @@ func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
 func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.User, error) {
 	db := user_repository.db
 
-	creator := domain.Creator{}
+	creator := domain.DBCreator{}
 	err := db.First(&creator).Error
 	if err == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
@@ -180,7 +180,27 @@ func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.
 		fmt.Printf("DB Error: %v\n", err)
 	}
 
-	user, err2 := user_repository.GetUserByID(creator.ID)
+	user, err2 := user_repository.GetUserByID(creator.UserID)
+	if err2 == gorm.ErrRecordNotFound {
+		return domain.User{}, &UserRepositoryError{"Not creator"}
+	} else if err2 != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+	return user, err2
+}
+
+func (user_repository UserRepository) GetUserByEmail(email string) (domain.User, error) {
+	db := user_repository.db
+
+	db_user := domain.DBUser{}
+	err := db.Where("e_mail = ?", email).First(&db_user).Error
+	if err == gorm.ErrRecordNotFound {
+		return domain.User{}, &UserRepositoryError{"Not creator"}
+	} else if err != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+
+	user, err2 := user_repository.GetUserByID(db_user.ID)
 	if err2 == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{"Not creator"}
 	} else if err2 != nil {
