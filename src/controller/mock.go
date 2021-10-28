@@ -31,3 +31,25 @@ func MockGetUserByID(c *gin.Context) {
 	}
 	c.JSON(200, res)
 }
+
+func MockGetPlanByID(c *gin.Context) {
+	planId := c.Param("id")
+	planIdInt, err := strconv.Atoi(planId)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Atoi error: " + err.Error(),
+		})
+		return
+	}
+
+	for _, plan := range MockPlans {
+		if plan.PlanId == planIdInt {
+			c.JSON(200, plan)
+			return
+		}
+	}
+	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+		"Error": "Not Found",
+	})
+}
