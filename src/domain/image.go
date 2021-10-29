@@ -7,6 +7,7 @@ type DBImage struct {
 }
 
 type Image struct {
-	ID  int
-	URL string
+	ID          int    `json:"id"`
+	OwnerUserID int    `json:"ownerUserID"`
+	URL         string `json:"url"`
 }
