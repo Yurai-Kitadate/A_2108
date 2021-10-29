@@ -73,7 +73,8 @@ func (user_repository UserRepository) GetUserByID(userID int) (domain.User, erro
 		db_creator := domain.DBCreator{}
 		err := db.Where("user_id = ?", res.ID).First(&db_creator).Error
 		if err == gorm.ErrRecordNotFound {
-			return domain.User{}, &UserRepositoryError{"Not Creator"}
+			res.Creator = nil
+			return res, nil
 		} else if err != nil {
 			fmt.Printf("DB Error: %v\n", err)
 			return domain.User{}, &UserRepositoryError{"Other Error"}
