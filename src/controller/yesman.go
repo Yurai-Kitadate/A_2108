@@ -30,6 +30,14 @@ func (ur *yesmanUserRepository) DeleteUserByUserID(id int) error {
 	return nil
 }
 
+func (ir *yesmanUserRepository) GetIsUniqueEmail(email string) (bool, error) {
+	return true, nil
+}
+
+func (ir *yesmanUserRepository) GetIsUniqueUserName(username string) (bool, error) {
+	return true, nil
+}
+
 func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
 	return mock.MockPlans, nil
 }

@@ -73,7 +73,8 @@ func (user_repository UserRepository) GetUserByID(userID int) (domain.User, erro
 		db_creator := domain.DBCreator{}
 		err := db.Where("user_id = ?", res.ID).First(&db_creator).Error
 		if err == gorm.ErrRecordNotFound {
-			return domain.User{}, &UserRepositoryError{"Not Creator"}
+			res.Creator = nil
+			return res, nil
 		} else if err != nil {
 			fmt.Printf("DB Error: %v\n", err)
 			return domain.User{}, &UserRepositoryError{"Other Error"}
@@ -172,6 +173,21 @@ func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
 	db.Delete(&domain.User{}, userID)
 
 	return err
+}
+
+func (ur UserRepository) DeleteCreatorByUserID(userID int) error {
+	user, err := ur.GetUserByID(userID)
+	if err != nil {
+		return err
+	}
+
+	if user.Creator != nil {
+		err = ur.DeleteCreatorByCreatorID(user.Creator.ID)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.User, error) {
