@@ -4,20 +4,30 @@ import (
 	"encoding/hex"
 	"errors"
 
+	"github.com/jphacks/A_2108/src/config"
 	"golang.org/x/crypto/sha3"
 )
 
 func VerifyPassword(password, storedHash string) error {
-	// Hash生成
-	hash := sha3.New512()
-	_, err := hash.Write([]byte(password))
+	hash, err := CreateHash(password)
 	if err != nil {
 		return err
 	}
 	// 検証
-	if hex.EncodeToString(hash.Sum(nil)) != storedHash {
+	if hash != storedHash {
 		return errors.New("Invalid password")
 	}
 	// 結果返却
 	return nil
+}
+
+func CreateHash(password string) (string, error) {
+	hash := sha3.New512()
+	p := []byte(password)
+	p = append(p, config.GetSalt()...)
+	_, err := hash.Write(p)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(hash.Sum(nil)), nil
 }

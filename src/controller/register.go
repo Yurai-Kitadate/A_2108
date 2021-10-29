@@ -17,6 +17,13 @@ func (con *Controller) RegisterPost(c *gin.Context) {
 		return
 	}
 
+	hashPass, err := auth.CreateHash(req.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Create hash error": err.Error()})
+		return
+	}
+	req.Password = hashPass
+
 	id, err := con.UserRepository.PostUser(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
