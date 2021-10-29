@@ -117,8 +117,8 @@ func DriveGetUserByID(db *gorm.DB, userID int) error {
 }
 
 func DrivePostUser(db *gorm.DB, user domain.User) error {
-	user_repository := UserRepository{db}
-	res, err := user_repository.PostUser(user)
+	ur := UserRepository{db}
+	res, err := ur.PostUser(user)
 
 	if err != nil {
 		return err
@@ -134,7 +134,7 @@ func DrivePostPlan(db *gorm.DB, plan domain.Plan) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Added UserID: %d", res)
+	fmt.Printf("Added PlanID: %d", res)
 	return nil
 }
 
