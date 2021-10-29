@@ -19,14 +19,14 @@ func DBUser() string {
 		return "root"
 	}
 
-	return "TODO"
+	return os.Getenv("DB_USER")
 }
 
 func DBPass() string {
 	if IsTest() || IsTestonDocker() {
 		return "De3thM3rch"
 	}
-	return "TODO"
+	return os.Getenv("DB_PASSWORD")
 }
 
 func DBMethod() string {
@@ -35,5 +35,5 @@ func DBMethod() string {
 	} else if IsTestonDocker() {
 		return "tcp(db:3306)"
 	}
-	return "TODO"
+	return os.Getenv("DB_METHOD")
 }
