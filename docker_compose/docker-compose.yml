@@ -30,7 +30,7 @@ services:
     image: golang
     volumes:
       - ../:/app
-    command: /app/local-test.sh
+    command: /app/local-run.sh
     working_dir: /app
     ports:
       - 8081:8080
