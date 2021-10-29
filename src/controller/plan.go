@@ -25,6 +25,12 @@ func (con *Controller) GetAllPlans(c *gin.Context) {
 		})
 		return
 	}
+	for i, plan := range plans {
+		user, ok := plan.CreatorUser.(domain.User)
+		if ok {
+			plans[i].CreatorUser = user.Masked()
+		}
+	}
 	c.JSON(200, plans)
 }
 
@@ -45,6 +51,12 @@ func (con *Controller) GetPlanByID(c *gin.Context) {
 			"Error": "Database Error",
 		})
 		return
+	}
+	{
+		user, ok := plan.CreatorUser.(domain.User)
+		if ok {
+			plan.CreatorUser = user.Masked()
+		}
 	}
 
 	c.JSON(200, plan)
