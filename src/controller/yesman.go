@@ -38,6 +38,14 @@ func (ir *yesmanUserRepository) GetIsUniqueUserName(username string) (bool, erro
 	return true, nil
 }
 
+func (ur *yesmanUserRepository) PostCreatorByUserID(creator domain.Creator, uerID int) (int, error) {
+	return 0, nil
+}
+
+func (ur *yesmanUserRepository) DeleteCreatorByUserID(userID int) error {
+	return nil
+}
+
 func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
 	return mock.MockPlans, nil
 }
