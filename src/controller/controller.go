@@ -15,7 +15,7 @@ type Controller struct {
 func NewController(db *gorm.DB) *Controller {
 	return &Controller{
 		UserRepository:  repository.NewUserRepository(db),
-		PlanRepository:  &yesmanPlanRepository{},  // TODO
+		PlanRepository:  repository.NewPlanRepository(db),
 		ImageRepository: &yesmanImageRepository{}, // TODO
 	}
 }
