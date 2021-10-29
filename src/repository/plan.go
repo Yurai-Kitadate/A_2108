@@ -262,7 +262,22 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 }
 
 func (pr PlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
+	db := pr.db
+	var plans domain.Plans
+	db_plans := []domain.DBPlan{}
 
+	err := db.Limit(limit).Find(&db_plans).Error
+	if err != nil {
+		return domain.Plans{}, errHandling(err)
+	}
+
+	plans = make(domain.Plans, len(db_plans))
+	for i, v := range db_plans {
+		plans[i], err = pr.GetPlanByID(v.ID)
+		if err != nil {
+			return plans, errHandling(err)
+		}
+	}
 	return nil, nil
 }
 
