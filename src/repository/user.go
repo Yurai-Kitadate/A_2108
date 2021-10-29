@@ -149,37 +149,99 @@ func (user_repository UserRepository) PostUser(user domain.User) (int, error) {
 
 func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
 	db := user_repository.db
-	err := db.Delete(&domain.DBUser{}, userID).Error
+
+	user, err := user_repository.GetUserByID(userID)
+	if err != nil {
+		return err
+	}
+
+	if user.Creator != nil {
+		err = user_repository.DeleteCreatorByCreatorID(user.Creator.ID)
+		if err != nil {
+			return err
+		}
+	}
+	db.Delete(&domain.DBContacts{}, user.Contacts.ID)
+	db.Delete(&domain.DBPlace{}, user.Place.ID)
+	db.Delete(&domain.User{}, userID)
+
 	return err
 }
 
-func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.DBUser, error) {
+func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.User, error) {
 	db := user_repository.db
-	user := domain.DBUser{}
 
-	err := db.Preload("Contacts").Preload("Creator").Preload("Job").
-		Preload("Address").First(&user, "db_users.creator_id = ?", creatorID).Error
+	creator := domain.DBCreator{}
+	err := db.First(&creator).Error
 	if err == gorm.ErrRecordNotFound {
-		return domain.DBUser{}, &UserRepositoryError{"Not creator"}
+		return domain.User{}, &UserRepositoryError{"Not creator"}
+	} else if err != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+
+	user, err2 := user_repository.GetUserByID(creator.UserID)
+	if err2 == gorm.ErrRecordNotFound {
+		return domain.User{}, &UserRepositoryError{"Not creator"}
+	} else if err2 != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+	return user, err2
+}
+
+func (ur UserRepository) GetUserByUserName(userName string) (domain.User, error) {
+	return ur.getUserBy_("user_name", userName)
+}
+
+func (user_repository UserRepository) GetUserByEmail(email string) (domain.User, error) {
+	return user_repository.getUserBy_("e_mail", email)
+}
+
+// Warning:
+// 	fieldに定数以外を使うな! SQLインジェクションを引き起こすので.
+func (ur UserRepository) getUserBy_(field string, content string) (domain.User, error) {
+	db := ur.db
+
+	db_user := domain.DBUser{}
+	query := fmt.Sprintf("%s = ?", field)
+	err := db.Where(query, content).First(&db_user).Error
+	if err == gorm.ErrRecordNotFound {
+		return domain.User{}, &UserRepositoryError{"Not creator"}
+	} else if err != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+
+	user, err := ur.GetUserByID(db_user.ID)
+	if err == gorm.ErrRecordNotFound {
+		return domain.User{}, &UserRepositoryError{"Not creator"}
 	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
 	}
 	return user, err
 }
 
-func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.DBContacts, error) {
+func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.Contacts, error) {
 	db := user_repository.db
-	contacts := domain.DBContacts{}
+	db_contacts := domain.DBContacts{}
 
-	err := db.First(&contacts).Error
+	err := db.First(&db_contacts).Error
 	if err == gorm.ErrRecordNotFound {
-		return domain.DBContacts{}, &UserRepositoryError{"Record Not Found"}
+		return domain.Contacts{}, &UserRepositoryError{"Record Not Found"}
 	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
-		return domain.DBContacts{}, &UserRepositoryError{"Other Error"}
+		return domain.Contacts{}, &UserRepositoryError{"Other Error"}
 	}
 
-	return domain.DBContacts{}, nil
+	contacts := domain.Contacts{
+		ID:        db_contacts.ID,
+		Hp:        db_contacts.HomePage,
+		Instagram: db_contacts.Instagram,
+		Twitter:   db_contacts.Twitter,
+		Facebook:  db_contacts.Facebook,
+		Tiktok:    db_contacts.TikTok,
+		Biography: db_contacts.Biography,
+	}
+
+	return contacts, nil
 }
 
 func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator, userID int) (int, error) {
@@ -216,7 +278,22 @@ func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator
 
 func (user_repository UserRepository) DeleteCreatorByCreatorID(creatorID int) error {
 	db := user_repository.db
-	err := db.Delete(&domain.Creator{}, creatorID).Error
+	job := domain.DBJob{}
+	err := db.Where("creator_id = ?", creatorID).First(&job).Error
+	if err == gorm.ErrRecordNotFound {
+		return &UserRepositoryError{"Record Not Found"}
+	} else if err != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+
+	err = db.Delete(&job).Error
+	if err == gorm.ErrRecordNotFound {
+		return &UserRepositoryError{"Record Not Found"}
+	} else if err != nil {
+		fmt.Printf("DB Error: %v\n", err)
+	}
+
+	err = db.Delete(&domain.Creator{}, creatorID).Error
 	if err == gorm.ErrRecordNotFound {
 		return &UserRepositoryError{"Record Not Found"}
 	} else if err != nil {
@@ -229,7 +306,7 @@ func (user_repository UserRepository) GetJobByCreatorID(creatorID int) (domain.D
 	db := user_repository.db
 	job := domain.DBJob{}
 
-	err := db.First(&job, creatorID).Error
+	err := db.Where("creator_id = ?", creatorID).First(&job).Error
 	if err == gorm.ErrRecordNotFound {
 		return domain.DBJob{}, &UserRepositoryError{"Record Not Found"}
 	} else if err != nil {
@@ -238,15 +315,36 @@ func (user_repository UserRepository) GetJobByCreatorID(creatorID int) (domain.D
 	return job, nil
 }
 
-func (user_repository UserRepository) GetPlaceByCreatorID(creatorID int) (domain.DBCreator, error) {
+func (user_repository UserRepository) GetPlaceByUserID(userID int) (domain.Place, error) {
 	db := user_repository.db
-	place := domain.DBCreator{}
+	place := domain.Place{}
 
-	err := db.First(place, creatorID).Error
+	err := db.Where("user_id = ?", userID).First(&place).Error
 	if err == gorm.ErrRecordNotFound {
-		return domain.DBCreator{}, &UserRepositoryError{"Record Not Found"}
+		return domain.Place{}, &UserRepositoryError{"Record Not Found"}
 	} else if err != nil {
 		fmt.Printf("DB Error: %v\n", err)
 	}
 	return place, nil
+}
+
+// ここら辺オーバーヘッドやばいので後で修正します.
+func (ur UserRepository) GetIsUniqueEmail(email string) (bool, error) {
+	_, err := ur.GetUserByEmail(email)
+	if err.Error() == "Record Not Found" {
+		return true, nil
+	} else if err != nil {
+		return false, err
+	}
+	return false, nil
+}
+
+func (ur UserRepository) GetIsUniqueUserName(username string) (bool, error) {
+	_, err := ur.GetUserByUserName(username)
+	if err.Error() == "Record Not Found" {
+		return true, nil
+	} else if err != nil {
+		return false, err
+	}
+	return false, nil
 }

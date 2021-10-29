@@ -9,19 +9,24 @@ import (
 )
 
 func (con *Controller) LoginPOST(c *gin.Context) {
-	var req domain.User
+	var req domain.LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	// TODO: ユーザー情報取得処理
-	/* user, err := GetUserByID(req)(int, error)
+
+	user, err := con.UserRepository.GetUserByEmail(req.Email)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
-	} */
-	id := 101
-	//TODO: パスワード検証処理
+	}
+	id := user.ID
+
+	//パスワード検証処理
+	if err := auth.VerifyPassword(req.Password, user.Password); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
 
 	// 検証に成功した場合はjwtを発行
 	token, err := auth.GenerateToken(id)

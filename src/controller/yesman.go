@@ -52,3 +52,7 @@ func (pr *yesmanPlanRepository) PutPlan(domain.Plan) error {
 func (pr *yesmanPlanRepository) DeletePlanByID(id int) error {
 	return nil
 }
+
+func (pr *yesmanUserRepository) GetUserByEmail(string) (domain.User, error) {
+	return domain.User{}, nil
+}
