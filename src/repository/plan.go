@@ -17,18 +17,6 @@ func NewPlanRepository(db *gorm.DB) *PlanRepository {
 	}
 }
 
-const (
-	CANNOT_CONVERT   = "Recived type can not be converted into MaskedUser"
-	RECORD_NOT_FOUND = "Record not found"
-)
-
-func errHandling(err error) error {
-	if err == gorm.ErrRecordNotFound {
-		return &PlanError{RECORD_NOT_FOUND}
-	}
-	return err
-}
-
 type PlanError struct {
 	s string
 }
@@ -209,7 +197,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 				if err == gorm.ErrRecordNotFound {
 					schedule.Address = nil
 				} else if err != nil {
-					return domain.Plan{}, &PlanError{err.Error()}
+					return domain.Plan{}, err
 				} else {
 					schedule.Address = &domain.Address{
 						ID:       db_address.ID,
