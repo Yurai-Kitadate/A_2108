@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/domain"
+	"github.com/jphacks/A-2108/src/mock"
 )
 
 func MockGetUserByID(c *gin.Context) {
@@ -21,9 +22,9 @@ func MockGetUserByID(c *gin.Context) {
 
 	var res domain.User
 	if planIdInt == 1 {
-		res = MockUser1
+		res = mock.MockUser1
 	} else if planIdInt == 2 {
-		res = MockUser2
+		res = mock.MockUser2
 	} else {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"Error": "Not Found",
@@ -43,7 +44,7 @@ func MockGetPlanByID(c *gin.Context) {
 		return
 	}
 
-	for _, plan := range MockPlans {
+	for _, plan := range domain.MockPlans {
 		if plan.PlanId == planIdInt {
 			c.JSON(200, plan)
 			return
@@ -55,5 +56,5 @@ func MockGetPlanByID(c *gin.Context) {
 }
 
 func MockGetAllPlans(c *gin.Context) {
-	c.JSON(200, MockPlans)
+	c.JSON(200, mock.MockPlans)
 }
