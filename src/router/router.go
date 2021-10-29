@@ -32,6 +32,9 @@ func Route() *gin.Engine {
 		authGroup.PUT("/user", con.UpdateUser)
 		authGroup.DELETE("/user/:id", con.DeleteUser)
 
+		authGroup.POST("/creator", con.CreateCreator)
+		authGroup.DELETE("/creator", con.DeleteCreator)
+
 		authGroup.POST("/plan", con.CreatePlan)
 		authGroup.PUT("/plan", con.UpdatePlan)
 		authGroup.DELETE("/plan/:id", con.DeletePlanByID)

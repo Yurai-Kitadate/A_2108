@@ -38,7 +38,7 @@ func AbortWithError(c *gin.Context, statusCode int, obj interface{}, e error) {
 	var res map[string]interface{} = make(map[string]interface{})
 	res["error"] = obj
 	if gin.Mode() != "release" {
-		res["errorData"] = e
+		res["errorData"] = e.Error()
 	}
 	c.JSON(statusCode, res)
 }
