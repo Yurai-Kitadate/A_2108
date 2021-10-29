@@ -215,7 +215,7 @@ func (ur UserRepository) GetUserByUserName(userName string) (domain.User, error)
 }
 
 func (user_repository UserRepository) GetUserByEmail(email string) (domain.User, error) {
-	return user_repository.getUserBy_("e_mail", email)
+	return user_repository.getUserBy_("email", email)
 }
 
 // Warning:
