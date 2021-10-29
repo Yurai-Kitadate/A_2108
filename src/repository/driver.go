@@ -3,7 +3,6 @@ package repository
 import (
 	"fmt"
 	"testing"
-	"time"
 
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
@@ -78,9 +77,8 @@ func DriveGetUserByID(db *gorm.DB, userID int) error {
 	return nil
 }
 
-func DrivePostUser(db *gorm.DB) error {
+func DrivePostUser(db *gorm.DB, user domain.User) error {
 	user_repository := UserRepository{db}
-	user := controller.mockUser
 	res, err := user_repository.PostUser(user)
 
 	if err != nil {
