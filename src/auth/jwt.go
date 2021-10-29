@@ -59,8 +59,20 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 	}
 }
 
+func VerifySession(c *gin.Context) (JwtClaims, error) {
+	return VerifyToken(c.GetHeader("Authorization"))
+}
+
 func GetIdByToken(token JwtClaims) (int, error) {
 	return strconv.Atoi(token.Subject)
+}
+
+func GetIdBySession(c *gin.Context) (int, error) {
+	token, err := VerifySession(c)
+	if err != nil {
+		return 0, err
+	}
+	return GetIdByToken(token)
 }
 
 func VerifyAPIMiddleware() gin.HandlerFunc {
