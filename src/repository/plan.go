@@ -278,7 +278,7 @@ func (pr PlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) 
 			return plans, errHandling(err)
 		}
 	}
-	return nil, nil
+	return plans, nil
 }
 
 func (pr PlanRepository) DeletePlanByID(planID int) error {
