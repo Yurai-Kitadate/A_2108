@@ -140,6 +140,13 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		plan.Description = db_plan.Description
 		plan.Image = db_plan.Image
 		plan.CreatedAt = db_plan.CreatedAt
+
+		ur := UserRepository{db}
+		user, err := ur.GetUserByID(db_plan.UserID)
+		if err != nil {
+			return plan, errHandling(err)
+		}
+		plan.CreatorUser = user
 	}
 
 	{
