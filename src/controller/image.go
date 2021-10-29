@@ -6,8 +6,14 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/domain"
 	"github.com/jphacks/A_2108/src/s3"
 )
+
+type ImageRepository interface {
+	CreateUser(domain.Image) error
+	GetImagesByUserID(int) ([]domain.Image, error)
+}
 
 func (con *Controller) ImagePost(c *gin.Context) {
 	body, err := io.ReadAll(c.Request.Body)
