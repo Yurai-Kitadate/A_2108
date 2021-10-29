@@ -34,5 +34,5 @@ func (con *Controller) LoginPOST(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, token)
+	c.JSON(200, wrapToken(token))
 }
