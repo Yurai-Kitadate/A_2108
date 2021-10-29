@@ -1,10 +1,8 @@
 package repository
 
 import (
-	"fmt"
 	"sync"
 
-	"github.com/jphacks/A_2108/src/database"
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
 )
@@ -83,6 +81,7 @@ var (
 	timespanDef2key *dictionary_s2i
 )
 
+/*
 func init() {
 	db, err := database.NewDatabaseHandlerWithDBName("DAWN")
 	if err != nil {
@@ -129,7 +128,8 @@ func init() {
 		}
 	}
 
-}
+   }
+*/
 
 func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	db := pr.db

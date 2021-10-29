@@ -13,9 +13,9 @@ type Controller struct {
 
 func NewController(db *gorm.DB) *Controller {
 	return &Controller{
-		UserRepository: repository.NewUserRepository(db),
-		PlanRepository: repository.NewPlanRepository(db),
-		// ImageRepositoryの代入をしていないので，Image回りは動かないです
+		UserRepository:  repository.NewUserRepository(db),
+		PlanRepository:  &yesmanPlanRepository{},  // TODO
+		ImageRepository: &yesmanImageRepository{}, // TODO
 	}
 }
 

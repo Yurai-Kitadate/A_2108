@@ -1,8 +1,6 @@
 package router
 
 import (
-	"bytes"
-	"encoding/json"
 	"io"
 
 	"github.com/jphacks/A_2108/src/domain"
@@ -22,10 +20,10 @@ type testData []struct {
 	isCheckResponseBody bool
 }
 
-func convertToIoReader(it interface{}) io.Reader {
-	jsonIt, _ := json.Marshal(it)
-	return bytes.NewReader(jsonIt)
-}
+//func convertToIoReader(it interface{}) io.Reader {
+//	jsonIt, _ := json.Marshal(it)
+//	return bytes.NewReader(jsonIt)
+//}
 
 func routerTestData() testData {
 	/* image, _ := ioutil.ReadFile("test.jpeg") */
@@ -69,49 +67,49 @@ func routerTestData() testData {
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
-		},
-		{
-			name: "/plan GET success test",
-			req: htttpReq{
-				method: "GET",
-				url:    "/plan",
-				body:   nil,
+		}, /*
+			{
+				name: "/plan GET success test",
+				req: htttpReq{
+					method: "GET",
+					url:    "/plan",
+					body:   nil,
+				},
+				statusCode:          200,
+				isCheckResponseBody: false,
 			},
-			statusCode:          200,
-			isCheckResponseBody: false,
-		},
-		{
-			name: "/plan GET pathparam success test",
-			req: htttpReq{
-				method: "GET",
-				url:    "/plan/4",
-				body:   nil,
+			{
+				name: "/plan GET pathparam success test",
+				req: htttpReq{
+					method: "GET",
+					url:    "/plan/4",
+					body:   nil,
+				},
+				statusCode:          200,
+				isCheckResponseBody: false,
 			},
-			statusCode:          200,
-			isCheckResponseBody: false,
-		},
-		{
-			name: "/plan POST success test",
-			req: htttpReq{
-				method: "POST",
-				url:    "/plan",
-				body: convertToIoReader(
-					domain.Plan{},
-				),
+			{
+				name: "/plan POST success test",
+				req: htttpReq{
+					method: "POST",
+					url:    "/plan",
+					body: convertToIoReader(
+						domain.Plan{},
+					),
+				},
+				statusCode:          200,
+				isCheckResponseBody: false,
 			},
-			statusCode:          200,
-			isCheckResponseBody: false,
-		},
-		{
-			name: "/plan DELETE success test",
-			req: htttpReq{
-				method: "DELETE",
-				url:    "/plan/100",
-				body:   nil,
-			},
-			statusCode:          200,
-			isCheckResponseBody: false,
-		},
+			{
+				name: "/plan DELETE success test",
+				req: htttpReq{
+					method: "DELETE",
+					url:    "/plan/100",
+					body:   nil,
+				},
+				statusCode:          200,
+				isCheckResponseBody: false,
+			},*/
 		/* 		{
 			name: "/image POST success test",
 			req: htttpReq{
