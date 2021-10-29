@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/jphacks/A_2108/src/domain"
@@ -81,14 +82,7 @@ var (
 	timespanDef2key *dictionary_s2i
 )
 
-/*
-func init() {
-	db, err := database.NewDatabaseHandlerWithDBName("DAWN")
-	if err != nil {
-		fmt.Printf("DB Load Error")
-		return
-	}
-
+func initPlan(db *gorm.DB) {
 	// Prefetch Definitions
 	{
 		seasonKey2def = NewDict_i2s()
@@ -128,8 +122,7 @@ func init() {
 		}
 	}
 
-   }
-*/
+}
 
 func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	db := pr.db
@@ -194,6 +187,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 			} else if err != nil {
 				return domain.Plan{}, &PlanError{"Other Error"}
 			}
+			plan.Days[i].Schedule = make(domain.Schedule, len(db_schedules))
 			for j, v := range db_schedules {
 				schedule := &plan.Days[i].Schedule[j]
 				schedule.ID = v.ID
@@ -208,13 +202,14 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 				db_address := domain.DBAddress{}
 				err = db.Where("schedule_id = ?", plan.Days[i].Schedule[j].ID).First(&db_address).Error
 				if err == gorm.ErrRecordNotFound {
-					return domain.Plan{}, &PlanError{"Record Not Found"}
+					schedule.Address = nil
 				} else if err != nil {
 					return domain.Plan{}, &PlanError{"Other Error"}
-				}
-				schedule.Address = &domain.Address{
-					ID:       db_address.ID,
-					PlusCode: db_address.PlusCode,
+				} else {
+					schedule.Address = &domain.Address{
+						ID:       db_address.ID,
+						PlusCode: db_address.PlusCode,
+					}
 				}
 			}
 		}
@@ -239,6 +234,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		} else if err != nil {
 			return domain.Plan{}, &PlanError{"Other Error"}
 		}
+		plan.Conditions.Season = make([]domain.Season, len(db_seasons))
 		for i, v := range db_seasons {
 			season := &plan.Conditions.Season[i]
 			season.ID = v.ID
@@ -252,6 +248,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		} else if err != nil {
 			return domain.Plan{}, &PlanError{"Other Error"}
 		}
+		plan.Conditions.Category = make([]domain.Category, len(db_categories))
 		for i, v := range db_categories {
 			category := &plan.Conditions.Category[i]
 			category.ID = v.ID
@@ -265,6 +262,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		} else if err != nil {
 			return domain.Plan{}, &PlanError{"Other Error"}
 		}
+		plan.Conditions.TimeSpan = make([]domain.TimeSpan, len(db_timeSpan))
 		for i, v := range db_timeSpan {
 			timespan := &plan.Conditions.TimeSpan[i]
 			timespan.ID = v.ID
@@ -315,45 +313,6 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 		planID = db_plan.ID
 	}
 
-	seasonDictionary := map[string]int{}
-	timeSpanDictionary := map[string]int{}
-	categoryDictionary := map[string]int{}
-	// Prefetch Definitions
-	{
-		seasonDefinition := []domain.DBSeasonDefinition{}
-		timeSpanDefinition := []domain.DBTimeSpanDefinition{}
-		categoryDefinition := []domain.DBCategoryDefinition{}
-		err := db.Find(&seasonDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return 0, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return 0, &PlanError{"Other Error"}
-		}
-		for _, v := range seasonDefinition {
-			seasonDictionary[v.Description] = v.ID
-		}
-
-		err = db.Find(&timeSpanDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return 0, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return 0, &PlanError{"Other Error"}
-		}
-		for _, v := range timeSpanDefinition {
-			timeSpanDictionary[v.Description] = v.ID
-		}
-
-		err = db.Find(&categoryDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return 0, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return 0, &PlanError{"Other Error"}
-		}
-		for _, v := range categoryDefinition {
-			categoryDictionary[v.Description] = v.ID
-		}
-	}
-
 	{
 		conditions := domain.DBCondition{
 			PlanID:          planID,
@@ -372,6 +331,7 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 		}
 		err = db.Create(&db_seasons).Error
 		if err != nil {
+			fmt.Print(err)
 			return 0, &PlanError{"Other Error"}
 		}
 
@@ -392,7 +352,7 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 			category.ConditionID = conditions.ID
 			category.CategoryDefinitionID = categoryDef2key.Get(v.Text)
 		}
-		err = db.Create(&db_seasons).Error
+		err = db.Create(&db_categories).Error
 		if err != nil {
 			return 0, &PlanError{"Other Error"}
 		}
@@ -401,7 +361,6 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 	{
 		db_days := make([]domain.DBDay, len(plan.Days))
 		for i, v := range plan.Days {
-			db_days[i].ID = v.ID
 			db_days[i].PlanID = planID
 			db_days[i].NthDay = v.NthDay
 		}
@@ -409,6 +368,9 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 		err := db.Create(&db_days).Error
 		if err != nil {
 			return 0, &PlanError{"Other Error"}
+		}
+		for i, v := range db_days {
+			plan.Days[i].ID = v.ID
 		}
 	}
 
@@ -418,7 +380,7 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 
 			for j, v := range day.Headings {
 				db_heading := &db_headings[j]
-				db_heading.ID = v.ID
+				db_heading.DayID = day.ID
 				db_heading.HeadingText = v.Text
 				db_heading.Order = v.Order
 			}
