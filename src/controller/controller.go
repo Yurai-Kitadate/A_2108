@@ -1,8 +1,9 @@
 package controller
 
 type Controller struct {
-	UserRepository UserRepository
-	PlanRepository PlanRepository
+	UserRepository  UserRepository
+	PlanRepository  PlanRepository
+	ImageRepository ImageRepository
 }
 
 func NewController() *Controller {
