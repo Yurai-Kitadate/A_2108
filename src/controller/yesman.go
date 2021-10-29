@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/jphacks/A_2108/src/domain"
+	"github.com/jphacks/A_2108/src/mock"
 )
 
 type yesmanUserRepository struct{}
@@ -12,10 +13,10 @@ type yesmanImageRepository struct{}
 
 func (ur *yesmanUserRepository) GetUserByID(id int) (domain.User, error) {
 	if id == 1 {
-		return MockUser1, nil
+		return mock.MockUser1, nil
 	}
 	if id == 2 {
-		return MockUser2, nil
+		return mock.MockUser2, nil
 	}
 	return domain.User{}, errors.New("Not found")
 }
@@ -30,11 +31,11 @@ func (ur *yesmanUserRepository) DeleteUserByUserID(id int) error {
 }
 
 func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
-	return MockPlans, nil
+	return mock.MockPlans, nil
 }
 
 func (pr *yesmanPlanRepository) GetPlanByID(id int) (domain.Plan, error) {
-	for _, plan := range MockPlans {
+	for _, plan := range mock.MockPlans {
 		if plan.PlanId == id {
 			return plan, nil
 		}
