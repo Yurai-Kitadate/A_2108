@@ -1,8 +1,10 @@
 package repository
 
 import (
-	"github.com/jphacks/A_2108/src/domain"
+  "sync"
+
 	"gorm.io/gorm"
+	"github.com/jphacks/A_2108/src/domain"
 )
 
 type PlanRepository struct {
@@ -15,6 +17,90 @@ type PlanError struct {
 
 func (e PlanError) Error() string {
 	return e.s
+}
+
+
+type dictionary_i2s {
+  sync.Mutex
+  dict map[int]string
+}
+
+func NewDict_i2s() *dictionary_i2s {
+  return &{
+    dict: make(map[int]string)
+  }
+}
+
+func (d *dictionary_i2s) Set(key int, value string) {
+  d.Lock()
+  d.dict[key] = value
+  d.Unlock()
+}
+
+type dictionary_s2i {
+  sync.Mutex
+  dict map[string]int
+}
+
+func NewDict_s2i() *dictionary_s2i {
+  return &{
+    dict: make(map[int]string)
+  }
+}
+
+func (d *dictionary_s2i) Set(key int, value string) {
+  d.Lock()
+  d.dict[key] = value
+  d.Unlock()
+}
+
+var (
+  seasonKey2def dictionary_i2s
+  def2Key dictionary_s2i
+)
+
+func init() {
+	// Prefetch Definitions
+	{
+    dict.seasonDictionary = map[int]string{}
+    dict.timeSpanDictionary = map[int]string{}
+    dict.categoryDictionary = map[int]string{}
+
+		seasonDefinition := []domain.DBSeasonDefinition{}
+		timeSpanDefinition := []domain.DBTimeSpanDefinition{}
+		categoryDefinition := []domain.DBCategoryDefinition{}
+
+		err := db.Find(&seasonDefinition).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.Plan{}, &PlanError{"Record Not Found"}
+		} else if err != nil {
+			return domain.Plan{}, &PlanError{"Other Error"}
+		}
+		for _, v := range seasonDefinition {
+			seasonDictionary[v.ID] = v.Description
+		}
+
+		err = db.Find(&timeSpanDefinition).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.Plan{}, &PlanError{"Record Not Found"}
+		} else if err != nil {
+			return domain.Plan{}, &PlanError{"Other Error"}
+		}
+		for _, v := range timeSpanDefinition {
+			timeSpanDictionary[v.ID] = v.Description
+		}
+
+		err = db.Find(&categoryDefinition).Error
+		if err == gorm.ErrRecordNotFound {
+			return domain.Plan{}, &PlanError{"Record Not Found"}
+		} else if err != nil {
+			return domain.Plan{}, &PlanError{"Other Error"}
+		}
+		for _, v := range categoryDefinition {
+			categoryDictionary[v.ID] = v.Description
+		}
+	}
+
 }
 
 func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
@@ -103,46 +189,6 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 					PlusCode: db_address.PlusCode,
 				}
 			}
-		}
-	}
-
-	seasonDictionary := map[int]string{}
-	timeSpanDictionary := map[int]string{}
-	categoryDictionary := map[int]string{}
-	// Prefetch Definitions
-	{
-		seasonDefinition := []domain.DBSeasonDefinition{}
-		timeSpanDefinition := []domain.DBTimeSpanDefinition{}
-		categoryDefinition := []domain.DBCategoryDefinition{}
-
-		err := db.Find(&seasonDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return domain.Plan{}, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return domain.Plan{}, &PlanError{"Other Error"}
-		}
-		for _, v := range seasonDefinition {
-			seasonDictionary[v.ID] = v.Description
-		}
-
-		err = db.Find(&timeSpanDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return domain.Plan{}, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return domain.Plan{}, &PlanError{"Other Error"}
-		}
-		for _, v := range timeSpanDefinition {
-			timeSpanDictionary[v.ID] = v.Description
-		}
-
-		err = db.Find(&categoryDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return domain.Plan{}, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return domain.Plan{}, &PlanError{"Other Error"}
-		}
-		for _, v := range categoryDefinition {
-			categoryDictionary[v.ID] = v.Description
 		}
 	}
 

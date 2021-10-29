@@ -80,18 +80,7 @@ func DriveGetUserByID(db *gorm.DB, userID int) error {
 
 func DrivePostUser(db *gorm.DB) error {
 	user_repository := UserRepository{db}
-	user := domain.User{
-		UserName:    "pachimon_Lightbells",
-		Email:       "takahasi0928@gmail.com",
-		Password:    "Password",
-		Image:       "https://google.com",
-		DisplayName: "らいとべる",
-		DateOfBirth: time.Now(),
-		Sex:         domain.Male,
-		Contacts:    domain.Contacts{},
-		Creator:     nil,
-		Place:       domain.Place{},
-	}
+	user := controller.mockUser
 	res, err := user_repository.PostUser(user)
 
 	if err != nil {
