@@ -1,8 +1,6 @@
 package router
 
 import (
-	"bytes"
-	"encoding/json"
 	"io"
 
 	"github.com/jphacks/A_2108/src/domain"
@@ -22,10 +20,10 @@ type testData []struct {
 	isCheckResponseBody bool
 }
 
-func convertToIoReader(it interface{}) io.Reader {
+/* func convertToIoReader(it interface{}) io.Reader {
 	jsonIt, _ := json.Marshal(it)
 	return bytes.NewReader(jsonIt)
-}
+} */
 
 func routerTestData() testData {
 	/* image, _ := ioutil.ReadFile("test.jpeg") */
