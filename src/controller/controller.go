@@ -12,7 +12,8 @@ func NewController() *Controller {
 
 func NewControllerWithYesmanRepository() *Controller {
 	return &Controller{
-		UserRepository: &yesmanUserRepository{},
-		PlanRepository: &yesmanPlanRepository{},
+		UserRepository:  &yesmanUserRepository{},
+		PlanRepository:  &yesmanPlanRepository{},
+		ImageRepository: &yesmanImageRepository{},
 	}
 }
