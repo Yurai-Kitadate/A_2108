@@ -118,19 +118,19 @@ func init() {
 			Season: []domain.Season{
 				{
 					ID:   5,
-					Text: "夏",
+					Text: "1月",
 				},
 			},
 			TimeSpan: []domain.TimeSpan{
 				{
 					ID:   1,
-					Text: "1月",
+					Text: "1泊",
 				},
 			},
 			Category: []domain.Category{
 				{
 					ID:   1,
-					Text: "娯楽",
+					Text: "れじゃー",
 				},
 			},
 		}

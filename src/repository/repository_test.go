@@ -1,10 +1,10 @@
 package repository
 
-/* import (
+import (
 	"testing"
 
-	"github.com/jphacks/A_2108/src/controller"
 	"github.com/jphacks/A_2108/src/database"
+	"github.com/jphacks/A_2108/src/mock"
 )
 
 func TestGetUserByID(t *testing.T) {
@@ -13,9 +13,7 @@ func TestGetUserByID(t *testing.T) {
 		t.Errorf("DB Open Error: %+v", err)
 	}
 
-	DriveAutoMigrate(db, t)
-
-	err = DrivePostUser(db, controller.MockUser1)
+	err = DrivePostUser(db, mock.MockUser1)
 	if err != nil {
 		t.Errorf("%+v", err)
 	}
@@ -24,4 +22,14 @@ func TestGetUserByID(t *testing.T) {
 	if err != nil && err.Error() != "Not Creator" {
 		t.Errorf("%+v", err)
 	}
-} */
+
+	err = DrivePostPlan(db, mock.MockPlan)
+	if err != nil {
+		t.Errorf("%+v", err)
+	}
+
+	err = DriveGetPlanbyID(db, 1)
+	if err != nil {
+		t.Errorf("%+v", err)
+	}
+}
