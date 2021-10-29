@@ -175,6 +175,21 @@ func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
 	return err
 }
 
+func (ur UserRepository) DeleteCreatorByUserID(userID int) error {
+	user, err := ur.GetUserByID(userID)
+	if err != nil {
+		return err
+	}
+
+	if user.Creator != nil {
+		err = ur.DeleteCreatorByCreatorID(user.Creator.ID)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.User, error) {
 	db := user_repository.db
 
