@@ -1,10 +1,12 @@
 package repository
 
 import (
-  "sync"
+	"fmt"
+	"sync"
 
-	"gorm.io/gorm"
+	"github.com/jphacks/A_2108/src/database"
 	"github.com/jphacks/A_2108/src/domain"
+	"gorm.io/gorm"
 )
 
 type PlanRepository struct {
@@ -19,85 +21,104 @@ func (e PlanError) Error() string {
 	return e.s
 }
 
-
-type dictionary_i2s {
-  sync.Mutex
-  dict map[int]string
+type dictionary_i2s struct {
+	sync.Mutex
+	dict map[int]string
 }
 
 func NewDict_i2s() *dictionary_i2s {
-  return &{
-    dict: make(map[int]string)
-  }
+	return &dictionary_i2s{
+		dict: make(map[int]string),
+	}
 }
 
 func (d *dictionary_i2s) Set(key int, value string) {
-  d.Lock()
-  d.dict[key] = value
-  d.Unlock()
+	d.Lock()
+	d.dict[key] = value
+	d.Unlock()
 }
 
-type dictionary_s2i {
-  sync.Mutex
-  dict map[string]int
+func (d *dictionary_i2s) Get(key int) string {
+	d.Lock()
+	defer d.Unlock()
+	return d.dict[key]
+}
+
+type dictionary_s2i struct {
+	sync.Mutex
+	dict map[string]int
 }
 
 func NewDict_s2i() *dictionary_s2i {
-  return &{
-    dict: make(map[int]string)
-  }
+	return &dictionary_s2i{
+		dict: make(map[string]int),
+	}
 }
 
-func (d *dictionary_s2i) Set(key int, value string) {
-  d.Lock()
-  d.dict[key] = value
-  d.Unlock()
+func (d *dictionary_s2i) Set(key string, value int) {
+	d.Lock()
+	d.dict[key] = value
+	d.Unlock()
+}
+
+func (d *dictionary_s2i) Get(key string) int {
+	d.Lock()
+	defer d.Unlock()
+	return d.dict[key]
 }
 
 var (
-  seasonKey2def dictionary_i2s
-  def2Key dictionary_s2i
+	seasonKey2def   *dictionary_i2s
+	categoryKey2def *dictionary_i2s
+	timespanKey2def *dictionary_i2s
+
+	seasonDef2key   *dictionary_s2i
+	categoryDef2key *dictionary_s2i
+	timespanDef2key *dictionary_s2i
 )
 
 func init() {
+	db, err := database.NewDatabaseHandlerWithDBName("DAWN")
+	if err != nil {
+		fmt.Errorf("DB Load Error")
+	}
+
 	// Prefetch Definitions
 	{
-    dict.seasonDictionary = map[int]string{}
-    dict.timeSpanDictionary = map[int]string{}
-    dict.categoryDictionary = map[int]string{}
+		seasonKey2def = NewDict_i2s()
+		categoryKey2def = NewDict_i2s()
+		timespanKey2def = NewDict_i2s()
+
+		seasonDef2key = NewDict_s2i()
+		categoryDef2key = NewDict_s2i()
+		timespanDef2key = NewDict_s2i()
 
 		seasonDefinition := []domain.DBSeasonDefinition{}
 		timeSpanDefinition := []domain.DBTimeSpanDefinition{}
 		categoryDefinition := []domain.DBCategoryDefinition{}
 
-		err := db.Find(&seasonDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return domain.Plan{}, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return domain.Plan{}, &PlanError{"Other Error"}
+		if err := db.Find(&seasonDefinition).Error; err != nil {
+			fmt.Errorf("DB Load Error")
 		}
 		for _, v := range seasonDefinition {
-			seasonDictionary[v.ID] = v.Description
+			seasonKey2def.Set(v.ID, v.Description)
+			seasonDef2key.Set(v.Description, v.ID)
 		}
 
-		err = db.Find(&timeSpanDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return domain.Plan{}, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return domain.Plan{}, &PlanError{"Other Error"}
+		if err := db.Find(&timeSpanDefinition).Error; err != nil {
+			fmt.Errorf("DB Load Error")
 		}
 		for _, v := range timeSpanDefinition {
-			timeSpanDictionary[v.ID] = v.Description
+			timespanKey2def.Set(v.ID, v.Description)
+			timespanDef2key.Set(v.Description, v.ID)
 		}
 
-		err = db.Find(&categoryDefinition).Error
-		if err == gorm.ErrRecordNotFound {
-			return domain.Plan{}, &PlanError{"Record Not Found"}
-		} else if err != nil {
-			return domain.Plan{}, &PlanError{"Other Error"}
+		if err := db.Find(&categoryDefinition).Error; err != nil {
+			fmt.Errorf("DB Load Error")
 		}
 		for _, v := range categoryDefinition {
-			categoryDictionary[v.ID] = v.Description
+			categoryKey2def.Set(v.ID, v.Description)
+			categoryDef2key.Set(v.Description, v.ID)
 		}
 	}
 
@@ -214,7 +235,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		for i, v := range db_seasons {
 			season := &plan.Conditions.Season[i]
 			season.ID = v.ID
-			season.Text = seasonDictionary[v.SeasonDefinitionID]
+			season.Text = seasonKey2def.Get(v.SeasonDefinitionID)
 		}
 
 		db_categories := []domain.DBCategory{}
@@ -227,7 +248,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		for i, v := range db_categories {
 			category := &plan.Conditions.Category[i]
 			category.ID = v.ID
-			category.Text = categoryDictionary[v.CategoryDefinitionID]
+			category.Text = categoryKey2def.Get(v.CategoryDefinitionID)
 		}
 
 		db_timeSpan := []domain.DBTimeSpan{}
@@ -240,7 +261,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 		for i, v := range db_timeSpan {
 			timespan := &plan.Conditions.TimeSpan[i]
 			timespan.ID = v.ID
-			timespan.Text = timeSpanDictionary[v.TimeSpanDefinitionID]
+			timespan.Text = timespanKey2def.Get(v.TimeSpanDefinitionID)
 		}
 	}
 
@@ -340,7 +361,7 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 		for i, v := range plan.Conditions.Season {
 			season := &db_seasons[i]
 			season.ConditionID = conditions.ID
-			season.SeasonDefinitionID = seasonDictionary[v.Text]
+			season.SeasonDefinitionID = seasonDef2key.Get(v.Text)
 		}
 		err = db.Create(&db_seasons).Error
 		if err != nil {
@@ -351,7 +372,7 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 		for i, v := range plan.Conditions.TimeSpan {
 			timespan := &db_timeSpan[i]
 			timespan.ConditionID = conditions.ID
-			timespan.TimeSpanDefinitionID = timeSpanDictionary[v.Text]
+			timespan.TimeSpanDefinitionID = timespanDef2key.Get(v.Text)
 		}
 		err = db.Create(&db_timeSpan).Error
 		if err != nil {
@@ -362,7 +383,7 @@ func (pr PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 		for i, v := range plan.Conditions.Category {
 			category := &db_categories[i]
 			category.ConditionID = conditions.ID
-			category.CategoryDefinitionID = categoryDictionary[v.Text]
+			category.CategoryDefinitionID = categoryDef2key.Get(v.Text)
 		}
 		err = db.Create(&db_seasons).Error
 		if err != nil {
