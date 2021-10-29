@@ -20,9 +20,7 @@ type PlanRepository interface {
 func (con *Controller) GetAllPlans(c *gin.Context) {
 	plans, err := con.PlanRepository.GetPlansOrderedbyTime(-1)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": "Database Error",
-		})
+		AbortWithError(c, http.StatusBadRequest, "Database Error", err)
 		return
 	}
 	for i, plan := range plans {
@@ -38,18 +36,14 @@ func (con *Controller) GetPlanByID(c *gin.Context) {
 	planID, err := intParam(c, "id")
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": "Atoi error: " + err.Error(),
-		})
+		AbortWithError(c, http.StatusBadRequest, "Atoi Error", err)
 		return
 	}
 
 	plan, err := con.PlanRepository.GetPlanByID(planID)
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": "Database Error",
-		})
+		AbortWithError(c, http.StatusBadRequest, "Database Error", err)
 		return
 	}
 	{
@@ -65,14 +59,14 @@ func (con *Controller) GetPlanByID(c *gin.Context) {
 func (con *Controller) CreatePlan(c *gin.Context) {
 	var plan domain.Plan
 	if err := c.ShouldBindJSON(&plan); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Plan"})
+		AbortWithError(c, http.StatusBadRequest, "Bad Plan", err)
 		return
 	}
 
 	id, err := con.PlanRepository.PostPlan(plan)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add user"})
+		AbortWithError(c, http.StatusInternalServerError, "Failed to add user", err)
 		return
 	}
 	c.JSON(200, map[string]int{"id": id})
@@ -81,14 +75,14 @@ func (con *Controller) CreatePlan(c *gin.Context) {
 func (con *Controller) UpdatePlan(c *gin.Context) {
 	var plan domain.Plan
 	if err := c.ShouldBindJSON(&plan); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad Plan"})
+		AbortWithError(c, http.StatusBadRequest, "Bad Plan", err)
 		return
 	}
 
 	err := con.PlanRepository.PutPlan(plan)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add plan"})
+		AbortWithError(c, http.StatusInternalServerError, "Faield to add plan", err)
 		return
 	}
 	c.JSON(200, map[string]string{"message": "Successful update plan"})
@@ -98,18 +92,14 @@ func (con *Controller) DeletePlanByID(c *gin.Context) {
 	planID, err := intParam(c, "id")
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": "Atoi error: " + err.Error(),
-		})
+		AbortWithError(c, http.StatusBadRequest, "Atoi Error", err)
 		return
 	}
 
 	err = con.PlanRepository.DeletePlanByID(planID)
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": "Database Error",
-		})
+		AbortWithError(c, http.StatusBadRequest, "Database Error", err)
 		return
 	}
 
@@ -142,9 +132,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 	planId := c.Param("id")
 	_, err := strconv.Atoi(planId)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": "Atoi error: " + err.Error(),
-		})
+		AbortWithError(c, http.StatusBadRequest, "Atoi Error", err)
 		return
 	}
 	res := domain.Plan{
@@ -218,7 +206,7 @@ func (con *Controller) PlanGetPathParam(c *gin.Context) {
 func (con *Controller) PlanPost(c *gin.Context) {
 	var req domain.Plan
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		AbortWithError(c, http.StatusBadRequest, "Bad Plan", err)
 		return
 	}
 	fmt.Printf("%#v\n", req)
