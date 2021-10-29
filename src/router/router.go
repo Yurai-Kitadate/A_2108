@@ -8,8 +8,8 @@ import (
 
 func Route() *gin.Engine {
 	r := gin.Default()
-	con := controller.NewControllerWithYesmanRepository()
-
+	/* con := controller.NewControllerWithYesmanRepository() */
+	con := controller.NewControllerWithRepository()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
