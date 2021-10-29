@@ -18,7 +18,7 @@ func TestGetUserByID(t *testing.T) {
 		t.Errorf("%+v", err)
 	}
 
-	err = DriveGetUserByID(db, 2)
+	err = DriveGetUserByID(db, 1)
 	if err != nil && err.Error() != "Not Creator" {
 		t.Errorf("%+v", err)
 	}

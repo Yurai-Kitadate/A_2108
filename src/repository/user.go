@@ -31,7 +31,7 @@ func (user_repository UserRepository) GetUserByID(userID int) (domain.User, erro
 
 	user := domain.DBUser{}
 	{
-		err := db.First(&user).Error
+		err := db.First(&user, userID).Error
 		if err != nil {
 			return res, errHandling(err)
 		}
@@ -183,7 +183,7 @@ func (user_repository UserRepository) GetUserByCreatorID(creatorID int) (domain.
 	db := user_repository.db
 
 	creator := domain.DBCreator{}
-	err := db.First(&creator).Error
+	err := db.First(&creator, creatorID).Error
 	if err == gorm.ErrRecordNotFound {
 		return domain.User{}, &UserRepositoryError{CREATOR_NOT_FOUND}
 	} else if err != nil {
@@ -232,7 +232,7 @@ func (user_repository UserRepository) GetContactsByUserID(userID int) (domain.Co
 	db := user_repository.db
 	db_contacts := domain.DBContacts{}
 
-	err := db.First(&db_contacts).Error
+	err := db.Where("user_id = ?", userID).First(&db_contacts).Error
 	if err != nil {
 		return domain.Contacts{}, errHandling(err)
 	}
