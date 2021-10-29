@@ -4,12 +4,18 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/auth"
 	"github.com/jphacks/A_2108/src/controller"
+	"github.com/jphacks/A_2108/src/database"
 )
 
 func Route() *gin.Engine {
 	r := gin.Default()
-	con := controller.NewControllerWithYesmanRepository()
+	/* con := controller.NewControllerWithYesmanRepository() */
+	db, err := database.NewDatabaseHandlerWithDBName("DAWN")
+	if err != nil {
+		panic(err)
+	}
 
+	con := controller.NewController(db)
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -34,6 +40,7 @@ func Route() *gin.Engine {
 	r.GET("/user/:id", con.GetUserByID)
 	r.GET("/plan", con.GetAllPlans)
 	r.GET("/plan/:id", con.GetPlanByID)
+	r.GET("/place", con.GetPlace)
 
 	r.POST("/register", con.RegisterPost)
 	r.POST("/login", con.LoginPOST)

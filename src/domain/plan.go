@@ -27,13 +27,14 @@ type Schedule []struct {
 	Description     string   `json:"description"`
 	StartTime       int      `json:"startTime"`
 	EndTime         int      `json:"endTime"`
-	Addresss        *Address `json:"address"`
+	Address         *Address `json:"address"`
 	HpLink          *string  `json:"hpLink"`
 	ReservationLink *string  `json:"reservationLink"`
 	Order           int      `json:"order"`
 }
 
 type Days []struct {
+	ID       int      `json:"id"`
 	NthDay   int      `json:"nthDay"`
 	Headings Headings `json:"headings"`
 	Schedule Schedule `json:"schedule"`
@@ -55,9 +56,10 @@ type Category struct {
 }
 
 type Conditions struct {
-	ID       int        `json:"id"`
-	Place    []Place    `json:"place"`
-	Season   []Season   `json:"season"`
-	TimeSpan []TimeSpan `json:"timeSpan"`
-	Category []Category `json:"category"`
+	ID            int        `json:"id"`
+	Place         []Place    `json:"place"`
+	Season        []Season   `json:"season"`
+	TimeSpan      []TimeSpan `json:"timeSpan"`
+	Category      []Category `json:"category"`
+	EstimatedCost int        `json:"int"`
 }

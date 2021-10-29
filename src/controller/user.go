@@ -11,7 +11,7 @@ type UserRepository interface {
 	GetUserByID(int) (domain.User, error)
 	PostUser(domain.User) (int, error)
 	PutUser(domain.User) error
-	DeleteUserByID(int) error
+	DeleteUserByUserID(int) error
 	GetUserByEmail(string) (domain.User, error)
 }
 
@@ -73,7 +73,7 @@ func (con *Controller) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	err = con.UserRepository.DeleteUserByID(userID)
+	err = con.UserRepository.DeleteUserByUserID(userID)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"Error": "Failed delete user",

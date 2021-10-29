@@ -4,18 +4,18 @@ import (
 	"os"
 )
 
-func isTest() bool {
+func IsTest() bool {
 	env_isTest := os.Getenv("IS_TEST")
 	return env_isTest != ""
 }
 
-func isTestonDocker() bool {
+func IsTestonDocker() bool {
 	env_isonDockerTest := os.Getenv("IS_TEST_ON_DOCKER")
 	return env_isonDockerTest != ""
 }
 
 func DBUser() string {
-	if isTest() || isTestonDocker() {
+	if IsTest() || IsTestonDocker() {
 		return "root"
 	}
 
@@ -23,16 +23,16 @@ func DBUser() string {
 }
 
 func DBPass() string {
-	if isTest() || isTestonDocker() {
+	if IsTest() || IsTestonDocker() {
 		return "De3thM3rch"
 	}
 	return "TODO"
 }
 
 func DBMethod() string {
-	if isTest() {
+	if IsTest() {
 		return "tcp(localhost:3306)"
-	} else if isTestonDocker() {
+	} else if IsTestonDocker() {
 		return "tcp(db:3306)"
 	}
 	return "TODO"

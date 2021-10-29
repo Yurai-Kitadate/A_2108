@@ -1,4 +1,4 @@
-package controller
+package mock
 
 import (
 	"time"
@@ -93,7 +93,7 @@ func init() {
 						Description: "遠くに移動するので電車に乗る",
 						StartTime:   420,
 						EndTime:     435,
-						Addresss: &domain.Address{
+						Address: &domain.Address{
 							ID:       1,
 							PlusCode: "MP43+V5 渋谷区",
 						},
@@ -118,19 +118,19 @@ func init() {
 			Season: []domain.Season{
 				{
 					ID:   5,
-					Text: "夏",
+					Text: "1月",
 				},
 			},
 			TimeSpan: []domain.TimeSpan{
 				{
 					ID:   1,
-					Text: "1月",
+					Text: "1泊",
 				},
 			},
 			Category: []domain.Category{
 				{
 					ID:   1,
-					Text: "娯楽",
+					Text: "れじゃー",
 				},
 			},
 		}
