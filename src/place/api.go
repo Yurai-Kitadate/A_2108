@@ -1,4 +1,4 @@
-package area
+package place
 
 import (
 	"encoding/json"
