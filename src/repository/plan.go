@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"github.com/jphacks/A_2108/src/api_response"
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
 )
@@ -43,10 +42,10 @@ func (plan_repository PlanRepository) DeletePlanByID(planID int) error {
 	return nil
 }
 
-func (plan_repository PlanRepository) PostPlan(plan api_response.Plan) (int, error) {
+func (plan_repository PlanRepository) PostPlan(plan domain.Plan) (int, error) {
 	return -1, nil
 }
 
-func (plan_repository PlanRepository) PutPlan(plan api_response.Plan) error {
+func (plan_repository PlanRepository) PutPlan(plan domain.Plan) error {
 	return nil
 }
