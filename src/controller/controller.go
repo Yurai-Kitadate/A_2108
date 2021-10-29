@@ -1,7 +1,15 @@
 package controller
 
-type Controller struct {
+import "github.com/jphacks/A_2108/src/repository"
+
+/* type Controller struct {
 	UserRepository  UserRepository
+	PlanRepository  PlanRepository
+	ImageRepository ImageRepository
+} */
+
+type Controller struct {
+	UserRepository  *repository.UserRepository
 	PlanRepository  PlanRepository
 	ImageRepository ImageRepository
 }
@@ -10,9 +18,17 @@ func NewController() *Controller {
 	return &Controller{}
 }
 
-func NewControllerWithYesmanRepository() *Controller {
+/* func NewControllerWithYesmanRepository() *Controller {
 	return &Controller{
 		UserRepository:  &yesmanUserRepository{},
+		PlanRepository:  &yesmanPlanRepository{},
+		ImageRepository: &yesmanImageRepository{},
+	}
+} */
+
+func NewControllerWithRepository() *Controller {
+	return &Controller{
+		UserRepository:  &repository.UserRepository{},
 		PlanRepository:  &yesmanPlanRepository{},
 		ImageRepository: &yesmanImageRepository{},
 	}
