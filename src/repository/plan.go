@@ -13,6 +13,12 @@ type PlanRepository struct {
 	db *gorm.DB
 }
 
+func NewPlanRepository(db *gorm.DB) *PlanRepository {
+	return &PlanRepository{
+		db: db,
+	}
+}
+
 type PlanError struct {
 	s string
 }
@@ -269,7 +275,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	return plan, nil
 }
 
-func (pr PlanRepository) GetPlansOrderedbyTime(limit int) ([]domain.DBPlan, error) {
+func (pr PlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
 	return nil, nil
 }
 

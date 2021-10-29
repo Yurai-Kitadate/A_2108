@@ -1,34 +1,27 @@
 package controller
 
-import "github.com/jphacks/A_2108/src/repository"
+import (
+	"github.com/jphacks/A_2108/src/repository"
+	"gorm.io/gorm"
+)
 
-/* type Controller struct {
+type Controller struct {
 	UserRepository  UserRepository
 	PlanRepository  PlanRepository
 	ImageRepository ImageRepository
-} */
-
-type Controller struct {
-	UserRepository  *repository.UserRepository
-	PlanRepository  PlanRepository
-	ImageRepository ImageRepository
 }
 
-func NewController() *Controller {
-	return &Controller{}
+func NewController(db *gorm.DB) *Controller {
+	return &Controller{
+		UserRepository: repository.NewUserRepository(db),
+		PlanRepository: repository.NewPlanRepository(db),
+		// ImageRepositoryの代入をしていないので，Image回りは動かないです
+	}
 }
 
-/* func NewControllerWithYesmanRepository() *Controller {
+func NewControllerWithYesmanRepository() *Controller {
 	return &Controller{
 		UserRepository:  &yesmanUserRepository{},
-		PlanRepository:  &yesmanPlanRepository{},
-		ImageRepository: &yesmanImageRepository{},
-	}
-} */
-
-func NewControllerWithRepository() *Controller {
-	return &Controller{
-		UserRepository:  &repository.UserRepository{},
 		PlanRepository:  &yesmanPlanRepository{},
 		ImageRepository: &yesmanImageRepository{},
 	}

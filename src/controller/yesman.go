@@ -6,11 +6,11 @@ import (
 	"github.com/jphacks/A_2108/src/domain"
 )
 
-/* type yesmanUserRepository struct{} */
+type yesmanUserRepository struct{}
 type yesmanPlanRepository struct{}
 type yesmanImageRepository struct{}
 
-/* func (ur *yesmanUserRepository) GetUserByID(id int) (domain.User, error) {
+func (ur *yesmanUserRepository) GetUserByID(id int) (domain.User, error) {
 	if id == 1 {
 		return MockUser1, nil
 	}
@@ -25,9 +25,9 @@ func (ur *yesmanUserRepository) PostUser(user domain.User) (int, error) {
 func (ur *yesmanUserRepository) PutUser(user domain.User) error {
 	return nil
 }
-func (ur *yesmanUserRepository) DeleteUserByID(id int) error {
+func (ur *yesmanUserRepository) DeleteUserByUserID(id int) error {
 	return nil
-} */
+}
 
 func (pr *yesmanPlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
 	return MockPlans, nil
@@ -54,9 +54,9 @@ func (pr *yesmanPlanRepository) DeletePlanByID(id int) error {
 	return nil
 }
 
-/* func (pr *yesmanUserRepository) GetUserByEmail(string) (domain.User, error) {
+func (pr *yesmanUserRepository) GetUserByEmail(string) (domain.User, error) {
 	return domain.User{}, nil
-} */
+}
 
 func (ir *yesmanImageRepository) CreateUser(img domain.Image) error {
 	return nil

@@ -11,7 +11,7 @@ type UserRepository interface {
 	GetUserByID(int) (domain.User, error)
 	PostUser(domain.User) (int, error)
 	PutUser(domain.User) error
-	DeleteUserByID(int) error
+	DeleteUserByUserID(int) error
 	GetUserByEmail(string) (domain.User, error)
 }
 
