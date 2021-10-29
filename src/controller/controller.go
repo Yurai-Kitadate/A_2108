@@ -1,13 +1,22 @@
 package controller
 
+import (
+	"github.com/jphacks/A_2108/src/repository"
+	"gorm.io/gorm"
+)
+
 type Controller struct {
 	UserRepository  UserRepository
 	PlanRepository  PlanRepository
 	ImageRepository ImageRepository
 }
 
-func NewController() *Controller {
-	return &Controller{}
+func NewController(db *gorm.DB) *Controller {
+	return &Controller{
+		UserRepository:  repository.NewUserRepository(db),
+		PlanRepository:  &yesmanPlanRepository{},  // TODO
+		ImageRepository: &yesmanImageRepository{}, // TODO
+	}
 }
 
 func NewControllerWithYesmanRepository() *Controller {

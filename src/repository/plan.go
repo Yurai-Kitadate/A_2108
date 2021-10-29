@@ -1,16 +1,20 @@
 package repository
 
 import (
-	"fmt"
 	"sync"
 
-	"github.com/jphacks/A_2108/src/database"
 	"github.com/jphacks/A_2108/src/domain"
 	"gorm.io/gorm"
 )
 
 type PlanRepository struct {
 	db *gorm.DB
+}
+
+func NewPlanRepository(db *gorm.DB) *PlanRepository {
+	return &PlanRepository{
+		db: db,
+	}
 }
 
 type PlanError struct {
@@ -77,10 +81,12 @@ var (
 	timespanDef2key *dictionary_s2i
 )
 
+/*
 func init() {
 	db, err := database.NewDatabaseHandlerWithDBName("DAWN")
 	if err != nil {
-		fmt.Errorf("DB Load Error")
+		fmt.Printf("DB Load Error")
+		return
 	}
 
 	// Prefetch Definitions
@@ -98,7 +104,7 @@ func init() {
 		categoryDefinition := []domain.DBCategoryDefinition{}
 
 		if err := db.Find(&seasonDefinition).Error; err != nil {
-			fmt.Errorf("DB Load Error")
+			panic("DB Load Error")
 		}
 		for _, v := range seasonDefinition {
 			seasonKey2def.Set(v.ID, v.Description)
@@ -106,7 +112,7 @@ func init() {
 		}
 
 		if err := db.Find(&timeSpanDefinition).Error; err != nil {
-			fmt.Errorf("DB Load Error")
+			panic("DB Load Error")
 		}
 		for _, v := range timeSpanDefinition {
 			timespanKey2def.Set(v.ID, v.Description)
@@ -114,7 +120,7 @@ func init() {
 		}
 
 		if err := db.Find(&categoryDefinition).Error; err != nil {
-			fmt.Errorf("DB Load Error")
+			panic("DB Load Error")
 		}
 		for _, v := range categoryDefinition {
 			categoryKey2def.Set(v.ID, v.Description)
@@ -122,7 +128,8 @@ func init() {
 		}
 	}
 
-}
+   }
+*/
 
 func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	db := pr.db
@@ -268,7 +275,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	return plan, nil
 }
 
-func (pr PlanRepository) GetPlansOrderedbyTime(limit int) ([]domain.DBPlan, error) {
+func (pr PlanRepository) GetPlansOrderedbyTime(limit int) (domain.Plans, error) {
 	return nil, nil
 }
 

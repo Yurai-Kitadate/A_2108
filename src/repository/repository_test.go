@@ -1,6 +1,6 @@
 package repository
 
-import (
+/* import (
 	"testing"
 
 	"github.com/jphacks/A_2108/src/controller"
@@ -24,4 +24,4 @@ func TestGetUserByID(t *testing.T) {
 	if err != nil && err.Error() != "Not Creator" {
 		t.Errorf("%+v", err)
 	}
-}
+} */

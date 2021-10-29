@@ -25,7 +25,7 @@ func (ur *yesmanUserRepository) PostUser(user domain.User) (int, error) {
 func (ur *yesmanUserRepository) PutUser(user domain.User) error {
 	return nil
 }
-func (ur *yesmanUserRepository) DeleteUserByID(id int) error {
+func (ur *yesmanUserRepository) DeleteUserByUserID(id int) error {
 	return nil
 }
 

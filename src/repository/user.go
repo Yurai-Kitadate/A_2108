@@ -11,6 +11,12 @@ type UserRepository struct {
 	db *gorm.DB
 }
 
+func NewUserRepository(db *gorm.DB) *UserRepository {
+	return &UserRepository{
+		db: db,
+	}
+}
+
 type UserRepositoryError struct {
 	s string
 }
@@ -347,4 +353,16 @@ func (ur UserRepository) GetIsUniqueUserName(username string) (bool, error) {
 		return false, err
 	}
 	return false, nil
+}
+
+func (ur UserRepository) PutUser(user domain.User) error {
+	err := ur.DeleteUserByUserID(user.ID)
+	if err != nil {
+		return err
+	}
+	_, err = ur.PostUser(user)
+	if err != nil {
+		return err
+	}
+	return nil
 }
