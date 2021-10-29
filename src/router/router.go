@@ -40,6 +40,7 @@ func Route() *gin.Engine {
 	r.GET("/user/:id", con.GetUserByID)
 	r.GET("/plan", con.GetAllPlans)
 	r.GET("/plan/:id", con.GetPlanByID)
+	r.GET("/place", con.GetPlace)
 
 	r.POST("/register", con.RegisterPost)
 	r.POST("/login", con.LoginPOST)
