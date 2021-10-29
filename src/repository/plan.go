@@ -24,7 +24,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	{
 		db_plan := domain.DBPlan{}
 
-		err := db.First(&db_plan).Error
+		err := db.First(&db_plan, planID).Error
 		if err == gorm.ErrRecordNotFound {
 			return domain.Plan{}, &PlanError{"Record Not Found"}
 		} else if err != nil {
@@ -40,7 +40,7 @@ func (pr PlanRepository) GetPlanByID(planID int) (domain.Plan, error) {
 	{
 		db_days := []domain.DBDay{}
 
-		err := db.Find(&db_days).Error
+		err := db.Where("plan_id = ?", planID).Find(&db_days).Error
 		if err == gorm.ErrRecordNotFound {
 			return domain.Plan{}, &PlanError{"Record Not Found"}
 		} else if err != nil {
