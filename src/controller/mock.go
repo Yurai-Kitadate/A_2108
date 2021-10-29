@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jphacks/A_2108/src/domain"
-	"github.com/jphacks/A-2108/src/mock"
+	"github.com/jphacks/A_2108/src/mock"
 )
 
 func MockGetUserByID(c *gin.Context) {
