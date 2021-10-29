@@ -16,7 +16,7 @@ type response struct {
 }
 
 func getAPIResponse(pref int) (response, error) {
-	queryArea := fmt.Sprintf("%2d", pref)
+	queryArea := fmt.Sprintf("%02d", pref)
 	url := "https://www.land.mlit.go.jp/webland/api/CitySearch?area=" + queryArea
 	resp, err := http.Get(url)
 	if err != nil {
