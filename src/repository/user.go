@@ -348,3 +348,15 @@ func (ur UserRepository) GetIsUniqueUserName(username string) (bool, error) {
 	}
 	return false, nil
 }
+
+func (ur UserRepository) PutUser(user domain.User) error {
+	err := ur.DeleteUserByUserID(user.ID)
+	if err != nil {
+		return err
+	}
+	_, err = ur.PostUser(user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
