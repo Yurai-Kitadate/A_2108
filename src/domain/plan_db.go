@@ -7,7 +7,8 @@ type DBPlan struct {
 	Title       string
 	Description string
 	Image       string
-	CreatorID   int // DBUser.ID
+	CreatedAt   time.Time
+	UserID      int // DBUser.ID
 }
 
 type DBCondition struct {
@@ -67,10 +68,10 @@ type DBSchedule struct {
 	DayID           int
 	Title           string
 	Description     string
-	StartTime       time.Time
-	EndTime         time.Time
+	StartTime       int
+	EndTime         int
 	Place           int
-	HPLink          string
-	ReservationLink string
+	HPLink          *string
+	ReservationLink *string
 	Order           int
 }
