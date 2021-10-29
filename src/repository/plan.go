@@ -99,8 +99,7 @@ func init() {
 		categoryDefinition := []domain.DBCategoryDefinition{}
 
 		if err := db.Find(&seasonDefinition).Error; err != nil {
-			fmt.Printf("DB Load Error")
-			return
+			panic("DB Load Error")
 		}
 		for _, v := range seasonDefinition {
 			seasonKey2def.Set(v.ID, v.Description)
@@ -108,8 +107,7 @@ func init() {
 		}
 
 		if err := db.Find(&timeSpanDefinition).Error; err != nil {
-			fmt.Printf("DB Load Error")
-			return
+			panic("DB Load Error")
 		}
 		for _, v := range timeSpanDefinition {
 			timespanKey2def.Set(v.ID, v.Description)
@@ -117,8 +115,7 @@ func init() {
 		}
 
 		if err := db.Find(&categoryDefinition).Error; err != nil {
-			fmt.Printf("DB Load Error")
-			return
+			panic("DB Load Error")
 		}
 		for _, v := range categoryDefinition {
 			categoryKey2def.Set(v.ID, v.Description)
