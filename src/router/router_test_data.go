@@ -90,7 +90,7 @@ func routerTestData() testData {
 			statusCode:          200,
 			isCheckResponseBody: false,
 		},
-		{
+		/* {
 			name: "/plan POST success test",
 			req: htttpReq{
 				method: "POST",
@@ -101,7 +101,7 @@ func routerTestData() testData {
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
-		},
+		}, */
 		{
 			name: "/plan DELETE success test",
 			req: htttpReq{
