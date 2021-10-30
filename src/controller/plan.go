@@ -67,7 +67,7 @@ func (con *Controller) CreatePlan(c *gin.Context) {
 	{
 		id, err := auth.GetIdBySession(c)
 		if err != nil {
-			AbortWithError(c, http.StatusInternalServerError, "Authorization Failed", err)
+			AbortWithError(c, http.StatusUnauthorized, "Authorization Failed", err)
 			return
 		}
 		plan.CreatorUser = &domain.MaskedUser{
