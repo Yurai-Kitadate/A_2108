@@ -13,6 +13,8 @@ type UserRepository interface {
 	PutUser(domain.User) error
 	DeleteUserByUserID(int) error
 	GetUserByEmail(string) (domain.User, error)
+	GetIsUniqueEmail(string) (bool, error)
+	GetIsUniqueUserName(string) (bool, error)
 }
 
 func (con *Controller) GetUserByID(c *gin.Context) {
