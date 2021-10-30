@@ -112,13 +112,13 @@ TravelTech
 
 開発技術（バックエンド）
 
-- UML を用いた DB 設計（[https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/設計一覧 09a5b859881f40e5b5352a7980f13ccc/DB 設計 00558fe0b73745d786b92f7f87fd386d.html](https://www.notion.so/Wiki-202e7e2c7ef64abab256b9a36ee56898)）
-- ドメイン駆動設計（）
-- RESTful API に則った API 設計（[https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/設計一覧 09a5b859881f40e5b5352a7980f13ccc/API 設計 f22025d29f3c4c65a3c734badbf425db.html](https://www.notion.so/Wiki-202e7e2c7ef64abab256b9a36ee56898)）
-- GitHub Flow をベースにしたコミットルールを策定（[https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/開発手法 f6ffacdba8a6451ab9fe34d5bc1f6c46/コミットルール 9d3a5583cc254f388822b4a20e234338.html](https://www.notion.so/Wiki-202e7e2c7ef64abab256b9a36ee56898)）
+- UML を用いた DB 設計（[詳細](https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/設計一覧 09a5b859881f40e5b5352a7980f13ccc/DB 設計 00558fe0b73745d786b92f7f87fd386d.html）)
+- ドメイン駆動設計
+- RESTful API に則った API 設計（[詳細](https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/設計一覧 09a5b859881f40e5b5352a7980f13ccc/API 設計 f22025d29f3c4c65a3c734badbf425db.html)）
+- GitHub Flow をベースにしたコミットルールを策定（[詳細](https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/開発手法 f6ffacdba8a6451ab9fe34d5bc1f6c46/コミットルール 9d3a5583cc254f388822b4a20e234338.html)）
 - 積極的に単体テストを書き、API は E2E テストを行う
 - GitHub Actions を使った継続的インテグレーション（テストと Linter のチェック）/継続的デリバリー（Lightsail へのデプロイ）
-- JWT を使った API 認証の実装
+- JWT を使った ユーザー/API 認証の実装
 
 開発技術（フロントエンド）
 
@@ -148,6 +148,7 @@ TravelTech
 
 - 独自で開発したものの内容をこちらに記載してください
 - 特に力を入れた部分をファイルリンク、または commit_id を記載してください。
+
 - アカウント登録/ログイン機能、タイムライン機能、旅行プラン検索機能、マイページ機能
 
 ### Appendix
