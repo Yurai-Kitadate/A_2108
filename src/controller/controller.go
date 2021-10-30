@@ -35,7 +35,7 @@ func wrapToken(token string) map[string]string {
 }
 
 func AbortWithError(c *gin.Context, statusCode int, obj interface{}, e error) {
-	var res map[string]interface{}
+	var res map[string]interface{} = make(map[string]interface{})
 	res["error"] = obj
 	if gin.Mode() != "release" {
 		res["errorData"] = e
