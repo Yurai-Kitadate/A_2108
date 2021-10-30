@@ -41,6 +41,9 @@ func Route() *gin.Engine {
 	r.GET("/plan", con.GetAllPlans)
 	r.GET("/plan/:id", con.GetPlanByID)
 
+	r.GET("/validate/email/:email", con.IsValidEmail)
+	r.GET("/validate/username/:username", con.IsValidUserName)
+
 	r.POST("/register", con.RegisterPost)
 	r.POST("/login", con.LoginPOST)
 	return r
