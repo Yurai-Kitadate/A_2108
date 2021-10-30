@@ -58,7 +58,7 @@ func routerTestData() testData {
 			},
 			isCheckResponseBody: true,
 		},
-		{
+		/* {
 			name: "/user GET success test",
 			req: htttpReq{
 				method: "GET",
@@ -67,8 +67,8 @@ func routerTestData() testData {
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
-		},
-		{
+		}, */
+		/* 	{
 			name: "/plan GET success test",
 			req: htttpReq{
 				method: "GET",
@@ -87,7 +87,7 @@ func routerTestData() testData {
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
-		},
+		}, */
 		/* {
 			name: "/plan POST success test",
 			req: htttpReq{
