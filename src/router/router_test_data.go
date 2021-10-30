@@ -1,8 +1,6 @@
 package router
 
 import (
-	"bytes"
-	"encoding/json"
 	"io"
 
 	"github.com/jphacks/A_2108/src/domain"
@@ -22,10 +20,10 @@ type testData []struct {
 	isCheckResponseBody bool
 }
 
-func convertToIoReader(it interface{}) io.Reader {
+/* func convertToIoReader(it interface{}) io.Reader {
 	jsonIt, _ := json.Marshal(it)
 	return bytes.NewReader(jsonIt)
-}
+} */
 
 func routerTestData() testData {
 	/* image, _ := ioutil.ReadFile("test.jpeg") */
@@ -84,13 +82,13 @@ func routerTestData() testData {
 			name: "/plan GET pathparam success test",
 			req: htttpReq{
 				method: "GET",
-				url:    "/plan/4",
+				url:    "/plan/1",
 				body:   nil,
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
 		},
-		{
+		/* {
 			name: "/plan POST success test",
 			req: htttpReq{
 				method: "POST",
@@ -101,12 +99,12 @@ func routerTestData() testData {
 			},
 			statusCode:          200,
 			isCheckResponseBody: false,
-		},
+		}, */
 		{
 			name: "/plan DELETE success test",
 			req: htttpReq{
 				method: "DELETE",
-				url:    "/plan/100",
+				url:    "/plan/1",
 				body:   nil,
 			},
 			statusCode:          200,
