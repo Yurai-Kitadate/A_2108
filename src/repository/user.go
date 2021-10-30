@@ -256,7 +256,7 @@ func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator
 	user, _ := user_repository.GetUserByID(userID)
 	creator_db := domain.DBCreator{
 		UserID:   user.ID,
-		RealName: user.Creator.Name,
+		RealName: creator.Name,
 	}
 
 	err := db.Create(&creator_db).Error
@@ -265,9 +265,9 @@ func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator
 	}
 
 	job := domain.DBJob{
-		CreatorID:      user.Creator.Job.ID,
-		JobName:        user.Creator.Job.Jobname,
-		DateOfFirstJob: user.Creator.Job.DateOfFirstJob,
+		CreatorID:      creator.Job.ID,
+		JobName:        creator.Job.Jobname,
+		DateOfFirstJob: creator.Job.DateOfFirstJob,
 	}
 	err = db.Create(&job).Error
 	if err != nil {
