@@ -112,10 +112,10 @@ TravelTech
 
 開発技術（バックエンド）
 
-- UML を用いた DB 設計（[詳細](https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/設計一覧 09a5b859881f40e5b5352a7980f13ccc/DB 設計 00558fe0b73745d786b92f7f87fd386d.html）)
-- ドメイン駆動設計
-- RESTful API に則った API 設計（[詳細](https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/設計一覧 09a5b859881f40e5b5352a7980f13ccc/API 設計 f22025d29f3c4c65a3c734badbf425db.html)）
-- GitHub Flow をベースにしたコミットルールを策定（[詳細](https://jphacks.github.io/A_2108/開発 Wiki 202e7e2c7ef64abab256b9a36ee56898/開発手法 f6ffacdba8a6451ab9fe34d5bc1f6c46/コミットルール 9d3a5583cc254f388822b4a20e234338.html)）
+- UML を用いた DB 設計([詳細](https://jphacks.github.io/A_2108/%E9%96%8B%E7%99%BAWiki%20202e7e2c7ef64abab256b9a36ee56898/%E8%A8%AD%E8%A8%88%E4%B8%80%E8%A6%A7%2009a5b859881f40e5b5352a7980f13ccc/DB%E8%A8%AD%E8%A8%88%2000558fe0b73745d786b92f7f87fd386d.html))
+- ドメイン駆動設計（[詳細](https://jphacks.github.io/A_2108/%E9%96%8B%E7%99%BAWiki%20202e7e2c7ef64abab256b9a36ee56898/%E8%A8%AD%E8%A8%88%E4%B8%80%E8%A6%A7%2009a5b859881f40e5b5352a7980f13ccc/%E3%83%88%E3%82%99%E3%83%A1%E3%82%A4%E3%83%B3%E8%A8%AD%E8%A8%88%2044e03a2ba70346e2a766f9ac39d1afa9.html)）
+- RESTful API に則った API 設計（[詳細](https://jphacks.github.io/A_2108/%E9%96%8B%E7%99%BAWiki%20202e7e2c7ef64abab256b9a36ee56898/%E8%A8%AD%E8%A8%88%E4%B8%80%E8%A6%A7%2009a5b859881f40e5b5352a7980f13ccc/API%E8%A8%AD%E8%A8%88%20f22025d29f3c4c65a3c734badbf425db.html)）
+- GitHub Flow をベースにしたコミットルールを策定（[詳細](https://jphacks.github.io/A_2108/%E9%96%8B%E7%99%BAWiki%20202e7e2c7ef64abab256b9a36ee56898/%E9%96%8B%E7%99%BA%E6%89%8B%E6%B3%95%20f6ffacdba8a6451ab9fe34d5bc1f6c46/%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E3%83%AB%E3%83%BC%E3%83%AB%209d3a5583cc254f388822b4a20e234338.html)）
 - 積極的に単体テストを書き、API は E2E テストを行う
 - GitHub Actions を使った継続的インテグレーション（テストと Linter のチェック）/継続的デリバリー（Lightsail へのデプロイ）
 - JWT を使った ユーザー/API 認証の実装
