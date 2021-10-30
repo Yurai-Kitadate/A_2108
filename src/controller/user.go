@@ -16,6 +16,8 @@ type UserRepository interface {
 	GetUserByEmail(string) (domain.User, error)
 	GetIsUniqueEmail(string) (bool, error)
 	GetIsUniqueUserName(string) (bool, error)
+	PostCreatorByUserID(domain.Creator, int) (int, error)
+	DeleteCreatorByUserID(int) error
 }
 
 func (con *Controller) GetUserByID(c *gin.Context) {
@@ -99,6 +101,26 @@ func (con *Controller) IsValidUserName(c *gin.Context) {
 	c.JSON(200, map[string]bool{"ok": ok})
 }
 
+func (con *Controller) CreateCreator(c *gin.Context) {
+	userID, err := auth.GetIdBySession(c)
+	if err != nil {
+		AbortWithError(c, http.StatusBadRequest, "Authorization error", err)
+		return
+	}
+	var creator domain.Creator
+	if err := c.ShouldBindJSON(&creator); err != nil {
+		AbortWithError(c, http.StatusBadRequest, "Not a creator", err)
+		return
+	}
+
+	id, err := con.UserRepository.PostCreatorByUserID(creator, userID)
+	if err != nil {
+		AbortWithError(c, http.StatusInternalServerError, "Failed to create creator", err)
+		return
+	}
+	c.JSON(200, map[string]int{"id": id})
+}
+
 func (con *Controller) DeleteCreator(c *gin.Context) {
 	userID, err := auth.GetIdBySession(c)
 	if err != nil {
@@ -106,7 +128,7 @@ func (con *Controller) DeleteCreator(c *gin.Context) {
 		return
 	}
 
-	err = con.UserRepository.DeleteUserByUserID(userID)
+	err = con.UserRepository.DeleteCreatorByUserID(userID)
 	if err != nil {
 		AbortWithError(c, http.StatusInternalServerError, "Failed to delete creator", err)
 		return
