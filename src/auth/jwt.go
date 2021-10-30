@@ -55,7 +55,7 @@ func VerifyToken(tokenString string) (JwtClaims, error) {
 	if claims, ok := token.Claims.(*JwtClaims); ok && token.Valid {
 		return *claims, nil
 	} else {
-		return *claims, err
+		return JwtClaims{}, err
 	}
 }
 
