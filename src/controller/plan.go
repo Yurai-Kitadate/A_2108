@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/auth"
 	"github.com/jphacks/A_2108/src/domain"
 )
 
@@ -61,6 +62,17 @@ func (con *Controller) CreatePlan(c *gin.Context) {
 	if err := c.ShouldBindJSON(&plan); err != nil {
 		AbortWithError(c, http.StatusBadRequest, "Bad Plan", err)
 		return
+	}
+
+	{
+		id, err := auth.GetIdBySession(c)
+		if err != nil {
+			AbortWithError(c, http.StatusUnauthorized, "Authorization Failed", err)
+			return
+		}
+		plan.CreatorUser = domain.MaskedUser{
+			ID: id,
+		}
 	}
 
 	id, err := con.PlanRepository.PostPlan(plan)

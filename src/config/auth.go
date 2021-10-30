@@ -17,6 +17,6 @@ func GetIssuer() string {
 	return os.Getenv("ISSUER")
 }
 
-func GetSalt() string {
-	return os.Getenv("SALT")
+func GetSalt() []byte {
+	return []byte(os.Getenv("SALT"))
 }
