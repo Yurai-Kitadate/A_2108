@@ -147,5 +147,6 @@ func (con *Controller) UserGet(c *gin.Context) {
 		AbortWithError(c, http.StatusBadRequest, "Record Not Found", err)
 		return
 	}
+	res.Password = ""
 	c.JSON(200, res)
 }
