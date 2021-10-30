@@ -1,6 +1,7 @@
 # DAWN
 
 [![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2021/07/JPHACKS2021_ogp.jpg)](https://www.youtube.com/watch?v=LUPQFB4QyVo)
+フロントエンド（Androidアプリ）のリポジトリは[こちら](https://github.com/jphacks/A_2108_1)
 
 ## **製品概要**
 
@@ -150,10 +151,9 @@ TravelTech
 - アカウント登録/ログイン機能、タイムライン機能、旅行プラン検索機能、マイページ機能
 
 ### Appendix
-
-- [事業説明資料](<[https://uaizuacjp-my.sharepoint.com/:p:/g/personal/s1270039_o365_u-aizu_ac_jp/EQObAUoqUilMiKQizg1OUT8BIj2x6gtjgJw83gbQ1ZU-lw?e=CKDAty](https://uaizuacjp-my.sharepoint.com/:p:/g/personal/s1270039_o365_u-aizu_ac_jp/EQObAUoqUilMiKQizg1OUT8BIj2x6gtjgJw83gbQ1ZU-lw?e=CKDAty)>)
-- [Figma](<[https://www.figma.com/file/hZ9jO3DhC2KF2lvxgz8Agw/DAWN?node-id=31%3A2](https://www.figma.com/file/hZ9jO3DhC2KF2lvxgz8Agw/DAWN?node-id=31%3A2)>)
+- [事業説明資料](https://uaizuacjp-my.sharepoint.com/:p:/g/personal/s1270039_o365_u-aizu_ac_jp/EQObAUoqUilMiKQizg1OUT8BIj2x6gtjgJw83gbQ1ZU-lw?e=CKDAty)
+- [Figma](https://www.figma.com/file/hZ9jO3DhC2KF2lvxgz8Agw/DAWN?node-id=31%3A2)
   - Main: サービスの詳細や色、フォントなどのガイドライン。
   - Layout: サービス全体で利用する画面。青い部分は将来的に実装したい部分。
-  - Prototype: 一連の流れを Prototype で表現。[Prototype はこちらから実行](<[https://www.figma.com/proto/hZ9jO3DhC2KF2lvxgz8Agw/DAWN?node-id=1469%3A9840&scaling=scale-down&page-id=1100%3A7345&starting-point-node-id=1469%3A9165&show-proto-sidebar=1](https://www.figma.com/proto/hZ9jO3DhC2KF2lvxgz8Agw/DAWN?node-id=1469%3A9840&scaling=scale-down&page-id=1100%3A7345&starting-point-node-id=1469%3A9165&show-proto-sidebar=1)>)
+  - Prototype: 一連の流れを Prototype で表現。[Prototype はこちらから実行](https://www.figma.com/proto/hZ9jO3DhC2KF2lvxgz8Agw/DAWN?node-id=1469%3A9840&scaling=scale-down&page-id=1100%3A7345&starting-point-node-id=1469%3A9165&show-proto-sidebar=1)
 - [デモ動画](https://vimeo.com/640584828)

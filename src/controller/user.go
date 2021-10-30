@@ -137,38 +137,15 @@ func (con *Controller) DeleteCreator(c *gin.Context) {
 }
 
 func (con *Controller) UserGet(c *gin.Context) {
-	res := domain.User{
-		//		ID:          0,
-		//		UserName:    "username",
-		//		Image:       "url",
-		//		Email:       "email",
-		//		DisplayName: "displayName",
-		//		Birthday:    time.Now(),
-		//		Sex:         "sex",
-		//		Contacts: domain.Contacts{
-		//			ID:        0,
-		//			Hp:        "hp",
-		//			Instagram: "insta",
-		//			Twitter:   "twitter",
-		//			Facebook:  "facebook",
-		//			Tiktok:    "tiktok",
-		//			Biography: "bio",
-		//		},
-		//		Creator: domain.Creator{
-		//			DisplayName: "displayName",
-		//		},
-		//		Job: domain.Job{
-		//			ID:             0,
-		//			Jobname:        "jobname",
-		//			Dateoffirstjob: time.Now(),
-		//		},
-		//		Address: domain.Address{
-		//			ID:          0,
-		//			Area:        "会津",
-		//			Prefecture:  "福島県",
-		//			City:        "会津若松",
-		//			Description: "Hey!",
-		//		},
+	userID, err := auth.GetIdBySession(c)
+	if err != nil {
+		AbortWithError(c, http.StatusBadRequest, "Authorization error", err)
+		return
+	}
+	res, err := con.UserRepository.GetUserByID(userID)
+	if err != nil {
+		AbortWithError(c, http.StatusBadRequest, "Record Not Found", err)
+		return
 	}
 	c.JSON(200, res)
 }
