@@ -85,6 +85,30 @@ func (con *Controller) DeleteUser(c *gin.Context) {
 	c.JSON(200, map[string]string{"message": "Successful delete user"})
 }
 
+func (con *Controller) IsValidEmail(c *gin.Context) {
+	email := c.Param("email")
+	ok, err := con.UserRepository.GetIsUniqueEmail(email)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"Error": "Database Error",
+		})
+		return
+	}
+	c.JSON(200, map[string]bool{"ok": ok})
+}
+
+func (con *Controller) IsValidUserName(c *gin.Context) {
+	email := c.Param("username")
+	ok, err := con.UserRepository.GetIsUniqueUserName(email)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"Error": "Database Error",
+		})
+		return
+	}
+	c.JSON(200, map[string]bool{"ok": ok})
+}
+
 func (con *Controller) UserGet(c *gin.Context) {
 	res := domain.User{
 		//		ID:          0,
