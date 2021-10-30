@@ -63,6 +63,12 @@ func (con *Controller) CreatePlan(c *gin.Context) {
 		return
 	}
 
+	if id, ok := plan.CreatorUser.(int); ok {
+		plan.CreatorUser = &domain.MaskedUser{
+			ID: id,
+		}
+	}
+
 	id, err := con.PlanRepository.PostPlan(plan)
 
 	if err != nil {
