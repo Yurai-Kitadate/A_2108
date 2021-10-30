@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jphacks/A_2108/src/auth"
 	"github.com/jphacks/A_2108/src/domain"
 )
 
@@ -107,6 +108,24 @@ func (con *Controller) IsValidUserName(c *gin.Context) {
 		return
 	}
 	c.JSON(200, map[string]bool{"ok": ok})
+}
+
+
+func (con *Controller) DeleteCreator(c *gin.Context) {
+	userID, err := auth.GetIdBySession(c)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"Error": "Authorization error",
+		})
+	}
+
+	err = con.UserRepository.DeleteUserByUserID(userID)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"Error": "Faieled to delete creator",
+		})
+	}
+	c.JSON(200, map[string]string{"message": "successful delete creator"})
 }
 
 func (con *Controller) UserGet(c *gin.Context) {
