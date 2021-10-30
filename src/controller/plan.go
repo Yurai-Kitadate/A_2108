@@ -70,7 +70,7 @@ func (con *Controller) CreatePlan(c *gin.Context) {
 			AbortWithError(c, http.StatusUnauthorized, "Authorization Failed", err)
 			return
 		}
-		plan.CreatorUser = &domain.MaskedUser{
+		plan.CreatorUser = domain.MaskedUser{
 			ID: id,
 		}
 	}
