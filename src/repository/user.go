@@ -97,7 +97,7 @@ func (user_repository UserRepository) GetUserByID(userID int) (domain.User, erro
 
 func (user_repository UserRepository) PostUser(user domain.User) (int, error) {
 	db := user_repository.db
-
+	var userID int
 	err := db.Transaction(func(tx *gorm.DB) error {
 		user_db := domain.DBUser{
 			UserName:    user.UserName,
@@ -137,10 +137,11 @@ func (user_repository UserRepository) PostUser(user domain.User) (int, error) {
 		if err != nil {
 			return err
 		}
+		userID = user_db.ID
 		return nil
 	})
 
-	return user.ID, err
+	return userID, err
 }
 
 func (user_repository UserRepository) DeleteUserByUserID(userID int) error {
@@ -256,7 +257,7 @@ func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator
 	user, _ := user_repository.GetUserByID(userID)
 	creator_db := domain.DBCreator{
 		UserID:   user.ID,
-		RealName: user.Creator.Name,
+		RealName: creator.Name,
 	}
 
 	err := db.Create(&creator_db).Error
@@ -265,9 +266,9 @@ func (user_repository UserRepository) PostCreatorByUserID(creator domain.Creator
 	}
 
 	job := domain.DBJob{
-		CreatorID:      user.Creator.Job.ID,
-		JobName:        user.Creator.Job.Jobname,
-		DateOfFirstJob: user.Creator.Job.DateOfFirstJob,
+		CreatorID:      creator.Job.ID,
+		JobName:        creator.Job.Jobname,
+		DateOfFirstJob: creator.Job.DateOfFirstJob,
 	}
 	err = db.Create(&job).Error
 	if err != nil {
